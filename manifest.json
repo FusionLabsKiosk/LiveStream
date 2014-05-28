@@ -1,0 +1,19 @@
+{
+    "manifest_version": 2,
+    "name": "Live Stream Kiosk",
+    "version": "0.0.0.1",
+    
+    "description": "Live Stream airport kiosk terminal app.",
+    "icons": { 
+        
+    },
+    
+    "kiosk_enabled": true,
+    "author": "Fusion Labs",
+    "app": {
+        "background": {
+            "scripts": ["scripts/window.js"]
+        }
+    },
+    "offline_enabled": true
+}

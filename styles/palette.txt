@@ -1,0 +1,6 @@
+Palette
+
+#222222 : Font Black
+
+#aaaaaa : Background Grey
+#444444 : Header Background

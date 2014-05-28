@@ -1,0 +1,59 @@
+* {
+    box-sizing: border-box;
+    font-size: 1em;
+}
+body {
+    background: #aaa;
+    color: #222;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+.hidden {
+    display: none;
+}
+.invisible {
+    visibility: hidden;
+}
+
+
+/*******************************************************************************
+            Header 
+*******************************************************************************/
+body > header {
+    background: #444;
+    height: 5%;
+    width: 100%;
+}
+
+/*******************************************************************************
+            Main Fullscreen 
+*******************************************************************************/
+main.fullscreen {
+    height: 95%;
+    position: absolute;
+    width: 100%;
+}
+
+main.view {
+    font-size: 2em;
+    height: 100%;
+    width: 100%;
+}
+
+/*******************************************************************************
+            Widgets 
+*******************************************************************************/
+#widgets {
+    height: 100%;
+    width: 100%;
+}
+
+#widgets figure {
+    border: thin solid black;
+    display: inline-block;
+    height: 20%;
+    margin: 2.5%;
+    width: 20%;
+}
