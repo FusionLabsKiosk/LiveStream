@@ -1,6 +1,6 @@
 //LiveStream Namespace
 var live = {};
-live.widgets = [];
+live.widgets = {};
 
 /* Initialization */
 $(document).ready(function() {
@@ -13,11 +13,13 @@ live.initialize = function() {
 };
 live.initializeWidgets = function() {
     live.initializeWidget('demo');
+    live.initializeWidget('timezone');
 };
 live.initializeWidget = function(widget) {
     $.get('widgets/' + widget + '/' + widget + '.html', function(data) {
-        var w = new Widget(widget, data).initialize();
-        live.widgets.push(w);
+        var w = new Widget(widget, data);
+        live.widgets[widget] = w;
+        w.initialize();
     });
 };
 live.initializeListeners = function() {
