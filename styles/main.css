@@ -37,7 +37,6 @@ main.fullscreen {
 }
 
 main.view {
-    font-size: 2em;
     height: 100%;
     width: 100%;
 }
@@ -46,6 +45,8 @@ main.view {
             Widgets 
 *******************************************************************************/
 #widgets {
+    display: flex;
+    flex-wrap: wrap;
     height: 100%;
     width: 100%;
 }
@@ -53,7 +54,6 @@ main.view {
 #widgets figure {
     border: thin solid black;
     display: inline-block;
-    height: 20%;
-    margin: 2.5%;
-    width: 20%;
+    height: 25%;
+    width: 25%;
 }
