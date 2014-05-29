@@ -11,11 +11,7 @@ timezone.VIEW_LOCATIONS = [
     'London'
 ];
 
-timezone.initialize = function() {
-    timezone.w = live.widgets.timezone.widget;
-    timezone.v = live.widgets.timezone.view;
-    timezone.wv = timezone.w.add(timezone.v);
-    
+timezone.initialize = function() {    
     for (var i = 0; i < timezone.VIEW_LOCATIONS.length; i++) {
         var address = timezone.VIEW_LOCATIONS[i];
         if (i < 1) {

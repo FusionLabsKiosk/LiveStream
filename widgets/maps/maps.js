@@ -6,10 +6,6 @@ maps.API_KEY = 'AIzaSyCEc-ILEMoraGX8sL0pMdgtfqSq2kOkleo';
 
 
 maps.initialize = function() {
-    maps.w = live.widgets.maps.widget;
-    maps.v = live.widgets.maps.view;
-    maps.wv = maps.w.add(maps.v);
-    
     maps.updateMaps();
 };
 

@@ -20,9 +20,8 @@ live.initializeWidgets = function() {
 };
 live.initializeWidget = function(widget) {
     $.get('widgets/' + widget + '/' + widget + '.html', function(data) {
-        var w = new Widget(widget, data);
+        var w = new Widget(widget, data).initialize();
         live.widgets[widget] = w;
-        w.initialize();
         //TODO: Need better start()/end() logic
         w.setEndButton($('#return'));
     });
