@@ -18,7 +18,11 @@ function Widget(name, html) {
     this.js.v = this.view;
     this.js.wv = this.widgetView;
     
-    this.initialize = function() {    
+    this.initialize = function() {
+        initializeFunction('initialize');
+        initializeFunction('start');
+        initializeFunction('end');
+        
         self.widget.click(function() {
             live.setMain(self.view);
             //TODO: Better start() logic
@@ -29,6 +33,12 @@ function Widget(name, html) {
         
         return self;
     };
+    var initializeFunction = function(name) {
+        if (self.js[name] === undefined) {
+            self.js[name] = function() {};
+        }
+    };
+    
     this.setEndButton = function(e) {
         $(e).click(function() {
             //TODO: This calls all widgets whenever return is pressed

@@ -27,14 +27,6 @@ timezone.initialize = function() {
     timezone.updateClocks();
 };
 
-timezone.start = function() {
-    
-};
-
-timezone.end = function() {
-    
-};
-
 timezone.createTimezoneDiv = function(address, addressClass) {
     if (typeof addressClass !== 'string') {
         addressClass = timezone.getClockClass(address);
