@@ -1,0 +1,132 @@
+.timezone .clock-face {
+    background-image: linear-gradient(top, #383838 0%, #070707 100%);
+    border: 10px solid #ebebeb;
+    border-radius: 200px;
+    box-shadow: 0px 0px 40px #000 inset;
+    height: 200px;
+    width: 200px;  
+}
+
+.timezone .clock-face .hour-mark {
+    height: 0px;
+    left: 50%;
+    position: relative;
+    top: 50%;  
+    width: 0px;  
+}
+
+.timezone .clock-face .hour-mark:after {
+    background: rgba(255, 255, 255, 0.8);
+    content: '';
+    height: 8px;
+    left: -2px;
+    position: absolute;
+    top: -90px;
+    width: 4px;
+}
+
+.timezone .clock-face .min-mark {
+    height: 0px;
+    left: 50%;
+    position: relative;
+    top: 50%;
+    width: 0px;
+}
+
+.timezone .clock-face .min-mark:after {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 2px;
+    content: '';
+    left: -1px;  
+    height: 2px;
+    position: absolute;
+    top: -85px;
+    width: 2px;
+}
+
+.timezone .clock-face .arrow-hour {
+    height: 0px;
+    left: 50%;
+    position: relative;
+    top: 50%;
+    width: 0px;
+}
+
+.timezone .clock-face .arrow-hour:after {
+    background-image: linear-gradient(#fff 0%, #bbb 100%);
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+    content: '';
+    height: 90px;
+    left: -3px;
+    position: absolute;
+    top: -70px;
+    width: 6px;
+}
+
+.timezone .clock-face .arrow-minute {
+    height: 0px;
+    left: 50%;
+    position: relative;
+    top: 50%;
+    width: 0px;
+}
+
+.timezone .clock-face .arrow-minute:after {
+    background-image: linear-gradient(#fff 0%, #bbb 100%);
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+    content: '';
+    height: 110px;
+    left: -3px;
+    position: absolute;
+    top: -90px;
+    width: 6px;
+}
+
+.timezone .clock-face .arrow-second {
+    height: 0px;
+    left: 50%;
+    position: relative;
+    top: 50%;
+    width: 0px;
+}
+
+.timezone .clock-face .arrow-second:after {
+    background-image: linear-gradient(#F00 0%, #a00 100%);
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+    content: '';
+    height: 110px;
+    left: -1px;
+    position: absolute;
+    top: -90px;
+    width: 2px;
+}
+
+.timezone .clock-face .arrow-dot {
+    height: 0px;
+    left: 50%;
+    position: relative;
+    top: 50%;
+    width: 0px;
+}
+
+.timezone .clock-face .arrow-dot:before {
+    background: #c6c6c6;
+    border-radius: 10px;
+    content: '';
+    height: 10px;
+    left: -5px;
+    position: absolute;
+    top: -5px;
+    width: 10px;
+}
+
+.timezone .clock-face .arrow-dot:after {
+    background: #161617;
+    border-radius: 4px;
+    content: ''; 
+    height: 4px;
+    left: -2px;
+    position: absolute;
+    top: -2px;  
+    width: 4px;
+}

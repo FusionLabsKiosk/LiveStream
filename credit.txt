@@ -1,0 +1,3 @@
+Timezone Analog Clock:
+Sergey Stoma
+http://codepen.io/underclouds/pen/yxCnq
