@@ -12,19 +12,27 @@ timezone.VIEW_LOCATIONS = [
 ];
 
 timezone.initialize = function() {    
+    timezone.updateWidget();
+    
     for (var i = 0; i < timezone.VIEW_LOCATIONS.length; i++) {
         var address = timezone.VIEW_LOCATIONS[i];
-        if (i < 1) {
-            timezone.w.append(timezone.createTimezoneDiv(address));
-        }
         timezone.v.append(timezone.createTimezoneDiv(address));
-    }
-    for (var i = 0; i < timezone.VIEW_LOCATIONS.length; i++) {
-        var address = timezone.VIEW_LOCATIONS[i];
         timezone.getOffset(address, timezone.getClockClass(address));
     }
     
     timezone.updateClocks();
+};
+timezone.start = function() {
+    
+};
+timezone.end = function() {
+    timezone.updateWidget();
+};
+
+timezone.updateWidget = function() {
+    timezone.w.empty();
+    timezone.w.append(timezone.createTimezoneDiv(live.location));
+    timezone.getOffset(live.location, timezone.getClockClass(live.location));    
 };
 
 timezone.createTimezoneDiv = function(address, addressClass) {

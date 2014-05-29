@@ -24,6 +24,7 @@ maps.updateMaps = function() {
             if (win !== null) {
                 geocoding.getLatLng(live.location, function(lat, lng) {
                     win.postMessage({
+                        'widget': 'maps',
                         'lat': lat,
                         'lng': lng
                     }, '*');
