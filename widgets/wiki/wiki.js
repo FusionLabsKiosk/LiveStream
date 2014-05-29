@@ -13,6 +13,9 @@ wiki.initialize = function() {
 wiki.start = function() {
     wiki.updateWiki();
 };
+wiki.end = function() {
+    wiki.updateWiki();
+};
 
 wiki.updateWiki = function() {
     setTimeout(function() {

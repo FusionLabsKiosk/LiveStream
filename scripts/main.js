@@ -14,7 +14,6 @@ live.initialize = function() {
     live.setMainWidgets();
 };
 live.initializeWidgets = function() {
-    live.initializeWidget('demo');
     live.initializeWidget('timezone');
     live.initializeWidget('maps');
     live.initializeWidget('wiki');
@@ -30,6 +29,14 @@ live.initializeWidget = function(widget) {
 live.initializeListeners = function() {
     $('#return').click(function() {
         live.setMainWidgets();
+    });
+    $('#location').keypress(function(e) {
+        if (e.which === 13) {
+            live.location = $('#location').val();
+            for (var key in live.widgets) {
+                live.widgets[key].js.end();
+            }
+        }
     });
 };
 
