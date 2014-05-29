@@ -17,6 +17,7 @@ live.initializeWidgets = function() {
     live.initializeWidget('demo');
     live.initializeWidget('timezone');
     live.initializeWidget('maps');
+    live.initializeWidget('weather');
 };
 live.initializeWidget = function(widget) {
     $.get('widgets/' + widget + '/' + widget + '.html', function(data) {
