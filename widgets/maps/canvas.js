@@ -23,7 +23,9 @@ function drawMap() {
 
 
 function messageHandler(e) {
-    initializeMap(e.data.lat, e.data.lng);
+    if (e.data.widget === 'maps') {
+        initializeMap(e.data.lat, e.data.lng);
+    }
 };
 
 window.onload = function() {
