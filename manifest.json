@@ -15,5 +15,11 @@
             "scripts": ["scripts/window.js"]
         }
     },
-    "offline_enabled": true
+    "offline_enabled": true,
+    
+    "sandbox": {
+        "pages": [
+            "widgets/maps/canvas.html"
+        ]
+    }
 }

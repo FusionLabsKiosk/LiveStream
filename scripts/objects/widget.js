@@ -15,10 +15,16 @@ function Widget(name, html) {
     this.initialize = function() {
         self.widget.click(function() {
             live.setMain(self.view);
+            //TODO: Better start() logic
+            window[self.name].start();
         }).appendTo('#widgets');
-        if (window[self.name] !== undefined && window[self.name].initialize !== undefined) {
-            window[self.name].initialize();
-        }
+        window[self.name].initialize();
         return self;
+    };
+    this.setEndButton = function(e) {
+        $(e).click(function() {
+            //TODO: This calls all widgets whenever return is pressed
+            window[self.name].end();
+        });
     };
 }

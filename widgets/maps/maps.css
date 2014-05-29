@@ -1,0 +1,12 @@
+.maps iframe {
+    border: none;
+}
+
+.maps.widget iframe {
+    height: 90%;
+    width: 100%;
+}
+.maps.view iframe {
+    height: 100%;
+    width: 100%;
+}
