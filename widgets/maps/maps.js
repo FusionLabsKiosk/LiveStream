@@ -24,7 +24,7 @@ maps.updateMaps = function() {
         maps.wv.find('iframe').each(function() {
             var win = this.contentWindow;
             if (win !== null) {
-                geocoding.getLatLng(live.location, function(lat, lng) {
+                geocoding.getLatLng(live.location.city, function(lat, lng) {
                     win.postMessage({
                         'widget': 'maps',
                         'lat': lat,

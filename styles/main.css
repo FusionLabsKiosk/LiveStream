@@ -56,13 +56,18 @@ main aside::-webkit-scrollbar {
     display: none;
 }
 main aside.left {
+    border: thin solid #222;
     display: none;
     flex: 0 0 40%;
 }
 main aside.middle {
     flex: 1 1 20%;
 }
+main aside.middle.icons figure {
+    width: 100%;
+}
 main aside.right {
+    border: thin solid #222;
     display: none;
     flex: 0 0 40%;
 }

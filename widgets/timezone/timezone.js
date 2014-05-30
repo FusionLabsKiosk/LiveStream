@@ -12,27 +12,27 @@ timezone.VIEW_LOCATIONS = [
 ];
 
 timezone.initialize = function() {    
-    timezone.updateWidget();
+    timezone.updateWidget(live.location);
     
     for (var i = 0; i < timezone.VIEW_LOCATIONS.length; i++) {
         var address = timezone.VIEW_LOCATIONS[i];
         timezone.v.append(timezone.createTimezoneDiv(address));
-        timezone.getOffset(address, timezone.getClockClass(address));
+        geocoding.geocode(address, function(location) {
+            timezone.getOffset(location, timezone.getClockClass(address));
+        });
     }
     
     timezone.updateClocks();
 };
-timezone.start = function() {
-    
-};
-timezone.end = function() {
-    timezone.updateWidget();
+
+timezone.setLocation = function(location) {
+    timezone.updateWidget(location);
 };
 
-timezone.updateWidget = function() {
+timezone.updateWidget = function(location) {
     timezone.w.empty();
-    timezone.w.append(timezone.createTimezoneDiv(live.location));
-    timezone.getOffset(live.location, timezone.getClockClass(live.location));    
+    timezone.w.append(timezone.createTimezoneDiv(location.city));
+    timezone.getOffset(location, timezone.getClockClass(location.city));    
 };
 
 timezone.createTimezoneDiv = function(address, addressClass) {
@@ -73,26 +73,24 @@ timezone.getClockClass = function(address) {
 };
 
 timezone.getOffset = function(location, locationClass) {
-    geocoding.getLatLng(location, function(lat, lng, address) {
-        var request = [];
-        request.push('https://maps.googleapis.com/maps/api/timezone/json');
-        request.push('?location=');
-        request.push(lat);
-        request.push(',');
-        request.push(lng);
-        $.ajax(request.join(''), {
-            data: {
-                'timestamp': new Date().getTime() / 1000,
-                'sensor': false,
-                'key': timezone.API_KEY
-            }
-        }).success(function(data) {
-            var clock = timezone.wv.find('.' + locationClass);
-            clock.attr('rawOffset', data.rawOffset);
-            clock.attr('dstOffset', data.dstOffset);
-            clock.find('.name').html(data.timeZoneName);
-            clock.find('.city').html(address);
-        });
+    var request = [];
+    request.push('https://maps.googleapis.com/maps/api/timezone/json');
+    request.push('?location=');
+    request.push(location.lat);
+    request.push(',');
+    request.push(location.lng);
+    $.ajax(request.join(''), {
+        data: {
+            'timestamp': new Date().getTime() / 1000,
+            'sensor': false,
+            'key': timezone.API_KEY
+        }
+    }).success(function(data) {
+        var clock = timezone.wv.find('.' + locationClass);
+        clock.attr('rawOffset', data.rawOffset);
+        clock.attr('dstOffset', data.dstOffset);
+        clock.find('.name').html(data.timeZoneName);
+        clock.find('.city').html(location.city);
     });
 };
 

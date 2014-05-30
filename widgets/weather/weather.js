@@ -18,7 +18,7 @@ weather.update = function() {
     var url = [];
     url.push('http://api.openweathermap.org/data/2.5/weather?units=imperial');
     url.push('&q=');
-    url.push(live.location);
+    url.push(live.location.city);
 
     $.get(url.join('')).success(function(data) {
         weather.setWeather(data);

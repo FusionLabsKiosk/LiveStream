@@ -36,7 +36,7 @@ wiki.checkSandboxLoaded = function() {
 wiki.updateWiki = function() {
     wiki.sendSandboxMessage({
         'widget': 'wiki',
-        'location': live.location
+        'location': live.location.city
     });
 };
 
