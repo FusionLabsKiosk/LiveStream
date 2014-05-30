@@ -3,17 +3,33 @@ var currentEvent;
 function getWikiExtract(e) {
     if (e.data.widget === 'wiki') {
         currentEvent = e;
-        $.ajax('http://en.wikipedia.org/w/api.php', {
-            'data': {
-                'action': 'query',
-                'prop': 'extracts',
-                'format': 'json',
-                'exintro': true,
-                'titles': e.data.location,
-                'callback': 'returnMessage'
-            },
-            'dataType': 'jsonp'
-        });
+        
+        var param = {
+            'action': 'query',
+            'prop': 'extracts',
+            'format': 'json',
+            'exintro': true,
+            'titles': e.data.location,
+            'callback': 'returnMessage'
+        };
+        var url = [];
+        url.push('http://en.wikipedia.org/w/api.php?');
+        for (var key in param) {
+            url.push(key);
+            url.push('=');
+            url.push(param[key]);
+            url.push('&');
+        }
+        url.pop();
+        
+        var script = document.getElementById('jsonp');
+        if (script !== null) {
+            document.body.removeChild(script);
+        }
+        script = document.createElement('script');
+        script.id = 'jsonp';
+        script.src = url.join('');
+        document.body.appendChild(script);
     }
 };
 
