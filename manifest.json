@@ -19,7 +19,7 @@
     
     "sandbox": {
         "pages": [
-            "widgets/maps/canvas.html",
+            "widgets/maps/sandbox.html",
             "widgets/wiki/sandbox.html"
         ]
     }
