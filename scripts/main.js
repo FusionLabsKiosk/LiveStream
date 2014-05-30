@@ -1,7 +1,6 @@
 //LiveStream Namespace
 var live = {};
 live.widgets = {};
-//TODO: Allow user to specify location
 live.location = 'Dallas';
 
 /* Initialization */
@@ -11,10 +10,8 @@ $(document).ready(function() {
 live.initialize = function() {
     live.initializeWidgets();
     live.initializeListeners();
-    live.setMainWidgets();
 };
 live.initializeWidgets = function() {
-    //live.initializeWidget('demo');
     live.initializeWidget('timezone');
     live.initializeWidget('maps');
     live.initializeWidget('wiki');
@@ -29,9 +26,6 @@ live.initializeWidget = function(widget) {
     });
 };
 live.initializeListeners = function() {
-    $('#return').click(function() {
-        live.setMainWidgets();
-    });
     $('#location').keypress(function(e) {
         if (e.which === 13) {
             live.location = $('#location').val();
@@ -43,19 +37,39 @@ live.initializeListeners = function() {
 };
 
 /* View Manipulation */
-live.setMain = function(selector) {
-    $('#hidden').append($('main.fullscreen').children());
-    $('main.fullscreen').empty();
-    $('main.fullscreen').append(selector);
+live.addView = function(selector) {
+    var left = $('main aside.left');
+    var right = $('main aside.right');
+    if (left.find(selector).length > 0) {
+        live.hideAside(left);
+    }
+    else if (right.find(selector).length > 0) {
+        live.hideAside(right);
+    }
+    else if (!right.is(':visible')) {
+        live.setAside(right, selector);
+    }
+    else if (!left.is(':visible')) {
+        live.setAside(left, selector);
+    }
+    else {
+        live.setAside(right, selector);
+    }
 };
-live.setMainWidgets = function() {
-    live.setMain($('#widgets'));
+live.setAside = function(aside, selector) {
+    live.hideAside(aside, function() {
+        live.showAside(aside, selector);
+    });
 };
-
-/* Test Functions */
-live.alert = function() {
-    $('main.fullscreen').css('background-color', 'red');
-    setTimeout(function() {
-        $('main.fullscreen').css('background-color', 'blue');
-    }, 500);
+live.showAside = function(aside, selector) {
+    aside.append(selector);
+    aside.show(200);
+};
+live.hideAside = function(aside, callback) {
+    aside.hide(200, function() {
+        aside.empty();
+        if (callback !== undefined) {
+            callback();
+        }
+    });
 };

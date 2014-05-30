@@ -24,7 +24,7 @@ function Widget(name, html) {
         initializeFunction('end');
         
         self.widget.click(function() {
-            live.setMain(self.view);
+            live.addView(self.view);
             //TODO: Better start() logic
             self.js.start();
         }).appendTo('#widgets');
