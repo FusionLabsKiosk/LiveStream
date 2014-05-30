@@ -1,3 +1,8 @@
+.timezone.widget {
+    background-color: #222;
+    color: #eee;
+}
+
 .timezone .clock-face {
     background-image: linear-gradient(top, #383838 0%, #070707 100%);
     border: 10px solid #ebebeb;
