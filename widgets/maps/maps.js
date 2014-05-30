@@ -6,6 +6,8 @@ maps.API_KEY = 'AIzaSyCEc-ILEMoraGX8sL0pMdgtfqSq2kOkleo';
 
 
 maps.initialize = function() {
+    $('<iframe/>').attr('src', 'widgets/maps/sandbox.html').appendTo(maps.w);
+    $('<iframe/>').attr('src', 'widgets/maps/sandbox.html').appendTo(maps.v);
     maps.updateMaps();
 };
 

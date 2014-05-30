@@ -1,3 +1,8 @@
+.weather.widget {
+    display: flex;
+    flex-flow: row wrap;
+    width: 20%;
+}
 .weather {
     background: #fff;
     color: #333;

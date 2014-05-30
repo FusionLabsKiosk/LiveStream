@@ -2,6 +2,7 @@
     box-sizing: border-box;
     font-size: 1em;
 }
+html, 
 body {
     background: #aaa;
     color: #222;
@@ -23,8 +24,13 @@ body {
 *******************************************************************************/
 body > header {
     background: #444;
+    display: flex;
+    flex-flow: row wrap;
     height: 5%;
     width: 100%;
+}
+body > header * {
+    font-size: 1.5em;
 }
 
 /*******************************************************************************
@@ -32,8 +38,12 @@ body > header {
 *******************************************************************************/
 main.fullscreen {
     height: 95%;
+    overflow: auto;
     position: absolute;
     width: 100%;
+}
+main.fullscreen::-webkit-scrollbar {
+    display: none;
 }
 
 main.view {
@@ -45,15 +55,15 @@ main.view {
             Widgets 
 *******************************************************************************/
 #widgets {
+    align-items: stretch;
     display: flex;
-    flex-wrap: wrap;
+    flex-flow: row wrap;
     height: 100%;
     width: 100%;
 }
 
 #widgets figure {
-    border: thin solid black;
-    display: inline-block;
-    height: 25%;
-    width: 25%;
+    box-shadow: 2px 2px #222;
+    margin: 1em;
+    overflow: hidden;
 }
