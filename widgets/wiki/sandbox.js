@@ -1,36 +1,33 @@
 var currentEvent;
 
-function getWikiExtract(e) {
-    if (e.data.widget === 'wiki') {
-        currentEvent = e;
-        
-        var param = {
-            'action': 'query',
-            'prop': 'extracts',
-            'format': 'json',
-            'exintro': true,
-            'titles': e.data.location,
-            'callback': 'returnMessage'
-        };
-        var url = [];
-        url.push('http://en.wikipedia.org/w/api.php?');
-        for (var key in param) {
-            url.push(key);
-            url.push('=');
-            url.push(param[key]);
-            url.push('&');
-        }
-        url.pop();
-        
-        var script = document.getElementById('jsonp');
-        if (script !== null) {
-            document.body.removeChild(script);
-        }
-        script = document.createElement('script');
-        script.id = 'jsonp';
-        script.src = url.join('');
-        document.body.appendChild(script);
+function getWikiExtract(location) {        
+    var param = {
+        'action': 'query',
+        'prop': 'extracts',
+        'format': 'json',
+        'exintro': true,
+        'titles': location,
+        'redirects': true,
+        'callback': 'returnMessage'
+    };
+    var url = [];
+    url.push('http://en.wikipedia.org/w/api.php?');
+    for (var key in param) {
+        url.push(key);
+        url.push('=');
+        url.push(param[key]);
+        url.push('&');
     }
+    url.pop();
+
+    var script = document.getElementById('jsonp');
+    if (script !== null) {
+        document.body.removeChild(script);
+    }
+    script = document.createElement('script');
+    script.id = 'jsonp';
+    script.src = url.join('');
+    document.body.appendChild(script);
 };
 
 function returnMessage(data) {
@@ -49,5 +46,21 @@ function returnMessage(data) {
 }
 
 window.onload = function() {
-    window.addEventListener('message', getWikiExtract);
+    window.addEventListener('message', messageHandler);
 };
+
+function messageHandler(e) {
+    currentEvent = e;
+        
+    if (e.data.widget === 'wiki') {
+        if (e.data.loadedRequest) {
+            currentEvent.source.postMessage({
+                'widget': 'wiki',
+                'loaded': true
+            }, currentEvent.origin);
+        }
+        else {
+            getWikiExtract(e.data.location);
+        }
+    }
+}

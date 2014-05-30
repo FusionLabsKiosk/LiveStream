@@ -1,3 +1,21 @@
-.wiki {
-    
+.wiki.widget,
+.wiki.view {
+    background-color: #eee;
+    padding: 1em;
+    position: relative;
+}
+.wiki.widget .more {
+    background-color: rgba(0, 0, 0, 0.75);
+    bottom: 0;
+    color: #eee;
+    left: 0;
+    padding: 1em;
+    position: absolute;
+    width: 100%;
+}
+.wiki .city {
+    font-size: 3em;
+}
+.wiki .description {
+    font-size: 1.5em;
 }
