@@ -20,6 +20,7 @@ live.initializeWidgets = function() {
     live.initializeWidget('maps');
     live.initializeWidget('wiki');
     live.initializeWidget('weather');
+    live.initializeWidget('food');
 };
 live.initializeWidget = function(widget) {
     $.get('widgets/' + widget + '/' + widget + '.html', function(data) {

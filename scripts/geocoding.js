@@ -1,7 +1,7 @@
 //Geocoding Namespace
 var geocoding = {};
 
-geocoding.API_KEY = 'AIzaSyCEc-ILEMoraGX8sL0pMdgtfqSq2kOkleo';
+geocoding.API_KEY = 'AIzaSyAHKeTaL2j7ovuZtRorvVqnzuhKevGBtaI';
 
 geocoding.geocode = function(address, callback) {
     if (typeof address !== 'string') {
