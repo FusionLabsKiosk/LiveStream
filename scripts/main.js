@@ -47,16 +47,16 @@ live.initializeListeners = function() {
 live.addView = function(selector) {
     var left = $('main aside.left');
     var right = $('main aside.right');
-    var leftVisible = left.is(':visible');
-    var rightVisible = right.is(':visible');
+    var leftVisible = left.hasClass('visible');
+    var rightVisible = right.hasClass('visible');
     var added;
     
-    if (left.find(selector).length > 0) {
+    if (left.find(selector).length > 0 && leftVisible) {
         live.hideAside(left);
         leftVisible = false;
         added = false;
     }
-    else if (right.find(selector).length > 0) {
+    else if (right.find(selector).length > 0 && rightVisible) {
         live.hideAside(right);
         rightVisible = false;
         added = false;
@@ -100,14 +100,21 @@ live.setAside = function(aside, selector) {
     });
 };
 live.showAside = function(aside, selector) {
+    aside.empty();
     aside.append(selector);
-    aside.show(200);
+    aside.addClass('visible');
 };
 live.hideAside = function(aside, callback) {
-    aside.hide(200, function() {
-        aside.empty();
-        if (callback !== undefined) {
-            callback();
-        }
-    });
+    if (aside.hasClass('visible')) {
+        aside.off('webkitTransitionEnd');
+        aside.on('webkitTransitionEnd', function() {
+            if (callback !== undefined) {
+                callback();
+            }
+        });
+        aside.removeClass('visible');
+    }
+    else if (callback !== undefined) {
+        callback();
+    }
 };

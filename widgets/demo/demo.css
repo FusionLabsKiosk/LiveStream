@@ -1,6 +1,5 @@
 .demo {
     background: green;
     color: yellow;
-    height: 100%;
-    width: 100%;
+    width: 200px;
 }

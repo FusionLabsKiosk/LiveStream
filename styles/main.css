@@ -11,12 +11,6 @@ body {
     padding: 0;
     width: 100%;
 }
-.hidden {
-    display: none;
-}
-.invisible {
-    visibility: hidden;
-}
 
 
 /*******************************************************************************
@@ -49,26 +43,27 @@ main.view {
 }
 
 main aside {
+    border: thin solid #222;
     height: 100%;
+    flex: 0 0 0;
     overflow: auto;
+    position: relative;
+    transition: 0.25s all;
 }
 main aside::-webkit-scrollbar {
     display: none;
 }
-main aside.left {
-    border: thin solid #222;
-    display: none;
+main aside.left.visible {
     flex: 0 0 40%;
 }
 main aside.middle {
+    border: none;
     flex: 1 1 20%;
 }
 main aside.middle.icons figure {
     width: 100%;
 }
-main aside.right {
-    border: thin solid #222;
-    display: none;
+main aside.right.visible {
     flex: 0 0 40%;
 }
 
