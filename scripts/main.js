@@ -10,11 +10,9 @@ $(document).ready(function() {
     live.initialize();
 });
 live.initialize = function() {
-    geocoding.geocode('Dallas', function(location) {
-        live.location = location;
-    });
     live.initializeWidgets();
     live.initializeListeners();
+    live.updateLocation();
 };
 live.initializeWidgets = function() {
     live.initializeWidget('demo');
@@ -32,13 +30,16 @@ live.initializeWidget = function(widget) {
 live.initializeListeners = function() {
     $('#location').keypress(function(e) {
         if (e.which === 13) {
-            geocoding.geocode($('#location').val(), function(location) {
-                live.location = location;
-                for (var i = 0; i < live.widgets.length; i++) {
-                    live.widgets[i].js.setLocation(location);
-                    live.widgets[i].js.end();
-                }
-            });
+            live.updateLocation();
+        }
+    });
+};
+
+live.updateLocation = function() {
+    geocoding.geocode($('#location').val(), function(location) {
+        live.location = location;
+        for (var i = 0; i < live.widgets.length; i++) {
+            live.widgets[i].js.setLocation(location);
         }
     });
 };
@@ -86,7 +87,7 @@ live.addView = function(selector) {
         }
     }
     else if ($('main aside.middle').hasClass('icons')) {
-        $('main aside.middle').removeClass('icons');  
+        $('main aside.middle').removeClass('icons');
         for (var i = 0; i < live.widgets.length; i++) {
             live.widgets[i].js.iconEnd();
             live.widgets[i].js.widgetStart();

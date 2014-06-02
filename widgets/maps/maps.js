@@ -6,32 +6,43 @@ maps.API_KEY = 'AIzaSyCEc-ILEMoraGX8sL0pMdgtfqSq2kOkleo';
 
 
 maps.initialize = function() {
-    $('<iframe/>').attr('src', 'widgets/maps/sandbox.html').appendTo(maps.w);
-    $('<iframe/>').attr('src', 'widgets/maps/sandbox.html').appendTo(maps.v);
-    maps.updateMaps();
+    $('<iframe/>').attr('src', 'widgets/maps/sandbox.html').appendTo(maps.wv);
 };
 
-maps.start = function() {
-    maps.updateMaps();
+maps.setLocation = function(location) {
+    maps.setViewLocation(location);
+    maps.setWidgetLocation(location);
 };
 
-maps.end = function() {
-    maps.updateMaps();
+maps.viewStart = function() {
+    maps.setViewLocation(live.location);
 };
 
-maps.updateMaps = function() {
+maps.setViewLocation = function(location) {
+    maps.showViewLoading();
+    maps.setMapLocation(maps.v, location, maps.hideViewLoading);
+};
+maps.setWidgetLocation = function(location) {
+    maps.showWidgetLoading();
+    maps.setMapLocation(maps.w, location, maps.hideWidgetLoading);
+};
+maps.setMapLocation = function(selector, location, callback) {
     setTimeout(function() {
-        maps.wv.find('iframe').each(function() {
+        selector.find('iframe').each(function() {
             var win = this.contentWindow;
-            if (win !== null) {
-                geocoding.getLatLng(live.location.city, function(lat, lng) {
-                    win.postMessage({
-                        'widget': 'maps',
-                        'lat': lat,
-                        'lng': lng
-                    }, '*');
-                });
+            if (win === null) {
+                maps.setMapLocation(selector, location, callback);
+            }
+            else {
+                win.postMessage({
+                    'widget': 'maps',
+                    'lat': location.lat,
+                    'lng': location.lng
+                }, '*');
+                if (callback !== undefined) {
+                    callback();
+                }
             }
         });
-    }, 1000);
+    }, 100);
 };

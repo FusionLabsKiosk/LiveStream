@@ -18,10 +18,14 @@ demo.setLocation = function(location) {
 };
 
 demo.viewStart = function() {
-    //Called when a view is loaded (not implemented)
+    demo.showViewLoading();
+    setTimeout(function() {
+        demo.hideViewLoading();
+    }, 2000);
+    console.log('View Started');    
 };
 demo.viewEnd = function() {
-    //Called when a view is closed (not implemented)
+    console.log('View Ended');    
 };
 demo.widgetStart = function() {
     console.log('Widget Started');    

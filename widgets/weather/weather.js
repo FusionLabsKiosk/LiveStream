@@ -1,65 +1,44 @@
 //Weather Namespace
 var weather = {};
 
+weather.UPDATE_INTERVAL = 60000 * 5;
+
 weather.initialize = function() {
-    weather.update();
-    setInterval(weather.update, 60000 * 5);
+    setInterval(weather.update, weather.UPDATE_INTERVAL);
 };
 
-weather.start = function() {
-    weather.update();
-};
-
-weather.end = function() {
-    weather.update();
-};
-
-weather.update = function() {
+weather.setLocation = function(location) {
     var url = [];
     url.push('http://api.openweathermap.org/data/2.5/weather?units=imperial');
     url.push('&q=');
-    url.push(live.location.city);
+    url.push(location.city);
+    url.push(',');
+    url.push(location.country);
 
     $.get(url.join('')).success(function(data) {
         weather.setWeather(data);
     });
-    
-    /*var dataDump = $('.weather .data-dump');
-    dataDump.append('Getting data...');
-    var request = $.get('http://api.openweathermap.org/data/2.5/weather?q=Dallas,TX&units=imperial');
-    request.done(OpenWeatherRequest_Success);
-    request.fail(OpenWeatherRequest_Fail);*/
+};
+weather.update = function() {
+    weather.setLocation(live.location);
 };
 
 weather.setWeather = function(data) {
     if (parseInt(data.cod) === 200) {
-        $('.weather .city').html(data.name);
-        $('.weather .country').html(data.sys.country);
+        weather.wv.find('.city').html(data.name);
+        weather.wv.find('.country').html(data.sys.country);
 
         if (data.weather.length > 0) {
-            $('.weather .weather-icon').attr('src', weather.getIconUrl(data.weather[0].icon));
-            $('.weather .climate').html(data.weather[0].description);
+            weather.wv.find('.weather-icon').attr('src', weather.getIconUrl(data.weather[0].icon));
+            weather.wv.find('.climate').html(data.weather[0].description);
         }
-        $('.weather .temperature .digits').html(data.main.temp);
+        weather.wv.find('.temperature .digits').html(data.main.temp);
     }
     else {
-        $('.weather .climate').html(data.message);
+        weather.wv.find('.climate').html(data.message);
     }
 };
 
 weather.getIconUrl = function(code) {
     return 'widgets/weather/icons/' + code + '.png';
 };
-
-function OpenWeatherRequest_Success(data)
-{
-    var dataDump = $('.weather .data-dump');
-    dataDump.append(data.toString());
-    console.log(data);
-}
-        
-function OpenWeatherRequest_Fail(jqXHR, textStatus)
-{
-    var dataDump = $('.weather .data-dump');
-    dataDump.append("Request failed: " + textStatus);
-}

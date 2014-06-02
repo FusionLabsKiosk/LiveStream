@@ -62,10 +62,34 @@ function Widget(name, html) {
         }
     };
     
-    this.setEndButton = function(e) {
-        $(e).click(function() {
-            //TODO: This calls all widgets whenever return is pressed
-            self.js.end();
-        });
+    this.showViewLoading = function() {
+        self.showLoading(self.view);
     };
+    this.hideViewLoading = function() {
+        self.hideLoading(self.view);
+    };
+    this.js.showViewLoading = this.showViewLoading;
+    this.js.hideViewLoading = this.hideViewLoading;
+    this.showWidgetLoading = function() {
+        self.showLoading(self.widget);
+    };
+    this.hideWidgetLoading = function() {
+        self.hideLoading(self.widget);
+    };
+    this.js.showWidgetLoading = this.showWidgetLoading;
+    this.js.hideWidgetLoading = this.hideWidgetLoading;
+    this.showLoading = function(selector) {
+        if (selector === undefined) {
+            selector = self.widgetView;
+        }
+        selector.find('.loading').show();
+    };
+    this.hideLoading = function(selector) { 
+        if (selector === undefined) {
+            selector = self.widgetView;
+        }
+        selector.find('.loading').hide();
+    };
+    this.js.showLoading = this.showLoading;
+    this.js.hideLoading = this.hideLoading;
 }

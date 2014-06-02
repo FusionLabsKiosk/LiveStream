@@ -12,8 +12,6 @@ timezone.VIEW_LOCATIONS = [
 ];
 
 timezone.initialize = function() {    
-    timezone.updateWidget(live.location);
-    
     for (var i = 0; i < timezone.VIEW_LOCATIONS.length; i++) {
         var address = timezone.VIEW_LOCATIONS[i];
         timezone.v.append(timezone.createTimezoneDiv(address));
@@ -26,13 +24,9 @@ timezone.initialize = function() {
 };
 
 timezone.setLocation = function(location) {
-    timezone.updateWidget(location);
-};
-
-timezone.updateWidget = function(location) {
     timezone.w.empty();
     timezone.w.append(timezone.createTimezoneDiv(location.city));
-    timezone.getOffset(location, timezone.getClockClass(location.city));    
+    timezone.getOffset(location, timezone.getClockClass(location.city));
 };
 
 timezone.createTimezoneDiv = function(address, addressClass) {

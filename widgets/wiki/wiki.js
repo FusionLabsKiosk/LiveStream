@@ -5,7 +5,7 @@ wiki.initialize = function() {
     window.addEventListener('message', function(e) {
         if (e.data.widget === 'wiki') {
             if (e.data.loaded) {
-                wiki.updateWiki();
+                wiki.setLocation(live.location);
                 wiki.loaded = true;
             }
             else {
@@ -15,11 +15,11 @@ wiki.initialize = function() {
     });
     wiki.checkSandboxLoaded();
 };
-wiki.start = function() {
-    wiki.updateWiki();
-};
-wiki.end = function() {
-    wiki.updateWiki();
+wiki.setLocation = function(location) {
+    wiki.sendSandboxMessage({
+        'widget': 'wiki',
+        'location': location.city
+    });
 };
 
 wiki.loaded = false;
@@ -31,13 +31,6 @@ wiki.checkSandboxLoaded = function() {
         });
         setTimeout(wiki.checkSandboxLoaded, 100);
     }
-};
-
-wiki.updateWiki = function() {
-    wiki.sendSandboxMessage({
-        'widget': 'wiki',
-        'location': live.location.city
-    });
 };
 
 wiki.sendSandboxMessage = function(message) {

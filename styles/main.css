@@ -11,7 +11,9 @@ body {
     padding: 0;
     width: 100%;
 }
-
+.hidden {
+    display: none;
+}
 
 /*******************************************************************************
             Header 
@@ -38,6 +40,14 @@ main.fullscreen {
     width: 100%;
 }
 main.view {
+    height: 100%;
+    width: 100%;
+}
+.loading {
+    background: rgba(0, 0, 0, 0.75);
+    color: #eee;
+    display: none;
+    font-size: 2em;
     height: 100%;
     width: 100%;
 }
