@@ -1,13 +1,5 @@
 .weather.widget {
-    display: flex;
-    flex-flow: row wrap;
     width: 300px;
-}
-.weather {
-    background: #fff;
-    color: #333;
-    font-size: 1.5em;
-    padding: 1em;
 }
 
 .weather .forecast {

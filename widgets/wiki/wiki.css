@@ -1,8 +1,6 @@
 .wiki.widget,
 .wiki.view {
-    background-color: #eee;
     flex-grow: 2;
-    padding: 1em;
     position: relative;
 }
 .wiki.widget {
