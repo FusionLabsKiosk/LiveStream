@@ -1,3 +1,10 @@
+.food {
+    background-color: #eee;
+    padding: 1em;
+}
+.food.widget {
+    width: 25%;
+}
 .food.view .photo {
     position: relative;
     left: 0;

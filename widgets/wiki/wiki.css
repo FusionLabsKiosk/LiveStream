@@ -5,6 +5,9 @@
     padding: 1em;
     position: relative;
 }
+.wiki.widget {
+    width: 50%;
+}
 .wiki.widget footer {
     background-color: rgba(0, 0, 0, 0.75);
     bottom: 0;

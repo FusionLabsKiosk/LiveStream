@@ -17,7 +17,7 @@ sandbox.message = function(message) {
     }
     else {
         setTimeout(function() {
-            sandbox.message(message)
+            sandbox.message(message);
         }, 100);
     }
 };

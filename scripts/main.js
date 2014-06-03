@@ -16,12 +16,12 @@ live.initialize = function() {
     live.updateLocation();
 };
 live.initializeWidgets = function() {
-    live.initializeWidget('demo');
+    //live.initializeWidget('demo');
     live.initializeWidget('timezone');
+    live.initializeWidget('weather');
     live.initializeWidget('maps');
     live.initializeWidget('wiki');
-    live.initializeWidget('weather');
-    live.initializeWidget('food');
+    live.initializeWidget('food'); //Disable temporarily to save API calls
 };
 live.initializeWidget = function(widget) {
     $.get('widgets/' + widget + '/' + widget + '.html', function(data) {
