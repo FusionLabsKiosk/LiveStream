@@ -4,6 +4,8 @@
     top: 0;
     width: 100%    
 }
-.food.widget .photo {
+.food.widget .photo,
+.food.widget .photoAttributions,
+.food.widget .reference {
     display: none;
 }

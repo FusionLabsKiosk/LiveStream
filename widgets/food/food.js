@@ -35,26 +35,19 @@ food.requestNearbySearch = function(location, nextPageKey) {
     if (nextPageKey) {
         options.pageKey = nextPageKey;
     }
-    
-    var win = $('#scripts-sandbox').get(0).contentWindow;
-    if (win !== null) {
-        win.postMessage({
-            'script': 'places',
-            'widget': 'food',
-            'location': location,
-            'options': options
-        }, '*');
-    }
+    sandbox.message({
+        'script': 'places',
+        'widget': 'food',
+        'location': location,
+        'options': options
+    });
 };
 food.requestDetails = function(reference) {
-    var win = $('#scripts-sandbox').get(0).contentWindow;
-    if (win !== null) {
-        win.postMessage({
-            'script': 'places',
-            'widget': 'food',
-            'reference': reference
-        }, '*');
-    }
+    sandbox.message({
+        'script': 'places',
+        'widget': 'food',
+        'reference': reference
+    });
 };
 
 
@@ -163,9 +156,6 @@ food.updateHighlightDivs = function(data) {
 
 
 /* Details */
-food.getDetail = function(reference) {
-    
-};
 food.setDetail = function(data) {
     food.updateDetailDiv(data.result);
 };

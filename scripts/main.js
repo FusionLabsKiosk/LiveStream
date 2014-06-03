@@ -10,6 +10,7 @@ $(document).ready(function() {
     live.initialize();
 });
 live.initialize = function() {
+    sandbox.initialize();
     live.initializeWidgets();
     live.initializeListeners();
     live.updateLocation();

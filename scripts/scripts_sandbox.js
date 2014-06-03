@@ -1,25 +1,9 @@
+/* Places Sandbox */
 var places = {};
 places.service;
 places.event;
 places.pagination = {};
 var placesService;
-
-function initializePlacesScript(init) {
-    if (init) {
-        initializeScript('http://maps.googleapis.com/maps/api/js?libraries=places&sensor=false&callback=initializePlacesScript');
-    }
-    else {
-        places.service = new google.maps.places.PlacesService(document.createElement('places-service'));
-        places.messageHandler(places.event, true);
-    }
-};
-
-function initializeScript(url) {
-    var script = document.createElement('script');
-    script.type = 'text/javascript';
-    script.src = url;
-    document.body.appendChild(script);
-}
 
 places.messageHandler = function(e, initialized) {
     places.event = e;
@@ -103,16 +87,96 @@ places.createPlaceResultMessage = function(result) {
     return copy;
 };
 
+/* Wiki Sandbox */
+var wiki = {};
+wiki.event;
+wiki.messageHandler = function(e) {
+    wiki.event = e;
+    wiki.getExtract(e.data.location);
+};
+
+wiki.getExtract = function(location) {        
+    var param = {
+        'action': 'query',
+        'prop': 'extracts',
+        'format': 'json',
+        'exintro': true,
+        'titles': location,
+        'redirects': true,
+        'callback': 'wiki.postMessage'
+    };
+    var url = [];
+    url.push('http://en.wikipedia.org/w/api.php?');
+    for (var key in param) {
+        url.push(key);
+        url.push('=');
+        url.push(param[key]);
+        url.push('&');
+    }
+    url.pop();
+
+    var script = document.getElementById('jsonp');
+    if (script !== null) {
+        document.body.removeChild(script);
+    }
+    script = document.createElement('script');
+    script.id = 'jsonp';
+    script.src = url.join('');
+    document.body.appendChild(script);
+};
+
+wiki.postMessage = function(data) {
+    var title = '';
+    var extract = '';
+    for (var key in data.query.pages) {
+        title = data.query.pages[key].title;
+        extract = data.query.pages[key].extract;
+        break;
+    }
+    wiki.event.source.postMessage({
+        'widget': wiki.event.data.widget,
+        'title': title,
+        'extract': extract
+    }, wiki.event.origin);
+};
+
+/* Sandbox Script Initialization */
+function initializePlacesScript(init) {
+    if (init) {
+        initializeScript('http://maps.googleapis.com/maps/api/js?libraries=places&sensor=false&callback=initializePlacesScript');
+    }
+    else {
+        places.service = new google.maps.places.PlacesService(document.createElement('places-service'));
+        places.messageHandler(places.event, true);
+    }
+};
+
+function initializeScript(url) {
+    var script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = url;
+    document.body.appendChild(script);
+}
+
 window.onload = function() {
     window.addEventListener('message', messageHandler);
 };
 
-function messageHandler(e) {        
-    if (e.data.script === 'places') {
+function messageHandler(e) {
+    if (e.data.loadCheck) {
+        e.source.postMessage({
+            'loaded': true
+        }, e.origin);
+    }
+    else if (e.data.script === 'places') {
         places.messageHandler(e);
+    }
+    else if (e.data.script === 'wiki') {
+        wiki.messageHandler(e);
     }
 }
 
+/* Used to remove functions when passing an object with window.postMessage */
 function deepCopySafeMessage(object) {
     return JSON.parse(JSON.stringify(object));
 }
