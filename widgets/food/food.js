@@ -1,9 +1,6 @@
 //Food Namespace
 var food = {};
 food.currentLocation;
-food.highlights = [];
-food.highlightIndex = 0;
-food.highlightsUpdating = false;
 
 food.UPDATE_INTERVAL = 10000;
 
@@ -11,7 +8,7 @@ food.initialize = function() {
     window.addEventListener('message', function(e) {
         if (e.data.widget === 'food') {
             if (e.data.results !== undefined) {
-                food.setCurrentHighlights(e.data);
+                food.startHighlightUpdates(e.data);
             }
             else if (e.data.result !== undefined) {
                 food.setDetail(e.data);
@@ -23,7 +20,6 @@ food.initialize = function() {
 };
 
 food.setLocation = function(location) {
-    food.stopHighlightUpdates();
     food.requestNearbySearch(location);
 };
 
@@ -52,12 +48,48 @@ food.requestDetails = function(reference) {
 
 
 /* Highlights */
-food.setCurrentHighlights = function(data) {
-    food.highlights = data.results;
-    food.highlightIndex = 0;
-    food.hasNextPage = data.hasNextPage;
-    food.pageKey = data.pageKey;
-    food.startHighlightUpdates();
+food.startHighlightUpdates = function(data) {
+    food.stopHighlightUpdates();
+    var pageKey;
+    if (data.hasNextPage) {
+        pageKey = data.pageKey;
+    }
+    var update = new food.UpdateService(data.results, pageKey, food.currentLocation);
+    update.start();
+    food.currentUpdateService = update;
+};
+food.stopHighlightUpdates = function() {
+    if (food.currentUpdateService) {
+        food.currentUpdateService.stop();
+    }
+};
+food.UpdateService = function(highlights, pageKey, location) {
+    var self = this;
+    
+    this.highlights = highlights;
+    this.index = 0;
+    this.pageKey = pageKey;
+    this.location = location;
+    this.running = true;
+    
+    this.start = function() {
+        if (self.running) {
+            if (self.index < self.highlights.length) {
+                food.updateHighlightDivs(self.highlights[self.index]);
+                self.index++;
+            }
+            else if (self.pageKey) {
+                food.requestNearbySearch(self.location, self.pageKey);
+            }
+            else {
+                food.requestNearbySearch(live.location);
+            }
+            setTimeout(self.start, food.UPDATE_INTERVAL);
+        }
+    };
+    this.stop = function() {
+        self.running = false;
+    };
 };
 
 food.createHighlightDiv = function() {
@@ -78,32 +110,6 @@ food.createHighlightDiv = function() {
         food.requestDetails(reference);
     });
     return div;
-};
-
-//TODO: Refine start/stop functions, multiple updates can be running if timed properly
-food.startHighlightUpdates = function() {
-    if (!food.highlightsUpdating) {
-        food.highlightsUpdating = true;
-        food.highlightUpdates();
-    }
-};
-food.stopHighlightUpdates = function() {
-    food.highlightsUpdating = false;
-};
-food.highlightUpdates = function() {
-    if (food.highlightsUpdating) {
-        if (food.highlightIndex < food.highlights.length) {
-            food.updateHighlightDivs(food.highlights[food.highlightIndex]);
-            food.highlightIndex++;
-        }
-        else if (food.hasNextPage) {
-            food.requestNearbySearch(food.currentLocation, food.pageKey);
-        }
-        else {
-            food.requestNearbySearch(live.location);
-        }
-        setTimeout(food.highlightUpdates, food.UPDATE_INTERVAL);
-    }
 };
 
 food.updateHighlightDivs = function(data) {
