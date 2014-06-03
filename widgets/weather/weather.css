@@ -1,9 +1,44 @@
 .weather.widget {
     display: flex;
     flex-flow: row wrap;
-    width: 20%;
+    width: 300px;
 }
 .weather {
     background: #fff;
     color: #333;
+    font-size: 1.5em;
+    padding: 1em;
+}
+
+.weather .forecast {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.weather .forecast:first-child {
+    font-weight: bold;
+}
+.weather .forecast .day {
+    padding: 0.5em;
+}
+.weather .date {
+    font-weight: bold;
+}
+.weather .temperature .temp:before {
+    content: "Temp: ";
+}
+.weather .temperature .min:before {
+    content: "Min: ";
+}
+.weather .temperature .max:before {
+    content: "Max: ";
+}
+.weather .temperature *:after {
+    content: " °F";
+}
+.weather .humidity:before {
+    content: "Humidity ";
+}
+.weather .humidity:after {
+    content: "%";
 }
