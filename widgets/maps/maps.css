@@ -1,11 +1,17 @@
 .maps.widget,
 .maps.view {
     background-color: #eee;
-    flex-grow: 1;
     position: relative;
 }
 .maps.widget {
-    height: 50%;
+    display: flex;
+    width: 40%;
+}
+.maps.widget .static {
+    background-position: center; 
+    background-repeat: no-repeat;
+    background-size: 100% auto;
+    width: 100%;
 }
 .maps.widget footer {
     background-color: rgba(0, 0, 0, 0.75);
@@ -16,7 +22,7 @@
     position: absolute;
     width: 100%;
 }
-
+.maps .frame,
 .maps iframe {
     border: none;
     height: 100%;

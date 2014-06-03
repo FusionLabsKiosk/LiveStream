@@ -121,3 +121,13 @@ live.hideAside = function(aside, callback) {
         callback();
     }
 };
+
+live.getExternalImage = function(url, callback) {
+    var xhr = new XMLHttpRequest();
+    xhr.responseType = 'blob';
+    xhr.onload = function() {
+        callback(window.URL.createObjectURL(xhr.response));
+    };
+    xhr.open('GET', url, true);
+    xhr.send();
+};

@@ -16,7 +16,7 @@ function drawMap() {
             'lat': currentLat,
             'lng': currentLng
         },
-        'zoom': 8
+        'zoom': 13
     });
 }
 

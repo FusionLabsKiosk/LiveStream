@@ -6,7 +6,7 @@ maps.API_KEY = 'AIzaSyCEc-ILEMoraGX8sL0pMdgtfqSq2kOkleo';
 
 
 maps.initialize = function() {
-    $('<iframe/>').attr('src', 'widgets/maps/sandbox.html').appendTo(maps.wv);
+    $('<iframe/>').attr('src', 'widgets/maps/sandbox.html').appendTo(maps.wv.find('.frame'));
 };
 
 maps.setLocation = function(location) {
@@ -24,7 +24,14 @@ maps.setViewLocation = function(location) {
 };
 maps.setWidgetLocation = function(location) {
     maps.showWidgetLoading();
-    maps.setMapLocation(maps.w, location, maps.hideWidgetLoading);
+    var url = [];
+    url.push('http://maps.googleapis.com/maps/api/staticmap?zoom=13&size=1000x1000');
+    url.push('&center=');
+    url.push(location.city);
+    live.getExternalImage(url.join(''), function(src) {
+        maps.w.find('.static').css('background-image', 'url("' + src + '")');
+        maps.hideWidgetLoading();
+    });
 };
 maps.setMapLocation = function(selector, location, callback) {
     setTimeout(function() {
