@@ -50,6 +50,9 @@
     box-sizing: border-box;
     font-size: 1em;
 }
+*::-webkit-scrollbar {
+    display: none;
+}
 html, 
 body {
     color: #fff;
@@ -118,9 +121,6 @@ section.viewport aside {
     overflow: auto;
     position: relative;
     transition: 0.25s all;
-}
-section.viewport aside::-webkit-scrollbar {
-    display: none;
 }
 section.viewport aside.left.visible {
     flex: 0 0 40%;

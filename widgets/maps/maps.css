@@ -4,7 +4,7 @@
 .maps.widget {
     display: flex;
     height: 48%;
-    width: 38%;
+    width: 58%;
 }
 .maps.widget .static {
     background-position: center; 
