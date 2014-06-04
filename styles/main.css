@@ -141,35 +141,28 @@ main.view {
     height: 100%;
     width: 100%;
 }
-.loading {
-    background: rgba(0, 0, 0, 0.75);
-    color: #eee;
-    display: none;
-    font-size: 2em;
-    height: 100%;
-    width: 100%;
-}
 
 /*******************************************************************************
             Widgets 
 *******************************************************************************/
 #widgets {
-    align-items: stretch;
+    /*align-items: stretch;
     display: flex;
-    flex-flow: row wrap;
+    flex-flow: row wrap;*/
     height: 100%;
+    padding: 1%;
     width: 100%;
 }
 
 #widgets figure {
     background: linear-gradient(to bottom, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.2) 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(255, 255, 255, 0.1)), color-stop(100%, rgba(255, 255, 255, 0.2)));
-    background: -webkit-linear-gradient(top, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.2) 100%);
     background-color: rgba(255, 255, 255, 0.1);
     border: solid 1px rgba(255, 255, 255, 0.2);
-    margin: 1rem;
+    display: inline-block;
+    margin: 1%;
     overflow: hidden;
     padding: 1rem;
+    position: relative;
     box-shadow: 10px 10px 20px -5px rgba(0, 0, 0, 0.2);
 }
 

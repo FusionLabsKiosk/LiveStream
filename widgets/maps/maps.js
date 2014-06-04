@@ -29,8 +29,7 @@ maps.setWidgetLocation = function(location) {
     url.push('&center=');
     url.push(location.city);
     live.getExternalImage(url.join(''), function(src) {
-        //maps.w.find('.spacer').attr('src', src);
-        maps.w.find('.static').css('background-image', 'url(' + src + ')');
+        maps.w.find('.static').css('background-image', 'url("' + src + '")');
         maps.hideWidgetLoading();
     });
 };

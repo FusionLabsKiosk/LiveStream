@@ -1,10 +1,10 @@
 .wiki.widget,
 .wiki.view {
-    flex-grow: 2;
     position: relative;
 }
 .wiki.widget {
-    width: 50%;
+    height: 48%;
+    width: 58%;
 }
 .wiki.widget footer {
     background-color: rgba(0, 0, 0, 0.75);

@@ -1,6 +1,7 @@
 //LiveStream Namespace
 var live = {};
 live.widgets = [];
+live.widgetCount = 0;
 live.location = {
     'city': 'Dallas'
 };
@@ -16,23 +17,30 @@ live.initialize = function() {
     live.initializeParallax();
     live.initializeWidgets();
     live.initializeListeners();
-    live.updateLocation();
 };
 live.initializeWidgets = function() {
+    live.initializeWidget('wiki');
+    live.initializeWidget('maps');
     live.initializeWidget('timezone');
     live.initializeWidget('weather');
-    live.initializeWidget('maps');
-    live.initializeWidget('wiki');
     live.initializeWidget('food'); //Disable temporarily to save API calls
-    live.initializeWidget('demo');
-    live.initializeWidget('demo');
-    live.initializeWidget('demo');
+    //live.initializeWidget('demo');
 };
 live.initializeWidget = function(widget) {
+    live.widgetCount++;
     $.get('widgets/' + widget + '/' + widget + '.html', function(data) {
         var w = new Widget(widget, data).initialize();
         live.widgets.push(w);
+        console.log('Count: ' + live.widgetCount + ' Length: ' + live.widgets.length);
+        if (live.widgets.length === live.widgetCount) {
+            live.widgetsLoaded();
+        }
     });
+};
+live.widgetsLoaded = function() {
+    console.log('widgets loaded');
+    loading.initialize();
+    live.updateLocation();
 };
 live.initializeListeners = function() {
     $('#location').keypress(function(e) {

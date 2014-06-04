@@ -15,9 +15,13 @@ function Widget(name, html) {
         this.icon = this.widget;
     }
     this.view = this.jhtml.filter('main.view');
+    this.v = this.view;
     this.widgetView = this.widget.add(this.view);
+    this.wv = this.widgetView;
     this.widgetIcon = this.widget.add(this.icon);
+    this.wi = this.widgetIcon;
     this.widgetIconView = this.widgetView.add(this.icon);
+    this.wiv = this.widgetIconView;
     
     this.js = window[self.name];
     this.js.w = this.widget;
