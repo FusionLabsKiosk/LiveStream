@@ -92,7 +92,7 @@
 }
 
 .timezone .clock-face .arrow-second:after {
-    background-image: linear-gradient(#F00 0%, #a00 100%);
+    background-image: linear-gradient(#f00 0%, #a00 100%);
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
     content: '';
     height: 55px;
@@ -132,12 +132,10 @@
     width: 2px;
 }
 
-.timezone .clock .plain-text
-{
-    display:inline-block;
+.timezone .clock .plain-text {
+    display: inline-block;
     vertical-align: middle;
 }
-.timezone .clock .plain-text .name
-{
-    display:block;
+.timezone .clock .plain-text .name {
+    display: block;
 }

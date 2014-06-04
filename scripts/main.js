@@ -5,23 +5,28 @@ live.location = {
     'city': 'Dallas'
 };
 
+live.PARALLAX_SPEED = 2;
+
 /* Initialization */
 $(document).ready(function() {
     live.initialize();
 });
 live.initialize = function() {
     sandbox.initialize();
+    live.initializeParallax();
     live.initializeWidgets();
     live.initializeListeners();
     live.updateLocation();
 };
 live.initializeWidgets = function() {
-    //live.initializeWidget('demo');
     live.initializeWidget('timezone');
     live.initializeWidget('weather');
     live.initializeWidget('maps');
     live.initializeWidget('wiki');
     live.initializeWidget('food'); //Disable temporarily to save API calls
+    live.initializeWidget('demo');
+    live.initializeWidget('demo');
+    live.initializeWidget('demo');
 };
 live.initializeWidget = function(widget) {
     $.get('widgets/' + widget + '/' + widget + '.html', function(data) {
@@ -34,6 +39,12 @@ live.initializeListeners = function() {
         if (e.which === 13) {
             live.updateLocation();
         }
+    });
+};
+live.initializeParallax = function() {
+    $('aside.middle').scroll(function() {
+        var y = -($('aside.middle').scrollTop() / live.PARALLAX_SPEED);
+        $('main.fullscreen').css('background-position', '50% ' + y + 'px');
     });
 };
 

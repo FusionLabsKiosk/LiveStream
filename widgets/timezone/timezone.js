@@ -24,8 +24,7 @@ timezone.initialize = function() {
 };
 
 timezone.setLocation = function(location) {
-    //timezone.w.empty();
-    $('.timezone.widget .clock').remove();
+    timezone.w.empty();
     timezone.w.append(timezone.createTimezoneDiv(location.city));
     timezone.getOffset(location, timezone.getClockClass(location.city));
 };
@@ -35,10 +34,8 @@ timezone.createTimezoneDiv = function(address, addressClass) {
         addressClass = timezone.getClockClass(address);
     }
     var clock =  $('<div/>').addClass('clock').addClass(addressClass)
-            .append(timezone.createClockFaceDiv())
-            .append('<div class="plain-text" />');
-    
-    var plainText = $('.plain-text', clock)
+            .append(timezone.createClockFaceDiv());
+    var plainText = $('<div/>').addClass('plain-text')
             .append($('<span/>').addClass('name'))
             .append($('<span/>').addClass('city'))
             .append($('<span/>').addClass('hour'))
@@ -47,6 +44,7 @@ timezone.createTimezoneDiv = function(address, addressClass) {
             .append($('<span/>').addClass('separator').html(':'))
             .append($('<span/>').addClass('second'))
             .append($('<span/>').addClass('am-pm'));
+    clock.append(plainText);
     return clock;
 };
 timezone.createClockFaceDiv = function() {

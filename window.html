@@ -36,17 +36,18 @@
         <link rel="stylesheet" href="widgets/food/food.css">
     </head>
     <body>
-        <img class="background-image" src="images/background2.png" />
-        <header>
-            <label for="location" class="title">Location</label>
-            <input id="location" type="text" value="Dallas" />
-        </header>
         <main class="fullscreen">
-            <aside class="left"></aside>
-            <aside class="middle">
-                <div id="widgets"></div>
-            </aside>
-            <aside class="right"></aside>
+            <header>
+                <label for="location" class="title">Location</label>
+                <input id="location" type="text" value="Dallas" />
+            </header>
+            <section class="viewport">
+                <aside class="left"></aside>
+                <aside class="middle">
+                    <div id="widgets"></div>
+                </aside>
+                <aside class="right"></aside>
+            </section>
         </main>
     
         <iframe id="scripts-sandbox" class="hidden" src="scripts/scripts_sandbox.html"></iframe>

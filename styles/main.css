@@ -53,57 +53,89 @@
 html, 
 body {
     color: #fff;
+    font-family: 'exoregular';
     height: 100%;
     margin: 0;
     padding: 0;
     width: 100%;
-    font-family: 'exoregular';
-}
-body .background-image
-{
-    position:absolute;
-    z-index:-1;
 }
 .hidden {
     display: none;
 }
 
 /*******************************************************************************
-            Header 
-*******************************************************************************/
-body > header {
-    display: flex;
-    width: 100%;
-    border-bottom: solid 2px rgba(255,255,255,.3);
-    border-radius: 50%;
-    justify-content: center;
-    align-items: baseline;
-    padding: 1em;
-}
-body > header .title {
-    font-size: 2em;
-    margin-right:1em;
-}
-body > header #location {
-    font-size: 3em;
-    font-family:'exobold';
-    background-color:transparent;
-    border:none;
-    border-bottom: solid 1px rgba(255, 184, 0, 0.6);
-    color: #FFB800;
-    outline: none;
-    padding:0 .5em;
-}
-
-/*******************************************************************************
             Main Fullscreen 
 *******************************************************************************/
 main.fullscreen {
-    display: flex;
-    height: 95%;
+    background: url('../images/background2.png') 50% 0 repeat fixed;
+    height: 100%;
     overflow: hidden;
     position: absolute;
     width: 100%;
+}
+
+/*******************************************************************************
+            Header 
+*******************************************************************************/
+main.fullscreen > header {
+    align-items: baseline;
+    display: flex;
+    border-bottom: solid 2px rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    height: 10%;
+    justify-content: center;
+    padding: 1em;
+    width: 100%;
+}
+main.fullscreen > header .title {
+    font-size: 2em;
+    margin-right:1em;
+}
+main.fullscreen > header #location {
+    background-color: transparent;
+    border: none;
+    border-bottom: solid 1px rgba(255, 184, 0, 0.6);
+    color: #ffb800;
+    font-family: 'exobold';
+    font-size: 3em;
+    outline: none;
+    padding: 0 0.5em;
+}
+
+/*******************************************************************************
+            Views 
+*******************************************************************************/
+section.viewport {
+    display: flex;
+    overflow: hidden;
+    position: absolute;
+    height: 90%;
+    width: 100%;
+}
+section.viewport aside {
+    border: thin solid #222;
+    height: 100%;
+    flex: 0 0 0;
+    overflow: auto;
+    position: relative;
+    transition: 0.25s all;
+}
+section.viewport aside::-webkit-scrollbar {
+    display: none;
+}
+section.viewport aside.left.visible {
+    flex: 0 0 40%;
+}
+section.viewport aside.middle {
+    border: none;
+    flex: 1 1 20%;
+}
+section.viewport aside.middle.icons figure {
+    height: 25%;
+    width: 100%;
+}
+section.viewport aside.right.visible {
+    flex: 0 0 40%;
 }
 main.view {
     height: 100%;
@@ -116,32 +148,6 @@ main.view {
     font-size: 2em;
     height: 100%;
     width: 100%;
-}
-
-main aside {
-    border: thin solid #222;
-    height: 100%;
-    flex: 0 0 0;
-    overflow: auto;
-    position: relative;
-    transition: 0.25s all;
-}
-main aside::-webkit-scrollbar {
-    display: none;
-}
-main aside.left.visible {
-    flex: 0 0 40%;
-}
-main aside.middle {
-    border: none;
-    flex: 1 1 20%;
-}
-main aside.middle.icons figure {
-    height: 25%;
-    width: 100%;
-}
-main aside.right.visible {
-    flex: 0 0 40%;
 }
 
 /*******************************************************************************
