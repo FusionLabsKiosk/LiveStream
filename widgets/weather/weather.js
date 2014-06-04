@@ -2,6 +2,9 @@
 var weather = {};
 
 weather.UPDATE_INTERVAL = 60000 * 5;
+weather.days = [
+    'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'
+];
 
 weather.initialize = function() {
     setInterval(weather.update, weather.UPDATE_INTERVAL);
@@ -31,7 +34,7 @@ weather.getForecast = function(location) {
     var param = {
         'q': location.city + ',' + location.country,
         'units': 'imperial',
-        'cnt': 7
+        'cnt': 6
     };
     $.ajax(url, {
         'data': param
@@ -46,28 +49,19 @@ weather.update = function() {
 };
 
 weather.setCurrentWeather = function(data) {
-    var current = weather.wv.find('.current-weather');
-    current.empty();
+    var current = weather.w.find('.current-weather');
     if (parseInt(data.cod) === 200) {
-        var location = weather.createLocationDiv();
-        location.find('.city').html(live.location.city);
-        location.find('.state').html(live.location.state);
-        location.find('.country').html(live.location.country);
-        weather.wv.find('.location').empty().append(location);
+        weather.w.find('.location').replaceWith(weather.setLocationData());
         
-        var day = weather.createWeatherDiv();
-        var date = new Date(parseFloat(data.dt) * 1000);
-        day.find('.date').html(date.toDateString());
-        day.find('.temperature .temp').html(data.main.temp);
-        day.find('.temperature .min').html(data.main.temp_min);
-        day.find('.temperature .max').html(data.main.temp_max);
-        day.find('.humidity').html(data.main.humidity);
-        if (data.weather.length > 0) {
-            day.find('.icon').attr('src', weather.getIconUrl(data.weather[0].icon)).addClass('code-' + data.weather[0].icon);
-            weather.replaceIconSvg(day.find('.icon'));
-            day.find('.message').html(data.weather[0].main);
+        var day = weather.setDayData(data.dt, 
+                    data.main.temp, data.main.temp_min, data.main.temp_max,
+                    data.main.humidity, data.weather);
+        if (current.find('.day').length > 0) {
+            current.find('.day').replaceWith(day);
         }
-        current.append(day);
+        else {
+            current.append(day);
+        }
     }
     else {
         weather.wv.find('.error').html(data.message);
@@ -77,31 +71,40 @@ weather.setForecast = function(data) {
     var forecast = weather.wv.find('.forecast');
     forecast.empty();
     if (parseInt(data.cod) === 200) {
-        var location = weather.createLocationDiv();
-        location.find('.city').html(live.location.city);
-        location.find('.state').html(live.location.state);
-        location.find('.country').html(live.location.country);
-        weather.wv.find('.location').empty().append(location);
+        weather.v.find('.location').replaceWith(weather.setLocationData());
         
         for (var i = 0; i < data.list.length; i++) {
-            var day = weather.createWeatherDiv();
-            var date = new Date(parseFloat(data.list[i].dt) * 1000);
-            day.find('.date').html(date.toDateString());
-            day.find('.temperature .temp').html(data.list[i].temp.day);
-            day.find('.temperature .min').html(data.list[i].temp.min);
-            day.find('.temperature .max').html(data.list[i].temp.max);
-            day.find('.humidity').html(data.list[i].humidity);
-            if (data.list[i].weather.length > 0) {
-                day.find('.icon').attr('src', weather.getIconUrl(data.list[i].weather[0].icon)).addClass('code-' + data.list[i].weather[0].icon);
-                weather.replaceIconSvg(day.find('.icon'));
-                day.find('.message').html(data.list[i].weather[0].main);
-            }
+            var day = weather.setDayData(data.list[i].dt, 
+                    data.list[i].temp.day, data.list[i].temp.min, data.list[i].temp.max,
+                    data.list[i].humidity, data.list[i].weather);
             forecast.append(day);
         }
     }
     else {
         weather.wv.find('.error').html(data.message);
     }
+};
+weather.setLocationData = function() {
+    var location = weather.createLocationDiv();
+    location.find('.city').html(live.location.city);
+    location.find('.state').html(live.location.state);
+    location.find('.country').html(live.location.country);
+    return location;
+};
+weather.setDayData = function(dt, temp, min, max, humid, w) {
+    var day = weather.createWeatherDiv();
+    var date = new Date(parseFloat(dt) * 1000);
+    day.find('.date').html(weather.days[date.getDay()]);
+    day.find('.temperature .temp').html(Math.round(temp));
+    day.find('.temperature .min').html(Math.round(min));
+    day.find('.temperature .max').html(Math.round(max));
+    day.find('.humidity').html(Math.round(humid));
+    if (w.length > 0) {
+        day.find('.icon').attr('src', weather.getIconUrl(w[0].icon)).addClass('code-' + w[0].icon);
+        weather.replaceIconSvg(day.find('.icon'));
+        day.find('.message').html(w[0].main);
+    }
+    return day;
 };
 
 weather.createLocationDiv = function() {
@@ -118,9 +121,9 @@ weather.createWeatherDiv = function() {
             .append($('<div/>').addClass('min'))
             .append($('<div/>').addClass('max'));
     div.append(temp);
+    div.append($('<div/>').addClass('message'));
     div.append($('<div/>').addClass('humidity'));
     div.append($('<img/>').addClass('icon'));
-    div.append($('<div/>').addClass('message'));
     return div;
 };
 

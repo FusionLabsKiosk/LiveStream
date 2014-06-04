@@ -113,7 +113,6 @@ section.viewport {
     width: 100%;
 }
 section.viewport aside {
-    border: thin solid #222;
     height: 100%;
     flex: 0 0 0;
     overflow: auto;
@@ -127,7 +126,6 @@ section.viewport aside.left.visible {
     flex: 0 0 40%;
 }
 section.viewport aside.middle {
-    border: none;
     flex: 1 1 20%;
 }
 section.viewport aside.middle.icons figure {
@@ -137,9 +135,19 @@ section.viewport aside.middle.icons figure {
 section.viewport aside.right.visible {
     flex: 0 0 40%;
 }
+
+header.title {
+    border-bottom: solid 1px rgba(255, 255, 255, 0.6);
+    color: #ffb800;
+    margin-bottom: 1em;
+    padding: 0.1em 0.3em;
+}
 main.view {
     height: 100%;
     width: 100%;
+}
+main.view header.title {
+    font-size: 3em;
 }
 
 /*******************************************************************************
@@ -158,18 +166,15 @@ main.view {
     background: linear-gradient(to bottom, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.2) 100%);
     background-color: rgba(255, 255, 255, 0.1);
     border: solid 1px rgba(255, 255, 255, 0.2);
+    box-shadow: 10px 10px 20px -5px rgba(0, 0, 0, 0.2);
     display: inline-block;
     margin: 1%;
     overflow: hidden;
     padding: 1rem;
     position: relative;
-    box-shadow: 10px 10px 20px -5px rgba(0, 0, 0, 0.2);
+    vertical-align: top;
 }
 
 #widgets figure header.title {
-    border-bottom: solid 1px rgba(255, 255, 255, 0.6);
-    color: #ffb800;
     font-size: 1.5em;
-    margin-bottom: 1em;
-    padding: 0.1em 0.3em;
 }
