@@ -24,7 +24,7 @@ timezone.initialize = function() {
 };
 
 timezone.setLocation = function(location) {
-    timezone.w.empty();
+    timezone.w.find('.clock').remove();
     timezone.w.append(timezone.createTimezoneDiv(location.city));
     timezone.getOffset(location, timezone.getClockClass(location.city));
 };
