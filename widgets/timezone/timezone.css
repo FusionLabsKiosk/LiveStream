@@ -1,11 +1,56 @@
-.timezone .clock-face {
-    border: 3px double #fff;
-    border-radius: 50%;
-    height: 100px;
-    width: 100px;
+.icons .timezone.widget .clock-face {
+    display: none;
+}
+.timezone.view {
+    display: flex;
+    flex-direction: column;
+}
+.timezone.view .zones {
+    align-content: space-around;
+    display: flex;
+    flex: 2;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+.timezone.view .zones .clock {
+    padding: 1em;
+    width: 33.3%;
+}
+.timezone.view .zones .clock .name {
+    font-size: 1.25rem;
+    margin-top: 1em;
+}
+
+.timezone .clock .text {
     display: inline-block;
     vertical-align: middle;
-    margin-right:1em;
+}
+.timezone .clock .text .name {
+    font-size: 2em;
+}
+.timezone .clock .text .city {
+    font-size: 1.5em;
+}
+.timezone .clock .text .time {
+    float: right;
+    font-size: 2em;
+    margin-right: 1em;
+    margin-top: 1em;
+}
+.timezone .clock .text .time .hour {
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+/* Clock */
+.timezone .clock-face {
+    border: 10px double #fff;
+    border-radius: 50%;
+    display: inline-block;
+    height: 200px;
+    margin-right: 1em;
+    width: 200px;
+    vertical-align: middle;
 }
 
 .timezone .clock-face .hour-mark {
@@ -13,17 +58,17 @@
     left: 50%;
     position: relative;
     top: 50%;  
-    width: 0px;  
+    width: 0px;
 }
 
 .timezone .clock-face .hour-mark:after {
     background: rgba(255, 255, 255, 0.8);
     content: '';
-    height: 5px;
+    height: 8px;
     left: -2px;
     position: absolute;
-    top: -45px;
-    width: 2px;
+    top: -90px;
+    width: 4px;
 }
 
 .timezone .clock-face .min-mark {
@@ -33,15 +78,14 @@
     top: 50%;
     width: 0px;
 }
-
 .timezone .clock-face .min-mark:after {
-    background: rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.2);
     border-radius: 2px;
     content: '';
     left: -1px;  
     height: 2px;
     position: absolute;
-    top: -42.5px;
+    top: -85px;
     width: 2px;
 }
 
@@ -57,11 +101,11 @@
     background-image: linear-gradient(#fff 0%, #bbb 100%);
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
     content: '';
-    height: 45px;
+    height: 90px;
     left: -3px;
     position: absolute;
-    top: -35px;
-    width: 3px;
+    top: -70px;
+    width: 6px;
 }
 
 .timezone .clock-face .arrow-minute {
@@ -76,11 +120,11 @@
     background-image: linear-gradient(#fff 0%, #bbb 100%);
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
     content: '';
-    height: 55px;
+    height: 110px;
     left: -3px;
     position: absolute;
-    top: -45px;
-    width: 3px;
+    top: -90px;
+    width: 6px;
 }
 
 .timezone .clock-face .arrow-second {
@@ -95,10 +139,10 @@
     background-image: linear-gradient(#f00 0%, #a00 100%);
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
     content: '';
-    height: 55px;
+    height: 110px;
     left: -1px;
     position: absolute;
-    top: -45px;
+    top: -90px;
     width: 2px;
 }
 
@@ -112,30 +156,22 @@
 
 .timezone .clock-face .arrow-dot:before {
     background: #c6c6c6;
-    border-radius: 5px;
+    border-radius: 10px;
     content: '';
-    height: 5px;
+    height: 10px;
     left: -5px;
     position: absolute;
     top: -5px;
-    width: 5px;
+    width: 10px;
 }
 
 .timezone .clock-face .arrow-dot:after {
     background: #161617;
-    border-radius: 2px;
+    border-radius: 4px;
     content: ''; 
-    height: 2px;
+    height: 4px;
     left: -2px;
     position: absolute;
     top: -2px;  
-    width: 2px;
-}
-
-.timezone .clock .plain-text {
-    display: inline-block;
-    vertical-align: middle;
-}
-.timezone .clock .plain-text .name {
-    display: block;
+    width: 4px;
 }

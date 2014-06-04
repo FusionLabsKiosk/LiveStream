@@ -6,17 +6,20 @@ timezone.API_KEY = 'AIzaSyCEc-ILEMoraGX8sL0pMdgtfqSq2kOkleo';
 
 //Timezone Locations
 timezone.VIEW_LOCATIONS = [
-    'Dallas',
     'Los Angeles',
-    'London'
+    'Denver',
+    'Chicago',
+    'New York',
+    'London',
+    'Beijing'
 ];
 
 timezone.initialize = function() {    
     for (var i = 0; i < timezone.VIEW_LOCATIONS.length; i++) {
         var address = timezone.VIEW_LOCATIONS[i];
-        timezone.v.append(timezone.createTimezoneDiv(address));
+        timezone.v.find('.zones').append(timezone.createTimezoneDiv(address));
         geocoding.geocode(address, function(location) {
-            timezone.getOffset(location, timezone.getClockClass(address));
+            timezone.getOffset(location, timezone.getClockClass(location.address));
         });
     }
     
@@ -26,6 +29,7 @@ timezone.initialize = function() {
 timezone.setLocation = function(location) {
     timezone.w.find('.clock').remove();
     timezone.w.append(timezone.createTimezoneDiv(location.city));
+    timezone.v.find('.current').empty().append(timezone.createTimezoneDiv(location.city));
     timezone.getOffset(location, timezone.getClockClass(location.city));
 };
 
@@ -35,15 +39,17 @@ timezone.createTimezoneDiv = function(address, addressClass) {
     }
     var clock =  $('<div/>').addClass('clock').addClass(addressClass)
             .append(timezone.createClockFaceDiv());
-    var plainText = $('<div/>').addClass('plain-text')
-            .append($('<span/>').addClass('name'))
-            .append($('<span/>').addClass('city'))
-            .append($('<span/>').addClass('hour'))
-            .append($('<span/>').addClass('separator').html(':'))
-            .append($('<span/>').addClass('minute'))
-            .append($('<span/>').addClass('separator').html(':'))
-            .append($('<span/>').addClass('second'))
-            .append($('<span/>').addClass('am-pm'));
+    var plainText = $('<div/>').addClass('text')
+            .append($('<div/>').addClass('name'))
+            .append($('<div/>').addClass('city'))
+            .append($('<div/>').addClass('time')
+                .append($('<span/>').addClass('hour'))
+                .append($('<span/>').addClass('separator').html(':'))
+                .append($('<span/>').addClass('minute'))
+                .append($('<span/>').addClass('separator').html(':'))
+                .append($('<span/>').addClass('second'))
+                .append($('<span/>').addClass('am-pm'))
+                );
     clock.append(plainText);
     return clock;
 };
@@ -88,6 +94,8 @@ timezone.getOffset = function(location, locationClass) {
         clock.attr('dstOffset', data.dstOffset);
         clock.find('.name').html(data.timeZoneName);
         clock.find('.city').html(location.city);
+    }).fail(function(data) {
+        console.log('failed timezone call');
     });
 };
 

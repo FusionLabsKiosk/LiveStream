@@ -15,6 +15,7 @@ geocoding.geocode = function(address, callback) {
         }
     }).success(function(data) {
         var location = {};
+        location.address = address;
         location.country = '';
         location.countryShort = '';
         location.state = '';

@@ -31,14 +31,12 @@ live.initializeWidget = function(widget) {
     $.get('widgets/' + widget + '/' + widget + '.html', function(data) {
         var w = new Widget(widget, data).initialize();
         live.widgets.push(w);
-        console.log('Count: ' + live.widgetCount + ' Length: ' + live.widgets.length);
         if (live.widgets.length === live.widgetCount) {
             live.widgetsLoaded();
         }
     });
 };
 live.widgetsLoaded = function() {
-    console.log('widgets loaded');
     loading.initialize();
     live.updateLocation();
 };
