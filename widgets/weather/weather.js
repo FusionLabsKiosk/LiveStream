@@ -63,7 +63,8 @@ weather.setCurrentWeather = function(data) {
         day.find('.temperature .max').html(data.main.temp_max);
         day.find('.humidity').html(data.main.humidity);
         if (data.weather.length > 0) {
-            day.find('.icon').attr('src', weather.getIconUrl(data.weather[0].icon));
+            day.find('.icon').attr('src', weather.getIconUrl(data.weather[0].icon)).addClass('code-' + data.weather[0].icon);
+            weather.replaceIconSvg(day.find('.icon'));
             day.find('.message').html(data.weather[0].main);
         }
         current.append(day);
@@ -91,7 +92,8 @@ weather.setForecast = function(data) {
             day.find('.temperature .max').html(data.list[i].temp.max);
             day.find('.humidity').html(data.list[i].humidity);
             if (data.list[i].weather.length > 0) {
-                day.find('.icon').attr('src', weather.getIconUrl(data.list[i].weather[0].icon));
+                day.find('.icon').attr('src', weather.getIconUrl(data.list[i].weather[0].icon)).addClass('code-' + data.list[i].weather[0].icon);
+                weather.replaceIconSvg(day.find('.icon'));
                 day.find('.message').html(data.list[i].weather[0].main);
             }
             forecast.append(day);
@@ -123,5 +125,31 @@ weather.createWeatherDiv = function() {
 };
 
 weather.getIconUrl = function(code) {
-    return 'widgets/weather/icons/' + code + '.png';
+    return 'widgets/weather/icons/' + code + '.svg';
+};
+
+weather.replaceIconSvg = function(selector) {
+    var imgID = selector.attr('id');
+    var imgClass = selector.attr('class');
+    var imgURL = selector.attr('src');
+
+    $.get(imgURL, function(data) {
+        // Get the SVG tag, ignore the rest
+        var $svg = $(data).find('svg');
+
+        // Add replaced image's ID to the new SVG
+        if(typeof imgID !== 'undefined') {
+            $svg = $svg.attr('id', imgID);
+        }
+        // Add replaced image's classes to the new SVG
+        if(typeof imgClass !== 'undefined') {
+            $svg = $svg.attr('class', imgClass +' replaced-svg');
+        }
+
+        // Remove any invalid XML tags as per http://validator.w3.org
+        $svg = $svg.removeAttr('xmlns:a');
+
+        // Replace image with new SVG
+        selector.replaceWith($svg);
+    }, 'xml');
 };

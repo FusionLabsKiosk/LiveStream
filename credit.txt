@@ -1,3 +1,9 @@
 Timezone Analog Clock:
 Sergey Stoma
 http://codepen.io/underclouds/pen/yxCnq
+
+Weather Icons:
+http://designinstruct.com/free-resources/icons/free-icon-set-weather/
+
+Weather Icon SVG Manipulation:
+http://stackoverflow.com/questions/11978995/how-to-change-color-of-svg-image-using-css-jquery-svg-image-replacement
