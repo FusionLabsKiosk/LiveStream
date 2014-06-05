@@ -88,6 +88,10 @@ main.fullscreen {
     width: 100%;
     display:flex;
     flex-direction: column;
+<<<<<<< HEAD
+=======
+    padding:0 2em;
+>>>>>>> 945e363301b57284c92d9ca501a48a10a547dbc1
 }
 
 /*******************************************************************************
@@ -157,7 +161,11 @@ main.fullscreen .divider
 {
     height:4px;
     background-color:#fff;
+<<<<<<< HEAD
     margin:0 2em 1.5em;
+=======
+    margin-bottom:1.5em;
+>>>>>>> 945e363301b57284c92d9ca501a48a10a547dbc1
 }
 
 /*******************************************************************************
@@ -280,6 +288,7 @@ main.view header.title {
     padding: 1%;
     white-space: nowrap;
     display:inline-flex;
+<<<<<<< HEAD
 }
 .middle.icons #widgets
 {
@@ -290,6 +299,8 @@ main.view header.title {
 .middle.icons #widgets figure footer
 {
     font-size:3em !important;
+=======
+>>>>>>> 945e363301b57284c92d9ca501a48a10a547dbc1
 }
 
 #widgets figure {
@@ -317,5 +328,8 @@ main.view header.title {
     color:#fff;
     font-size:6em;
     text-transform: lowercase;
+<<<<<<< HEAD
     -webkit-transition-duration: .3s;
+=======
+>>>>>>> 945e363301b57284c92d9ca501a48a10a547dbc1
 }

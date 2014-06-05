@@ -8,6 +8,7 @@
 .wiki .description {
     font-size: 1.5em;
     overflow: scroll;
+<<<<<<< HEAD
 }
 .wiki.widget {
     height: 48%;
@@ -15,6 +16,11 @@
 .wiki.widget .content
 {
     padding:1em;
+=======
+}
+.wiki.widget {
+    height: 48%;
+>>>>>>> 945e363301b57284c92d9ca501a48a10a547dbc1
 }
 .wiki .city {
     font-size: 3em;
