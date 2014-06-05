@@ -10,12 +10,26 @@ maps.initialize = function() {
 };
 
 maps.setLocation = function(location) {
-    maps.setViewLocation(location);
+    maps.v.find('iframe').each(function() {
+        var win = this.contentWindow;
+        if (win !== null) {
+            maps.setViewLocation(location);
+        }
+    });
     maps.setWidgetLocation(location);
 };
 
 maps.viewStart = function() {
     maps.setViewLocation(live.location);
+    maps.v.find('.layers .traffic').click(function() {
+        maps.setLayer(maps.v, 'traffic');
+    });
+    maps.v.find('.layers .transit').click(function() {
+        maps.setLayer(maps.v, 'transit');
+    });
+    maps.v.find('.layers .none').click(function() {
+        maps.setLayer(maps.v, 'none');
+    });
 };
 
 maps.setViewLocation = function(location) {
@@ -52,4 +66,16 @@ maps.setMapLocation = function(selector, location, callback) {
             }
         });
     }, 100);
+};
+
+maps.setLayer = function(selector, layer) {
+    selector.find('iframe').each(function() {
+        var win = this.contentWindow;
+        if (win !== null) {
+            win.postMessage({
+                'widget': 'maps',
+                'layer': layer
+            }, '*');
+        }
+    });
 };
