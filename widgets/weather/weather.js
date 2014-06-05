@@ -11,36 +11,30 @@ weather.initialize = function() {
 };
 
 weather.setLocation = function(location) {
-    weather.getCurrentWeather(location);
-    weather.getForecast(location);
-};
-weather.getCurrentWeather = function(location) {
     weather.showWidgetLoading();
-    var url = 'http://api.openweathermap.org/data/2.5/weather';
-    var param = {
-        'q': location.city + ',' + location.country,
-        'units': 'imperial'
-    };
-    $.ajax(url, {
-        'data': param
-    }).success(function(data) {
+    weather.getForecast(location, 1, function(data) {
         weather.setCurrentWeather(data);
         weather.hideWidgetLoading();
     });
-};
-weather.getForecast = function(location) {
     weather.showViewLoading();
+    weather.getForecast(location, 6, function(data) {
+        weather.setForecast(data);
+        weather.hideViewLoading();
+    });
+};
+weather.getForecast = function(location, days, callback) {
     var url = 'http://api.openweathermap.org/data/2.5/forecast/daily';
     var param = {
         'q': location.city + ',' + location.country,
         'units': 'imperial',
-        'cnt': 6
+        'cnt': days
     };
     $.ajax(url, {
         'data': param
     }).success(function(data) {
-        weather.setForecast(data);
-        weather.hideViewLoading();
+        if (callback !== undefined) {
+            callback(data);
+        }
     });
 };
 
@@ -51,20 +45,21 @@ weather.update = function() {
 weather.setCurrentWeather = function(data) {
     var current = weather.w.find('.current-weather');
     if (parseInt(data.cod) === 200) {
-        weather.w.find('.location').replaceWith(weather.setLocationData());
+        weather.v.find('.location').replaceWith(weather.setLocationData());
         
-        var day = weather.setDayData(data.dt, 
-                    data.main.temp, data.main.temp_min, data.main.temp_max,
-                    data.main.humidity, data.weather);
-        if (current.find('.day').length > 0) {
-            current.find('.day').replaceWith(day);
-        }
-        else {
-            current.append(day);
+        if (data.list.length > 0) {
+            var day = weather.createDayDiv();
+            weather.setDayData(day, data.list[0]);
+            if (current.find('.day').length > 0) {
+                current.find('.day').replaceWith(day);
+            }
+            else {
+                current.append(day);
+            }
         }
     }
     else {
-        weather.wv.find('.error').html(data.message);
+        weather.w.find('.error').html(data.message);
     }
 };
 weather.setForecast = function(data) {
@@ -74,14 +69,13 @@ weather.setForecast = function(data) {
         weather.v.find('.location').replaceWith(weather.setLocationData());
         
         for (var i = 0; i < data.list.length; i++) {
-            var day = weather.setDayData(data.list[i].dt, 
-                    data.list[i].temp.day, data.list[i].temp.min, data.list[i].temp.max,
-                    data.list[i].humidity, data.list[i].weather);
+            var day = weather.createDayDiv();
+            weather.setDayData(day, data.list[i]);
             forecast.append(day);
         }
     }
     else {
-        weather.wv.find('.error').html(data.message);
+        weather.v.find('.error').html(data.message);
     }
 };
 weather.setLocationData = function() {
@@ -91,18 +85,17 @@ weather.setLocationData = function() {
     location.find('.country').html(live.location.country);
     return location;
 };
-weather.setDayData = function(dt, temp, min, max, humid, w) {
-    var day = weather.createWeatherDiv();
-    var date = new Date(parseFloat(dt) * 1000);
+weather.setDayData = function(day, data) {
+    var date = new Date(parseFloat(data.dt) * 1000);
     day.find('.date').html(weather.days[date.getDay()]);
-    day.find('.temperature .temp').html(Math.round(temp));
-    day.find('.temperature .min').html(Math.round(min));
-    day.find('.temperature .max').html(Math.round(max));
-    day.find('.humidity').html(Math.round(humid));
-    if (w.length > 0) {
-        day.find('.icon').attr('src', weather.getIconUrl(w[0].icon)).addClass('code-' + w[0].icon);
+    day.find('.temperature .temp').html(Math.round(data.temp.day));
+    day.find('.temperature .min').html(Math.round(data.temp.min));
+    day.find('.temperature .max').html(Math.round(data.temp.max));
+    day.find('.humidity').html(Math.round(data.humidity));
+    if (data.weather.length > 0) {
+        day.find('.icon').attr('src', weather.getIconUrl(data.weather[0].icon)).addClass('code-' + data.weather[0].icon);
         weather.replaceIconSvg(day.find('.icon'));
-        day.find('.message').html(w[0].main);
+        day.find('.message').html(data.weather[0].main);
     }
     return day;
 };
@@ -113,7 +106,7 @@ weather.createLocationDiv = function() {
             .append($('<div/>').addClass('state'))
             .append($('<div/>').addClass('country'));
 };
-weather.createWeatherDiv = function() {
+weather.createDayDiv = function() {
     var div = $('<div/>').addClass('day');
     div.append($('<div/>').addClass('date'));
     var temp = $('<div/>').addClass('temperature')
