@@ -298,6 +298,7 @@ main.view header.title {
 {
     position:relative;
     flex:8;
+    overflow:hidden;
 }
 #widgets figure footer
 {
