@@ -45,7 +45,7 @@ live.initializeListeners = function() {
         if (e.which === 13) {
             live.updateLocation();
         }
-    });
+    });     
 };
 live.initializeParallax = function() {
     $('aside.middle').scroll(function() {
@@ -60,6 +60,9 @@ live.updateLocation = function() {
         for (var i = 0; i < live.widgets.length; i++) {
             live.widgets[i].js.setLocation(location);
         }
+        $('.current-location-data .city').html(live.location.city);
+        $('#location').val('');
+        $('#location').focus();
     });
 };
 

@@ -40,15 +40,39 @@
     <body>
         <main class="fullscreen">
             <header>
-                <label for="location" class="title">Location</label>
-                <input id="location" type="text" value="Dallas" />
+                <div class="title">
+                    <div class="name">info<em>hub</em></div>
+                    <div class="description">
+                        <div>weather</div>
+                        <div>news</div>
+                        <div>places</div>
+                        <div>events</div>
+                        <div><em>live.</em></div>
+                    </div>
+                </div>
+                <button class="menu">
+                    <div class="icon"><div></div><div></div><div></div></div>
+                </button>
             </header>
+            <div class="divider"></div>
             <section class="viewport">
-                <aside class="left"></aside>
-                <aside class="middle">
-                    <div id="widgets"></div>
-                </aside>
-                <aside class="right"></aside>
+                <div class="top">
+                    <div class="user-input">
+                        <label for="location" class="title">Tell me about</label>
+                        <input id="location" type="text" value="Dallas" placeholder="enter a city" size="11" />
+                    </div>
+                    <div class="current-location-data">
+                        <div class="city">Dallas</div>
+                        <div class="time">11:21 pm</div>
+                    </div>
+                </div>
+                <div class="content">
+                    <aside class="left"></aside>
+                    <aside class="middle">
+                        <div id="widgets"></div>
+                    </aside>
+                    <aside class="right"></aside>
+                </div>
             </section>
         </main>
     

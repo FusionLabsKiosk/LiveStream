@@ -101,33 +101,36 @@ timezone.getOffset = function(location, locationClass) {
 
 timezone.updateClocks = function() {    
     var clocks = timezone.wv.find('.clock');
-    clocks.each(function() {
-        var utc = new Date();
-        var offset = parseFloat($(this).attr('rawOffset')) * 1000;
-        offset += parseFloat($(this).attr('dstOffset') * 1000);
-        var now = new Date(utc.getTime() + offset);
-        var h = now.getUTCHours();
-        var m = now.getUTCMinutes();
-        var s = now.getUTCSeconds();
-        var amPm = h >= 12 ? ' pm' : ' am';
-        h = h % 12;
-        h = h ? h : 12;
-        m = m < 10 ? '0' + m : m;
-        s = s < 10 ? '0' + s : s;
-
-        $(this).find('.hour').html(h);
-        $(this).find('.minute').html(m);
-        $(this).find('.second').html(s);
-        $(this).find('.am-pm').html(amPm);
-        
-        h = Math.round((h % 12) * 30) + Math.floor(m / 2);
-        m = Math.round(m * 6);
-        s = Math.round(s * 6);
-        
-        $(this).find('.arrow-hour').css('transform', 'rotate(' + h + 'deg)');
-        $(this).find('.arrow-minute').css('transform', 'rotate(' + m + 'deg)');
-        $(this).find('.arrow-second').css('transform', 'rotate(' + s + 'deg)');
-    });
+    clocks.each(timezone.updateClock);
     
     setTimeout(timezone.updateClocks, 500);
 };
+
+timezone.updateClock = function()
+{
+    var utc = new Date();
+    var offset = parseFloat($(this).attr('rawOffset')) * 1000;
+    offset += parseFloat($(this).attr('dstOffset') * 1000);
+    var now = new Date(utc.getTime() + offset);
+    var h = now.getUTCHours();
+    var m = now.getUTCMinutes();
+    var s = now.getUTCSeconds();
+    var amPm = h >= 12 ? ' pm' : ' am';
+    h = h % 12;
+    h = h ? h : 12;
+    m = m < 10 ? '0' + m : m;
+    s = s < 10 ? '0' + s : s;
+
+    $(this).find('.hour').html(h);
+    $(this).find('.minute').html(m);
+    $(this).find('.second').html(s);
+    $(this).find('.am-pm').html(amPm);
+
+    h = Math.round((h % 12) * 30) + Math.floor(m / 2);
+    m = Math.round(m * 6);
+    s = Math.round(s * 6);
+
+    $(this).find('.arrow-hour').css('transform', 'rotate(' + h + 'deg)');
+    $(this).find('.arrow-minute').css('transform', 'rotate(' + m + 'deg)');
+    $(this).find('.arrow-second').css('transform', 'rotate(' + s + 'deg)');
+}
