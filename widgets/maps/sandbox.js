@@ -5,6 +5,7 @@ var layersIndex = 0;
 var layerLastSet = 0;
 var layersUpdate = 10000;
 var layersTimeout = 60000;
+var marker;
 
 var currentLat;
 var currentLng;
@@ -64,6 +65,22 @@ function layerUpdate() {
     }, layersUpdate);
 }
 
+function setMarker(location) {
+    if (marker !== undefined) {
+        marker.setMap(null);
+    }
+    var latLng = {
+        'lat': parseFloat(location.lat),
+        'lng': parseFloat(location.lng)
+    };
+    marker = new google.maps.Marker({
+        'animation': google.maps.Animation.DROP,
+        'position': latLng
+    });
+    map.setCenter(latLng);
+    marker.setMap(map);
+}
+
 function updateMap(e) {
     if (e.data.widget === 'maps') {
         if (e.data.lat && e.data.lng) {
@@ -76,6 +93,9 @@ function updateMap(e) {
         else {
             if (e.data.layer) {
                 setLayer(e.data.layer);
+            }
+            else if (e.data.marker) {
+                setMarker(e.data.marker);
             }
             else if (e.data.lat && e.data.lng) {
                 map.setCenter({

@@ -2,26 +2,23 @@
 .wiki.view {
     position: relative;
 }
-.wiki.widget {
-    height: 48%;
-    width: 38%;
-}
-.wiki.widget .description {
-    height: 100%;
-}
-.wiki.widget footer {
-    background-color: rgba(0, 0, 0, 0.75);
-    bottom: 0;
-    color: #eee;
-    left: 0;
+.wiki.view .description {
     padding: 1em;
-    position: absolute;
-    width: 100%;
-}
-.wiki .city {
-    font-size: 3em;
 }
 .wiki .description {
     font-size: 1.5em;
     overflow: scroll;
+}
+.wiki.widget {
+    height: 48%;
+}
+.wiki.widget .content
+{
+    padding:1em;
+}
+.wiki .city {
+    font-size: 3em;
+}
+.wiki.widget .description {
+    height: 100%;
 }

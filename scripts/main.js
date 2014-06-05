@@ -64,22 +64,26 @@ live.updateLocation = function() {
 };
 
 /* View Manipulation */
-live.addView = function(selector) {
+live.addView = function(selector, dontHide) {
     var left = $('main aside.left');
     var right = $('main aside.right');
     var leftVisible = left.hasClass('visible');
     var rightVisible = right.hasClass('visible');
-    var added;
+    var added = false;
     
     if (left.find(selector).length > 0 && leftVisible) {
-        live.hideAside(left);
-        leftVisible = false;
-        added = false;
+        if (!dontHide) {
+            live.hideAside(left);
+            leftVisible = false;
+            added = false;
+        }
     }
     else if (right.find(selector).length > 0 && rightVisible) {
-        live.hideAside(right);
-        rightVisible = false;
-        added = false;
+        if (!dontHide) {
+            live.hideAside(right);
+            rightVisible = false;
+            added = false;
+        }
     }
     else if (!rightVisible) {
         live.setAside(right, selector);
@@ -137,6 +141,11 @@ live.hideAside = function(aside, callback) {
     else if (callback !== undefined) {
         callback();
     }
+};
+
+live.setAsideViews = function(widget1, widget2) {
+    widget1.widget.addView(true);
+    widget2.widget.addView(true);
 };
 
 live.getExternalImage = function(url, callback) {

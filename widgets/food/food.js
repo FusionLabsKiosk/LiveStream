@@ -165,6 +165,7 @@ food.updateContentDiv = function(content, data) {
             content.find('.rating').append($('<span/>').addClass('star').html('☆'));        
         }
 
+        content.find('.address').click(food.mapMarkerHandler);
         if (data.formatted_address !== undefined) {
             content.find('.address').html(data.formatted_address);
         }
@@ -182,6 +183,16 @@ food.updateContentDiv = function(content, data) {
         content.find('.reference').html(data.reference);
     }
     return content;
+};
+
+food.mapMarkerHandler = function(e) {
+    if (maps) {
+        var address = $(e.target).html();
+        geocoding.geocode(address, function(location) {
+            live.setAsideViews(maps, food);
+            maps.setMarker(location);
+        });
+    }
 };
 
 food.getExternalImage = function(url, callback) {

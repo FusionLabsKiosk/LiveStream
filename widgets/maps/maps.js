@@ -69,13 +69,24 @@ maps.setMapLocation = function(selector, location, callback) {
 };
 
 maps.setLayer = function(selector, layer) {
+    maps.postMessage(selector, {
+        'widget': 'maps',
+        'layer': layer
+    });
+};
+
+maps.setMarker = function(location) {
+    maps.postMessage(maps.v, {
+        'widget': 'maps',
+        'marker': location
+    });
+};
+
+maps.postMessage = function(selector, message) {
     selector.find('iframe').each(function() {
         var win = this.contentWindow;
         if (win !== null) {
-            win.postMessage({
-                'widget': 'maps',
-                'layer': layer
-            }, '*');
+            win.postMessage(message, '*');
         }
     });
 };
