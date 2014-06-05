@@ -29,6 +29,10 @@ timezone.initialize = function() {
 timezone.setLocation = function(location) {
     timezone.w.find('.clock').remove();
     timezone.w.append(timezone.createTimezoneDiv(location.city));
+    
+    var global = timezone.createTimezoneDiv(location.city).addClass('global');
+    $('.global.clock').replaceWith(global);
+    
     timezone.v.find('.current').empty().append(timezone.createTimezoneDiv(location.city));
     timezone.getOffset(location, timezone.getClockClass(location.city));
 };
@@ -89,7 +93,7 @@ timezone.getOffset = function(location, locationClass) {
             'key': timezone.API_KEY
         }
     }).success(function(data) {
-        var clock = timezone.wv.find('.' + locationClass);
+        var clock = timezone.wv.find('.' + locationClass).add($('.global.clock').filter('.' + locationClass));
         clock.attr('rawOffset', data.rawOffset);
         clock.attr('dstOffset', data.dstOffset);
         clock.find('.name').html(data.timeZoneName);
@@ -100,17 +104,18 @@ timezone.getOffset = function(location, locationClass) {
 };
 
 timezone.updateClocks = function() {    
-    var clocks = timezone.wv.find('.clock');
-    clocks.each(timezone.updateClock);
+    var clocks = timezone.wv.find('.clock').add($('.global.clock'));
+    clocks.each(function() {
+        timezone.updateClock($(this));
+    });
     
     setTimeout(timezone.updateClocks, 500);
 };
 
-timezone.updateClock = function()
-{
+timezone.updateClock = function(selector) {
     var utc = new Date();
-    var offset = parseFloat($(this).attr('rawOffset')) * 1000;
-    offset += parseFloat($(this).attr('dstOffset') * 1000);
+    var offset = parseFloat(selector.attr('rawOffset')) * 1000;
+    offset += parseFloat(selector.attr('dstOffset') * 1000);
     var now = new Date(utc.getTime() + offset);
     var h = now.getUTCHours();
     var m = now.getUTCMinutes();
@@ -121,16 +126,16 @@ timezone.updateClock = function()
     m = m < 10 ? '0' + m : m;
     s = s < 10 ? '0' + s : s;
 
-    $(this).find('.hour').html(h);
-    $(this).find('.minute').html(m);
-    $(this).find('.second').html(s);
-    $(this).find('.am-pm').html(amPm);
+    selector.find('.hour').html(h);
+    selector.find('.minute').html(m);
+    selector.find('.second').html(s);
+    selector.find('.am-pm').html(amPm);
 
     h = Math.round((h % 12) * 30) + Math.floor(m / 2);
     m = Math.round(m * 6);
     s = Math.round(s * 6);
 
-    $(this).find('.arrow-hour').css('transform', 'rotate(' + h + 'deg)');
-    $(this).find('.arrow-minute').css('transform', 'rotate(' + m + 'deg)');
-    $(this).find('.arrow-second').css('transform', 'rotate(' + s + 'deg)');
-}
+    selector.find('.arrow-hour').css('transform', 'rotate(' + h + 'deg)');
+    selector.find('.arrow-minute').css('transform', 'rotate(' + m + 'deg)');
+    selector.find('.arrow-second').css('transform', 'rotate(' + s + 'deg)');
+};
