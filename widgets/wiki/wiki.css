@@ -2,9 +2,19 @@
 .wiki.view {
     position: relative;
 }
+.wiki.view .description {
+    padding: 1em;
+}
+.wiki .description {
+    font-size: 1.5em;
+    overflow: scroll;
+}
 .wiki.widget {
     height: 48%;
     width: 38%;
+}
+.wiki .city {
+    font-size: 3em;
 }
 .wiki.widget .description {
     height: 100%;
@@ -17,11 +27,4 @@
     padding: 1em;
     position: absolute;
     width: 100%;
-}
-.wiki .city {
-    font-size: 3em;
-}
-.wiki .description {
-    font-size: 1.5em;
-    overflow: scroll;
 }
