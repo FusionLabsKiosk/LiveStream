@@ -24,6 +24,7 @@ function Widget(name, html) {
     this.wiv = this.widgetIconView;
     
     this.js = window[self.name];
+    this.js.widget = this;
     this.js.w = this.widget;
     this.js.i = this.icon;
     this.js.v = this.view;
@@ -44,21 +45,24 @@ function Widget(name, html) {
         initializeFunction('iconEnd');
         
         self.widget.click(function() {
-            var added = live.addView(self.view);
-            
-            if (added) {
-                self.js.viewStart();
-            }
-            else {
-                self.js.viewEnd();
-            }
-            
-            self.js.start();
+            self.addView(false);
         }).appendTo('#widgets');
         
         self.js.initialize();
         
         return self;
+    };
+    this.addView = function(dontHide) {
+        var added = live.addView(self.view, dontHide);
+            
+        if (added) {
+            self.js.viewStart();
+        }
+        else {
+            self.js.viewEnd();
+        }
+
+        self.js.start();
     };
     var initializeFunction = function(name) {
         if (self.js[name] === undefined) {
