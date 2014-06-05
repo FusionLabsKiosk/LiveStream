@@ -15,8 +15,7 @@ food.initialize = function() {
             }
         }
     });
-    food.wv.find('.highlights').append(food.createHighlightDiv());
-    food.v.find('.detail').append(food.createDetailDiv());
+    food.v.find('.detail').append(food.createContentDiv());
 };
 
 food.setLocation = function(location) {
@@ -46,8 +45,11 @@ food.requestDetails = function(reference) {
     });
 };
 
-
-/* Highlights */
+food.setDetail = function(data) {
+    var content = food.createContentDiv();
+    food.updateContentDiv(content, data.result);
+    food.wv.find('.detail .content').replaceWith(content);
+};
 food.startHighlightUpdates = function(data) {
     food.stopHighlightUpdates();
     var pageKey;
@@ -75,7 +77,16 @@ food.UpdateService = function(highlights, pageKey, location) {
     this.start = function() {
         if (self.running) {
             if (self.index < self.highlights.length) {
-                food.updateHighlightDivs(self.highlights[self.index]);
+                var previous = food.createContentDiv().addClass('highlight').addClass('previous');
+                var current = food.createContentDiv().addClass('highlight').addClass('current');
+                var next = food.createContentDiv().addClass('highlight').addClass('next');
+                food.wv.find('.highlights .highlight').filter('.previous').replaceWith(previous);
+                food.wv.find('.highlights .highlight').filter('.current').replaceWith(current);
+                food.wv.find('.highlights .highlight').filter('.next').replaceWith(next);
+    
+                food.updateContentDiv(food.wv.find('.highlights .highlight.previous'), self.highlights[self.index - 1]);
+                food.updateContentDiv(food.wv.find('.highlights .highlight.current'), self.highlights[self.index]);
+                food.updateContentDiv(food.wv.find('.highlights .highlight.next'), self.highlights[self.index + 1]);
                 self.index++;
             }
             else if (self.pageKey) {
@@ -92,16 +103,18 @@ food.UpdateService = function(highlights, pageKey, location) {
     };
 };
 
-food.createHighlightDiv = function() {
-    var div = $('<div/>').addClass('highlight')
+food.createContentDiv = function() {
+    var div = $('<div/>').addClass('content')
             .append($('<div/>').addClass('name'))
             .append($('<div/>').addClass('attributions'))
             .append($('<img/>').addClass('icon'))
-            .append($('<div/>').addClass('price'))
-            .append($('<div/>').addClass('rating'))
-            .append($('<div/>').addClass('address'))
-            .append($('<div/>').addClass('phone'))
-            .append($('<div/>').addClass('website'))
+            .append($('<div/>').addClass('rating-box')
+                .append($('<div/>').addClass('price'))
+                .append($('<div/>').addClass('rating')))
+            .append($('<div/>').addClass('info')
+                .append($('<div/>').addClass('address'))
+                .append($('<div/>').addClass('phone'))
+                .append($('<div/>').addClass('website')))
             .append($('<img/>').addClass('photo'))
             .append($('<div/>').addClass('photoAttributions'))
             .append($('<div/>').addClass('reference'));
@@ -112,118 +125,63 @@ food.createHighlightDiv = function() {
     return div;
 };
 
-food.updateHighlightDivs = function(data) {
-    var highlights = food.wv.find('.highlight');
-    
-    highlights.find('.attributions').empty();
-    var attributions = highlights.find('.attributions');
-    for (var i = 0; i < data.html_attributions.length; i++) {
-        $('<div/>').addClass('attribution').html(data.html_attributions[i]).appendTo(attributions);
-    }
-        
-    highlights.find('.name').html(data.name);
-    highlights.find('.icon').attr('src', '');
-    food.getExternalImage(data.icon, function(src) {
-        highlights.find('.icon').attr('src', src);
-    });
-    highlights.find('.photo').attr('src', '');
-    highlights.find('.photoAttributions').empty();
-    if (data.photos.length > 0) {
-        food.getExternalImage(data.photos[0].url, function(src) {
-            highlights.find('.photo').attr('src', src);
-        });
-        attributions = highlights.find('.photoAttributions');
-        for (var i = 0; i < data.photos[0].html_attributions.length; i++) {
-            $('<div/>').addClass('attribution').html(data.photos[0].html_attributions[i]).appendTo(attributions);
+food.updateContentDiv = function(content, data) {
+    if (data !== undefined) {
+        var attributions = content.find('.attributions');
+        for (var i = 0; i < data.html_attributions.length; i++) {
+            $('<div/>').addClass('attribution').html(data.html_attributions[i]).appendTo(attributions);
         }
-    }
-    highlights.find('.price').html('Price Level: ' + data.price_level);
-    highlights.find('.rating').html('Rating: ' + data.rating);
-    
-    highlights.find('.address').empty();
-    if (data.formatted_address !== undefined) {
-        highlights.find('.address').html('Location: ' + data.formatted_address);
-    }
-    else if (data.vicinity !== undefined) {
-        highlights.find('.address').html('Location: ' + data.vicinity);        
-    }
-    
-    highlights.find('.phone').empty();
-    if (data.formatted_phone_number !== undefined) {
-        highlights.find('.phone').html('Phone: ' + data.formatted_phone_number);
-    }
-    highlights.find('.website').empty();
-    if (data.website !== undefined) {
-        highlights.find('.website').html('Website: ' + data.website);
-    }
-    
-    highlights.find('.reference').html(data.reference);
-};
-
-
-/* Details */
-food.setDetail = function(data) {
-    food.updateDetailDiv(data.result);
-};
-food.createDetailDiv = function() {
-    //TODO: Refine detail vs highlight div content
-    return $('<div/>').addClass('detail')
-            .append($('<div/>').addClass('name'))
-            .append($('<div/>').addClass('attributions'))
-            .append($('<img/>').addClass('icon'))
-            .append($('<div/>').addClass('price'))
-            .append($('<div/>').addClass('rating'))
-            .append($('<div/>').addClass('address'))
-            .append($('<div/>').addClass('phone'))
-            .append($('<div/>').addClass('website'))
-            .append($('<img/>').addClass('photo'))
-            .append($('<div/>').addClass('photoAttributions'));
-};
-food.updateDetailDiv = function(data) {
-    //TODO: Refine detail vs highlight div content
-    var detail = food.wv.find('.detail');
-    
-    detail.find('.attributions').empty();
-    var attributions = detail.find('.attributions');
-    for (var i = 0; i < data.html_attributions.length; i++) {
-        $('<div/>').addClass('attribution').html(data.html_attributions[i]).appendTo(attributions);
-    }
-        
-    detail.find('.name').html(data.name);
-    detail.find('.icon').attr('src', '');
-    food.getExternalImage(data.icon, function(src) {
-        detail.find('.icon').attr('src', src);
-    });
-    detail.find('.photo').attr('src', '');
-    detail.find('.photoAttributions').empty();
-    if (data.photos.length > 0) {
-        food.getExternalImage(data.photos[0].url, function(src) {
-            detail.find('.photo').attr('src', src);
+        content.find('.name').html(data.name);
+        content.find('.icon').attr('src', '');
+        food.getExternalImage(data.icon, function(src) {
+            content.find('.icon').attr('src', src);
         });
-        attributions = detail.find('.photoAttributions');
-        for (var i = 0; i < data.photos[0].html_attributions.length; i++) {
-            $('<div/>').addClass('attribution').html(data.photos[0].html_attributions[i]).appendTo(attributions);
+        content.find('.photo').attr('src', '');
+        if (data.photos.length > 0) {
+            food.getExternalImage(data.photos[0].url, function(src) {
+                content.find('.photo').attr('src', src);
+            });
+            attributions = content.find('.photoAttributions');
+            for (var i = 0; i < data.photos[0].html_attributions.length; i++) {
+                $('<div/>').addClass('attribution').html(data.photos[0].html_attributions[i]).appendTo(attributions);
+            }
         }
+        var price = data.price_level;
+        if (price === undefined) {
+            price = 2;
+        }
+        for (var i = 0; i < price; i++) {
+            content.find('.price').append($('<span/>').addClass('dollar').html('$'));
+        }
+        var rating = data.rating;
+        if (rating === undefined) {
+            rating = 0;
+        }
+        rating = Math.round(rating);
+        for (var i = 0; i < rating; i++) {
+            content.find('.rating').append($('<span/>').addClass('star').addClass('filled').html('★'));
+        }
+        for (var i = 0; i < (5 - rating); i++) {
+            content.find('.rating').append($('<span/>').addClass('star').html('☆'));        
+        }
+
+        if (data.formatted_address !== undefined) {
+            content.find('.address').html(data.formatted_address);
+        }
+        else if (data.vicinity !== undefined) {
+            content.find('.address').html(data.vicinity);        
+        }
+
+        if (data.formatted_phone_number !== undefined) {
+            content.find('.phone').html(data.formatted_phone_number);
+        }
+        if (data.website !== undefined) {
+            content.find('.website').html(data.website);
+        }
+
+        content.find('.reference').html(data.reference);
     }
-    detail.find('.price').html('Price Level: ' + data.price_level);
-    detail.find('.rating').html('Rating: ' + data.rating);
-    
-    detail.find('.address').empty();
-    if (data.formatted_address !== undefined) {
-        detail.find('.address').html('Location: ' + data.formatted_address);
-    }
-    else if (data.vicinity !== undefined) {
-        detail.find('.address').html('Location: ' + data.vicinity);        
-    }
-    
-    detail.find('.phone').empty();
-    if (data.formatted_phone_number !== undefined) {
-        detail.find('.phone').html('Phone: ' + data.formatted_phone_number);
-    }
-    detail.find('.website').empty();
-    if (data.website !== undefined) {
-        detail.find('.website').html('Website: ' + data.website);
-    }
+    return content;
 };
 
 food.getExternalImage = function(url, callback) {
