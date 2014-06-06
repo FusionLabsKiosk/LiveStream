@@ -1,0 +1,90 @@
+.icons .hotels.widget .highlights .previous,
+.icons .hotels.widget .highlights .next {
+    display: none;
+}
+
+/* Detail */
+.hotels .detail {
+    display: flex;
+    flex-flow: row;
+    flex-wrap: wrap;
+    padding: 1em;
+    position: relative;
+    width: 100%;
+}
+.hotels .detail .name {
+    font-size: 3em;
+    font-weight: bold;
+    margin-bottom: 2em;
+}
+.hotels .detail .rating-box {
+    right: 3em;
+    position: absolute;
+    top: 3em;
+}
+.hotels .detail .info {
+    font-size: 1.5em;
+}
+.hotels .detail .photo {
+    width: 100%;
+}
+/* Both */
+.hotels .price,
+.hotels .rating {
+    font-size: 2em;
+    text-align: center;
+}
+.hotels .star.filled {
+    color: #ffb800;
+}
+/* Highlights */
+.hotels .highlights {
+    display: flex;
+    flex-flow: column;
+    flex-wrap: wrap;
+    width: 100%;
+}
+.hotels.view .highlights {
+    flex-flow: row;
+    flex-wrap: no-wrap;
+}
+
+.hotels .highlight {
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-wrap: wrap;
+    flex: 1;
+    height: 150px;
+    overflow: hidden;
+    padding: 1em;
+    position: relative;
+    justify-content: space-around;
+}
+.hotels .highlight * {
+    z-index: 1;
+}
+.hotels .highlight .name {
+    flex-basis: 100%;
+    font-size: 1.5em;
+    margin-bottom: 0.5em;
+}
+.hotels .highlight .info {
+    flex-basis: 50%;
+}
+.hotels .highlight .photo {
+    opacity: 0.5;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    z-index: 0;
+}
+.hotels .attributions,
+.hotels .detail .icon,
+.hotels .highlight .address,
+.hotels .highlight .phone,
+.hotels .highlight .website,
+.hotels .photoAttributions,
+.hotels .reference {
+    display: none;
+}

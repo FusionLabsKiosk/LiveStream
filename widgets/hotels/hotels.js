@@ -1,43 +1,39 @@
 //Food Namespace
-var dining = {};
-dining.currentLocation;
+var hotels = {};
+hotels.currentLocation;
 
-dining.UPDATE_INTERVAL = 10000;
+hotels.UPDATE_INTERVAL = 10000;
 
-dining.initialize = function() {
-    dining.v.find('.detail').append(places.createContentDiv());
+hotels.initialize = function() {
+    hotels.v.find('.detail').append(places.createContentDiv());
 };
 
-dining.setLocation = function(location) {
+hotels.setLocation = function(location) {
     var types = [
-        'bakery', 
-        'bar', 
-        'cafe', 
-        'food', 
-        'meal_delivery',
-        'meal_takeaway',
-        'restaurant'
+        'campground',
+        'lodging',
+        'rv_park'
     ];
-    var results = places.getNearbySearch('dining', location, types);
+    var results = places.getNearbySearch('hotels', location, types);
     
     results.onfinish = function() {
-        dining.startHighlightUpdates(results);
+        hotels.startHighlightUpdates(results);
     };
 };
 
-dining.startHighlightUpdates = function(results) {
-    dining.stopHighlightUpdates();
+hotels.startHighlightUpdates = function(results) {
+    hotels.stopHighlightUpdates();
     
-    var update = new dining.UpdateService(results);
+    var update = new hotels.UpdateService(results);
     update.start();
-    dining.currentUpdateService = update;
+    hotels.currentUpdateService = update;
 };
-dining.stopHighlightUpdates = function() {
-    if (dining.currentUpdateService) {
-        dining.currentUpdateService.stop();
+hotels.stopHighlightUpdates = function() {
+    if (hotels.currentUpdateService) {
+        hotels.currentUpdateService.stop();
     }
 };
-dining.UpdateService = function(results) {
+hotels.UpdateService = function(results) {
     var self = this;
     
     this.results = results;
@@ -46,7 +42,7 @@ dining.UpdateService = function(results) {
     
     this.start = function() {
         if (self.running) {
-            dining.wv.each(function() {
+            hotels.wv.each(function() {
                 var divs = self.results.getContentDivs(self.index, 3);
                 var previous = divs[0].addClass('previous').click(self.highlightClickHandler);
                 var current = divs[1].addClass('current').click(self.highlightClickHandler);
@@ -58,7 +54,7 @@ dining.UpdateService = function(results) {
             });
             self.index++;
             
-            setTimeout(self.start, dining.UPDATE_INTERVAL);
+            setTimeout(self.start, hotels.UPDATE_INTERVAL);
         }
     };
     this.stop = function() {
@@ -68,6 +64,6 @@ dining.UpdateService = function(results) {
     this.highlightClickHandler = function(e) {
         var index = $(e.target).closest('.highlight').attr('data-index');
         var div = self.results.getDetailDiv(index);
-        dining.wv.find('.detail').replaceWith(div);
+        hotels.wv.find('.detail').replaceWith(div);
     };
 };

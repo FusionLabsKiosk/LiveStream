@@ -1,43 +1,44 @@
 //Food Namespace
-var dining = {};
-dining.currentLocation;
+var travel = {};
+travel.currentLocation;
 
-dining.UPDATE_INTERVAL = 10000;
+travel.UPDATE_INTERVAL = 10000;
 
-dining.initialize = function() {
-    dining.v.find('.detail').append(places.createContentDiv());
+travel.initialize = function() {
+    travel.v.find('.detail').append(places.createContentDiv());
 };
 
-dining.setLocation = function(location) {
+travel.setLocation = function(location) {
     var types = [
-        'bakery', 
-        'bar', 
-        'cafe', 
-        'food', 
-        'meal_delivery',
-        'meal_takeaway',
-        'restaurant'
+        'bus_station',
+        'car_rental',
+        'gas_station',
+        'parking',
+        'subway_station',
+        'taxi_stand',
+        'train_station',
+        'travel_agency'
     ];
-    var results = places.getNearbySearch('dining', location, types);
+    var results = places.getNearbySearch('travel', location, types);
     
     results.onfinish = function() {
-        dining.startHighlightUpdates(results);
+        travel.startHighlightUpdates(results);
     };
 };
 
-dining.startHighlightUpdates = function(results) {
-    dining.stopHighlightUpdates();
+travel.startHighlightUpdates = function(results) {
+    travel.stopHighlightUpdates();
     
-    var update = new dining.UpdateService(results);
+    var update = new travel.UpdateService(results);
     update.start();
-    dining.currentUpdateService = update;
+    travel.currentUpdateService = update;
 };
-dining.stopHighlightUpdates = function() {
-    if (dining.currentUpdateService) {
-        dining.currentUpdateService.stop();
+travel.stopHighlightUpdates = function() {
+    if (travel.currentUpdateService) {
+        travel.currentUpdateService.stop();
     }
 };
-dining.UpdateService = function(results) {
+travel.UpdateService = function(results) {
     var self = this;
     
     this.results = results;
@@ -46,7 +47,7 @@ dining.UpdateService = function(results) {
     
     this.start = function() {
         if (self.running) {
-            dining.wv.each(function() {
+            travel.wv.each(function() {
                 var divs = self.results.getContentDivs(self.index, 3);
                 var previous = divs[0].addClass('previous').click(self.highlightClickHandler);
                 var current = divs[1].addClass('current').click(self.highlightClickHandler);
@@ -58,7 +59,7 @@ dining.UpdateService = function(results) {
             });
             self.index++;
             
-            setTimeout(self.start, dining.UPDATE_INTERVAL);
+            setTimeout(self.start, travel.UPDATE_INTERVAL);
         }
     };
     this.stop = function() {
@@ -68,6 +69,6 @@ dining.UpdateService = function(results) {
     this.highlightClickHandler = function(e) {
         var index = $(e.target).closest('.highlight').attr('data-index');
         var div = self.results.getDetailDiv(index);
-        dining.wv.find('.detail').replaceWith(div);
+        travel.wv.find('.detail').replaceWith(div);
     };
 };

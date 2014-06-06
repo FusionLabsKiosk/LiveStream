@@ -1,0 +1,90 @@
+.icons .finance.widget .highlights .previous,
+.icons .finance.widget .highlights .next {
+    display: none;
+}
+
+/* Detail */
+.finance .detail {
+    display: flex;
+    flex-flow: row;
+    flex-wrap: wrap;
+    padding: 1em;
+    position: relative;
+    width: 100%;
+}
+.finance .detail .name {
+    font-size: 3em;
+    font-weight: bold;
+    margin-bottom: 2em;
+}
+.finance .detail .rating-box {
+    right: 3em;
+    position: absolute;
+    top: 3em;
+}
+.finance .detail .info {
+    font-size: 1.5em;
+}
+.finance .detail .photo {
+    width: 100%;
+}
+/* Both */
+.finance .price,
+.finance .rating {
+    font-size: 2em;
+    text-align: center;
+}
+.finance .star.filled {
+    color: #ffb800;
+}
+/* Highlights */
+.finance .highlights {
+    display: flex;
+    flex-flow: column;
+    flex-wrap: wrap;
+    width: 100%;
+}
+.finance.view .highlights {
+    flex-flow: row;
+    flex-wrap: no-wrap;
+}
+
+.finance .highlight {
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-wrap: wrap;
+    flex: 1;
+    height: 150px;
+    overflow: hidden;
+    padding: 1em;
+    position: relative;
+    justify-content: space-around;
+}
+.finance .highlight * {
+    z-index: 1;
+}
+.finance .highlight .name {
+    flex-basis: 100%;
+    font-size: 1.5em;
+    margin-bottom: 0.5em;
+}
+.finance .highlight .info {
+    flex-basis: 50%;
+}
+.finance .highlight .photo {
+    opacity: 0.5;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    z-index: 0;
+}
+.finance .attributions,
+.finance .detail .icon,
+.finance .highlight .address,
+.finance .highlight .phone,
+.finance .highlight .website,
+.finance .photoAttributions,
+.finance .reference {
+    display: none;
+}

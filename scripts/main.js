@@ -23,9 +23,13 @@ live.initializeWidgets = function() {
     live.initializeWidget('maps');
     live.initializeWidget('timezone');
     live.initializeWidget('weather');
-    live.initializeWidget('dining'); //Disable temporarily to save API calls
-    //live.initializeWidget('food');
-    //live.initializeWidget('demo');
+    //Disable places temporarily to save API calls
+    live.initializeWidget('dining');
+    live.initializeWidget('entertainment');
+    live.initializeWidget('shopping');
+    live.initializeWidget('travel');
+    live.initializeWidget('hotels');
+    live.initializeWidget('finance');
 };
 live.initializeWidget = function(widget) {
     live.widgetCount++;

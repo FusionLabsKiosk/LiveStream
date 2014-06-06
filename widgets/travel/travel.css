@@ -1,0 +1,90 @@
+.icons .travel.widget .highlights .previous,
+.icons .travel.widget .highlights .next {
+    display: none;
+}
+
+/* Detail */
+.travel .detail {
+    display: flex;
+    flex-flow: row;
+    flex-wrap: wrap;
+    padding: 1em;
+    position: relative;
+    width: 100%;
+}
+.travel .detail .name {
+    font-size: 3em;
+    font-weight: bold;
+    margin-bottom: 2em;
+}
+.travel .detail .rating-box {
+    right: 3em;
+    position: absolute;
+    top: 3em;
+}
+.travel .detail .info {
+    font-size: 1.5em;
+}
+.travel .detail .photo {
+    width: 100%;
+}
+/* Both */
+.travel .price,
+.travel .rating {
+    font-size: 2em;
+    text-align: center;
+}
+.travel .star.filled {
+    color: #ffb800;
+}
+/* Highlights */
+.travel .highlights {
+    display: flex;
+    flex-flow: column;
+    flex-wrap: wrap;
+    width: 100%;
+}
+.travel.view .highlights {
+    flex-flow: row;
+    flex-wrap: no-wrap;
+}
+
+.travel .highlight {
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-wrap: wrap;
+    flex: 1;
+    height: 150px;
+    overflow: hidden;
+    padding: 1em;
+    position: relative;
+    justify-content: space-around;
+}
+.travel .highlight * {
+    z-index: 1;
+}
+.travel .highlight .name {
+    flex-basis: 100%;
+    font-size: 1.5em;
+    margin-bottom: 0.5em;
+}
+.travel .highlight .info {
+    flex-basis: 50%;
+}
+.travel .highlight .photo {
+    opacity: 0.5;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    z-index: 0;
+}
+.travel .attributions,
+.travel .detail .icon,
+.travel .highlight .address,
+.travel .highlight .phone,
+.travel .highlight .website,
+.travel .photoAttributions,
+.travel .reference {
+    display: none;
+}
