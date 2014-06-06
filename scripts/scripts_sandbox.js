@@ -1,12 +1,12 @@
 /* Places Sandbox */
 var places = {};
 places.service;
-places.event;
+places.events = {};
 places.pagination = {};
 var placesService;
 
 places.messageHandler = function(e, initialized) {
-    places.event = e;
+    places.events[e.data.widget] = e;
     if (places.service === undefined) {
         initializePlacesScript(true);
     }
@@ -16,14 +16,14 @@ places.messageHandler = function(e, initialized) {
     
     if (initialized) {
         if (e.data.reference !== undefined) {
-            places.getDetails(e.data.reference);
+            places.getDetails(e.data.reference, e);
         }
         else {
-            places.getNearbySearch(e.data.location, e.data.options);
+            places.getNearbySearch(e.data.location, e.data.options, e);
         }
     }
 };
-places.getNearbySearch = function(location, options) {
+places.getNearbySearch = function(location, options, event) {
     if (options.pageKey === undefined) {
         var request = {
             'location': {
@@ -46,13 +46,15 @@ places.getNearbySearch = function(location, options) {
             for (var i = 0; i < results.length; i++) {
                 resultsCopy.push(places.createPlaceResultMessage(results[i]));
             }
-            places.event.source.postMessage({
-                'widget': places.event.data.widget,
+            var message = {
+                'script': 'places',
+                'widget': event.data.widget,
                 'results': resultsCopy,
                 'status': status,
                 'hasNextPage': pages.hasNextPage,
                 'pageKey': pageKey
-            }, places.event.origin);
+            };
+            event.source.postMessage(message, event.origin);
         });
     }
     else if (places.pagination[options.pageKey] !== undefined) {
@@ -60,17 +62,25 @@ places.getNearbySearch = function(location, options) {
         delete places.pagination[options.pageKey];
     }
 };
-places.getDetails = function(reference) {
+places.getDetails = function(reference, event) {
     var request = {
         'reference': reference
     };
     places.service.getDetails(request, function(result, status) {
+        if (result === null) {
+            //If a details request is requested too soon after a reference is 
+            //provided, the result will be null. There is a short delay after 
+            //a reference is provided before details can be retrieved
+            return;
+        }
         var resultCopy = places.createPlaceResultMessage(result);
-        places.event.source.postMessage({
-            'widget': places.event.data.widget,
+        var message = {
+            'script': 'places',
+            'widget': event.data.widget,
             'result': deepCopySafeMessage(resultCopy),
             'status': status
-        }, places.event.origin);
+        };
+        event.source.postMessage(message, event.origin);
     });
 };
 places.createPlaceResultMessage = function(result) {
@@ -134,6 +144,7 @@ wiki.postMessage = function(data) {
         break;
     }
     wiki.event.source.postMessage({
+        'script': 'wiki',
         'widget': wiki.event.data.widget,
         'title': title,
         'extract': extract
@@ -141,13 +152,19 @@ wiki.postMessage = function(data) {
 };
 
 /* Sandbox Script Initialization */
+var placesInitialized = false;
 function initializePlacesScript(init) {
     if (init) {
-        initializeScript('http://maps.googleapis.com/maps/api/js?libraries=places&sensor=false&callback=initializePlacesScript');
+        if (!placesInitialized) {
+            initializeScript('http://maps.googleapis.com/maps/api/js?libraries=places&sensor=false&callback=initializePlacesScript');
+            placesInitialized = true;
+        }
     }
     else {
         places.service = new google.maps.places.PlacesService(document.createElement('places-service'));
-        places.messageHandler(places.event, true);
+        for (var key in places.events) {
+            places.messageHandler(places.events[key], true);
+        }
     }
 };
 

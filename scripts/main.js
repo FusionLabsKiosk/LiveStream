@@ -23,7 +23,8 @@ live.initializeWidgets = function() {
     live.initializeWidget('maps');
     live.initializeWidget('timezone');
     live.initializeWidget('weather');
-    live.initializeWidget('food'); //Disable temporarily to save API calls
+    live.initializeWidget('dining'); //Disable temporarily to save API calls
+    //live.initializeWidget('food');
     //live.initializeWidget('demo');
 };
 live.initializeWidget = function(widget) {

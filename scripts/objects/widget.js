@@ -10,39 +10,25 @@ function Widget(name, html) {
     this.jhtml = $(h);
     
     this.widget = this.jhtml.filter('figure.widget');
-    this.icon = this.jhtml.filter('figure.icon');
-    if (this.icon.length === 0) {
-        this.icon = this.widget;
-    }
+    this.w = this.widget;
     this.view = this.jhtml.filter('main.view');
     this.v = this.view;
     this.widgetView = this.widget.add(this.view);
     this.wv = this.widgetView;
-    this.widgetIcon = this.widget.add(this.icon);
-    this.wi = this.widgetIcon;
-    this.widgetIconView = this.widgetView.add(this.icon);
-    this.wiv = this.widgetIconView;
     
     this.js = window[self.name];
     this.js.widget = this;
     this.js.w = this.widget;
-    this.js.i = this.icon;
     this.js.v = this.view;
     this.js.wv = this.widgetView;
-    this.js.wi = this.widgetIcon;
-    this.js.wiv = this.widgetIconView;
     
     this.initialize = function() {
         initializeFunction('initialize');
         initializeFunction('setLocation');
-        initializeFunction('start');
-        initializeFunction('end');
         initializeFunction('viewStart');
         initializeFunction('viewEnd');
         initializeFunction('widgetStart');
         initializeFunction('widgetEnd');
-        initializeFunction('iconStart');
-        initializeFunction('iconEnd');
         
         self.widget.click(function() {
             self.addView(false);
@@ -61,8 +47,6 @@ function Widget(name, html) {
         else {
             self.js.viewEnd();
         }
-
-        self.js.start();
     };
     var initializeFunction = function(name) {
         if (self.js[name] === undefined) {

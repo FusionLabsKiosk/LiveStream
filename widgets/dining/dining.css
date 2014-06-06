@@ -1,0 +1,93 @@
+.dining.widget {
+    width: 25%;
+}
+.icons .dining.widget .highlights .previous,
+.icons .dining.widget .highlights .next {
+    display: none;
+}
+
+/* Detail */
+.dining .detail {
+    display: flex;
+    flex-flow: row;
+    flex-wrap: wrap;
+    padding: 1em;
+    position: relative;
+    width: 100%;
+}
+.dining .detail .name {
+    font-size: 3em;
+    font-weight: bold;
+    margin-bottom: 2em;
+}
+.dining .detail .rating-box {
+    right: 3em;
+    position: absolute;
+    top: 3em;
+}
+.dining .detail .info {
+    font-size: 1.5em;
+}
+.dining .detail .photo {
+    width: 100%;
+}
+/* Both */
+.dining .price,
+.dining .rating {
+    font-size: 2em;
+    text-align: center;
+}
+.dining .star.filled {
+    color: #ffb800;
+}
+/* Highlights */
+.dining .highlights {
+    display: flex;
+    flex-flow: column;
+    flex-wrap: wrap;
+    width: 100%;
+}
+.dining.view .highlights {
+    flex-flow: row;
+    flex-wrap: no-wrap;
+}
+
+.dining .highlight {
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-wrap: wrap;
+    flex: 1;
+    height: 150px;
+    overflow: hidden;
+    padding: 1em;
+    position: relative;
+    justify-content: space-around;
+}
+.dining .highlight * {
+    z-index: 1;
+}
+.dining .highlight .name {
+    flex-basis: 100%;
+    font-size: 1.5em;
+    margin-bottom: 0.5em;
+}
+.dining .highlight .info {
+    flex-basis: 50%;
+}
+.dining .highlight .photo {
+    opacity: 0.5;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    z-index: 0;
+}
+.dining .attributions,
+.dining .detail .icon,
+.dining .highlight .address,
+.dining .highlight .phone,
+.dining .highlight .website,
+.dining .photoAttributions,
+.dining .reference {
+    display: none;
+}
