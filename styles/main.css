@@ -98,6 +98,7 @@ main.fullscreen > header {
     display: flex;
     justify-content: space-between;
     width: 100%;
+    padding:0 2em;
 }
 main.fullscreen > header .title 
 {
@@ -157,6 +158,7 @@ main.fullscreen .divider
 {
     height:4px;
     background-color:#fff;
+    margin:0 2em 1.5em;
     margin-bottom:1.5em;
 }
 
@@ -231,7 +233,7 @@ section.viewport .top .current-location-data .time
 
 
 
-section.viewport .content
+section.viewport>.content
 {
     height:100%;
     display:flex;
@@ -257,7 +259,7 @@ section.viewport aside.right.visible {
     flex: 0 0 40%;
 }
 
-header.title {
+main.view header.title {
     border-bottom: solid 1px rgba(255, 255, 255, 0.6);
     color: #ffb800;
     margin-bottom: 1em;
@@ -276,25 +278,46 @@ main.view header.title {
 *******************************************************************************/
 #widgets {
     align-items: flex-start;
-    display: flex;
     height: 100%;
     padding: 1%;
-    width: 100%;
+    white-space: nowrap;
+    display:inline-flex;
+}
+.middle.icons #widgets
+{
+    display:flex;
+    flex-flow:wrap;
+    flex-direction: row;
+}
+.middle.icons #widgets figure footer
+{
+    font-size:3em !important;
 }
 
 #widgets figure {
     background: linear-gradient(to bottom, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.2) 100%);
     background-color: rgba(255, 255, 255, 0.1);
-    border: solid 1px rgba(255, 255, 255, 0.2);
     box-shadow: 10px 10px 20px -5px rgba(0, 0, 0, 0.2);
-    display: inline-block;
     margin: 1%;
     overflow: hidden;
-    padding: 1rem;
     position: relative;
-    vertical-align: top;
+    display:flex;
+    flex-direction:column;
+    width:500px;
+    white-space: normal;
 }
-
-#widgets figure header.title {
-    font-size: 1.5em;
+#widgets figure .content
+{
+    position:relative;
+    flex:8;
+    overflow:hidden;
+}
+#widgets figure footer
+{
+    flex:2;
+    background-color:#000;
+    color:#fff;
+    font-size:6em;
+    text-transform: lowercase;
+    -webkit-transition-duration: .3s;
 }

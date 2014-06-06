@@ -4,7 +4,6 @@
 .maps.widget {
     display: flex;
     height: 48%;
-    width: 58%;
 }
 .maps.widget .static {
     background-position: center; 
@@ -14,15 +13,6 @@
     position: absolute;
     height: 100%;
     width: 110%;
-}
-.maps.widget footer {
-    background-color: rgba(0, 0, 0, 0.75);
-    bottom: 0;
-    color: #eee;
-    left: 0;
-    padding: 1em;
-    position: absolute;
-    width: 100%;
 }
 .maps .frame,
 .maps iframe {

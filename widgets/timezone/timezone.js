@@ -27,8 +27,8 @@ timezone.initialize = function() {
 };
 
 timezone.setLocation = function(location) {
-    timezone.w.find('.clock').remove();
-    timezone.w.append(timezone.createTimezoneDiv(location.city));
+    timezone.w.find('.clock').replaceWith(timezone.createTimezoneDiv(location.city));
+    //timezone.w.append(timezone.createTimezoneDiv(location.city));
     
     var global = timezone.createTimezoneDiv(location.city).addClass('global');
     $('.global.clock').replaceWith(global);

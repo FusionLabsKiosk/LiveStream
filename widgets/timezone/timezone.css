@@ -1,3 +1,8 @@
+.timezone.widget .content
+{
+    padding:1em;
+}
+
 .icons .timezone.widget .clock-face {
     display: none;
 }
