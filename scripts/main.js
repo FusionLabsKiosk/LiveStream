@@ -7,6 +7,7 @@ live.location = {
 };
 
 live.PARALLAX_SPEED = 2;
+live.WidgetType = {'CONTROL':'control', 'SUPPLEMENTAL':'supplemental', 'STANDARD':'standard'};
 
 /* Initialization */
 $(document).ready(function() {
