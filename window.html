@@ -22,6 +22,9 @@
         <!-- Widget Files -->
         <script src="widgets/demo/demo.js"></script>
         <link rel="stylesheet" href="widgets/demo/demo.css">
+        
+        <script src="widgets/defineLocation/defineLocation.js"></script>
+        <link rel="stylesheet" href="widgets/defineLocation/defineLocation.css">
                 
         <script src="widgets/timezone/timezone.js"></script>
         <link rel="stylesheet" href="widgets/timezone/timezone.css">
@@ -73,17 +76,15 @@
             <div class="divider"></div>
             <section class="viewport">
                 <div class="top">
-                    <div class="control-widgets"></div>
-                    <div class="supplemental-widgets"></div>
-<!--
-                    <div class="user-input">
-                        <label for="location" class="title">what's happening in</label>
-                        <input id="location" type="text" value="Dallas" placeholder="enter a city" size="11" />
+                    <div class="main">
+                        <div class="widgets">
+                            <div class="location"></div>
+                            <div class="supplemental-widgets"></div>
+                        </div>
                     </div>
-                    <div class="current-location-data">
-                        <div class="global clock"></div>
+                    <div class="secondary">
+                        <div class="widgets"></div>
                     </div>
--->
                 </div>
                 <div class="content">
                     <aside class="left"></aside>

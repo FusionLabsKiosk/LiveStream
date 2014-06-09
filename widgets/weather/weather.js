@@ -48,7 +48,7 @@ weather.setCurrentWeather = function(data) {
         weather.v.find('.location').replaceWith(weather.setLocationData());
         
         if (data.list.length > 0) {
-            var day = weather.createDayDiv();
+            var day = weather.createWidgetDiv();
             weather.setDayData(day, data.list[0]);
             if (current.find('.day').length > 0) {
                 current.find('.day').replaceWith(day);
@@ -108,6 +108,7 @@ weather.createLocationDiv = function() {
 };
 weather.createDayDiv = function() {
     var div = $('<div/>').addClass('day');
+    div.append($('<img/>').addClass('icon'));
     div.append($('<div/>').addClass('date'));
     var temp = $('<div/>').addClass('temperature')
             .append($('<div/>').addClass('temp'))
@@ -116,9 +117,18 @@ weather.createDayDiv = function() {
     div.append(temp);
     div.append($('<div/>').addClass('message'));
     div.append($('<div/>').addClass('humidity'));
-    div.append($('<img/>').addClass('icon'));
     return div;
 };
+weather.createWidgetDiv = function()
+{
+    var div = $('<div/>').addClass('day');
+    div.append($('<img/>').addClass('icon'));
+    var temp = $('<div/>').addClass('temperature')
+            .append($('<div/>').addClass('temp'));
+    div.append(temp);
+    div.append($('<div/>').addClass('message'));
+    return div;
+}
 
 weather.getIconUrl = function(code) {
     return 'widgets/weather/icons/' + code + '.svg';

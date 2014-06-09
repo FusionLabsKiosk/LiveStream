@@ -1,13 +1,15 @@
-function Widget(name, html) {
+function Widget(name, html, appendElement) {
     
     var self = this;
     
     var n = typeof name === 'string' ? name : '';
     var h = typeof html === 'string' ? html : '';
+    var ae = appendElement instanceof jQuery ? appendElement : $('#widgets');
     
     this.name = n;
     this.html = h;
     this.jhtml = $(h);
+    this.appendLocation = ae;
     
     this.widget = this.jhtml.filter('figure.widget');
     this.w = this.widget;
@@ -32,7 +34,7 @@ function Widget(name, html) {
         
         self.widget.click(function() {
             self.addView(false);
-        }).appendTo('#widgets');
+        }).appendTo(this.appendLocation);
         
         self.js.initialize();
         

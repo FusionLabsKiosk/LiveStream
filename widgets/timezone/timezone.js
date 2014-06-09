@@ -27,7 +27,7 @@ timezone.initialize = function() {
 };
 
 timezone.setLocation = function(location) {
-    timezone.w.find('.clock').replaceWith(timezone.createTimezoneDiv(location.city));
+    timezone.w.find('.clock').replaceWith(timezone.createTimezoneDiv(location.city, true));
     //timezone.w.append(timezone.createTimezoneDiv(location.city));
     
     var global = timezone.createTimezoneDiv(location.city).addClass('global');
@@ -37,24 +37,34 @@ timezone.setLocation = function(location) {
     timezone.getOffset(location, timezone.getClockClass(location.city));
 };
 
-timezone.createTimezoneDiv = function(address, addressClass) {
+timezone.createTimezoneDiv = function(address, isWidget, addressClass) {
     if (typeof addressClass !== 'string') {
         addressClass = timezone.getClockClass(address);
     }
     var clock =  $('<div/>').addClass('clock').addClass(addressClass)
             .append(timezone.createClockFaceDiv());
-    var plainText = $('<div/>').addClass('text')
-            .append($('<div/>').addClass('name'))
-            .append($('<div/>').addClass('city'))
-            .append($('<div/>').addClass('time')
+    
+    var time = $('<div/>').addClass('time')
                 .append($('<span/>').addClass('hour'))
                 .append($('<span/>').addClass('separator').html(':'))
                 .append($('<span/>').addClass('minute'))
                 .append($('<span/>').addClass('separator').html(':'))
                 .append($('<span/>').addClass('second'))
-                .append($('<span/>').addClass('am-pm'))
-                );
-    clock.append(plainText);
+                .append($('<span/>').addClass('am-pm'));
+    
+    var plainText = $('<div/>').addClass('text')
+            .append($('<div/>').addClass('name'))
+            .append($('<div/>').addClass('city'))
+            .append(time);
+    
+    if(isWidget)
+    {
+       clock.append(time); 
+    }
+    else
+    { 
+        clock.append(plainText);
+    }
     return clock;
 };
 timezone.createClockFaceDiv = function() {

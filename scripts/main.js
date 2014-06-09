@@ -7,7 +7,6 @@ live.location = {
 };
 
 live.PARALLAX_SPEED = 2;
-live.WidgetType = {'CONTROL':'control', 'SUPPLEMENTAL':'supplemental', 'STANDARD':'standard'};
 
 /* Initialization */
 $(document).ready(function() {
@@ -20,22 +19,24 @@ live.initialize = function() {
     live.initializeListeners();
 };
 live.initializeWidgets = function() {
-    live.initializeWidget('wiki');
-    live.initializeWidget('maps');
-    live.initializeWidget('timezone');
-    live.initializeWidget('weather');
+    live.initializeWidget('defineLocation', $('section.viewport .top .main .widgets .location'));
+    live.initializeWidget('wiki', $('section.viewport .top .secondary .widgets'));
+    live.initializeWidget('maps', $('section.viewport .supplemental-widgets'));
+    live.initializeWidget('timezone', $('section.viewport .supplemental-widgets'));
+    live.initializeWidget('weather', $('section.viewport .supplemental-widgets'));
     //Disable places temporarily to save API calls
-    live.initializeWidget('dining');
-    live.initializeWidget('entertainment');
-    live.initializeWidget('shopping');
-    live.initializeWidget('travel');
-    live.initializeWidget('hotels');
-    live.initializeWidget('finance');
+//    live.initializeWidget('dining');
+//    live.initializeWidget('entertainment');
+//    live.initializeWidget('shopping');
+//    live.initializeWidget('travel');
+//    live.initializeWidget('hotels');
+//    live.initializeWidget('finance');
 };
-live.initializeWidget = function(widget) {
+live.initializeWidget = function(widget, appendElement) {
     live.widgetCount++;
     $.get('widgets/' + widget + '/' + widget + '.html', function(data) {
-        var w = new Widget(widget, data).initialize();
+        var ae = appendElement instanceof jQuery ? appendElement : $('#widgets');
+        var w = new Widget(widget, data, ae).initialize();
         live.widgets.push(w);
         if (live.widgets.length === live.widgetCount) {
             live.widgetsLoaded();
@@ -47,11 +48,7 @@ live.widgetsLoaded = function() {
     live.updateLocation();
 };
 live.initializeListeners = function() {
-    $('#location').keypress(function(e) {
-        if (e.which === 13) {
-            live.updateLocation();
-        }
-    });
+    
 };
 live.initializeParallax = function() {
     $('aside.middle').scroll(function() {
@@ -61,12 +58,14 @@ live.initializeParallax = function() {
 };
 
 live.updateLocation = function() {
-    geocoding.geocode($('#location').val(), function(location) {
+    var location = $('#location', defineLocation.v).val();
+    geocoding.geocode(location, function(location) {
         live.location = location;
         for (var i = 0; i < live.widgets.length; i++) {
             live.widgets[i].js.setLocation(location);
         }
     });
+    $('.city', defineLocation.w).html(location);
 };
 
 /* View Manipulation */

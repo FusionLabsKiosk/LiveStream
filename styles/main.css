@@ -88,7 +88,6 @@ main.fullscreen {
     width: 100%;
     display:flex;
     flex-direction: column;
-    padding:0 2em;
 }
 
 /*******************************************************************************
@@ -127,7 +126,7 @@ main.fullscreen > header .menu
 {
     background-color:#000;
     border:none;
-    width: 5%;
+    width: 80px;
     padding: 0 1em;
     outline: none;
 }
@@ -182,54 +181,68 @@ section.viewport>div
 section.viewport .top
 {
     display:flex;
-    justify-content: center;
+    padding:0 2em;
+    align-items: flex-start;
 }
-section.viewport .top .user-input
+section.viewport .top figure
 {
-    font-size: 3.5em;
-    background-color: #000;
-    padding: 1em 1em 2em;
-    text-transform: lowercase;
-    display: inline-block;
+    margin:0;
 }
-section.viewport .top .title
+section.viewport .top .main
+{
+    background-color:#000;
+    padding:.5em 1em;
+    flex:1;
+}
+section.viewport .top .main .widgets .supplemental-widgets
+{
+    display: flex;
+}
+section.viewport .top .secondary
+{
+    background-color:#fff;
+    color:#000;
+    flex:1;
+}
+
+.widget.define-location
+{
+    font-size:3em;
+    margin:0;
+}
+.widget.define-location .instructions
+{
+    text-align:right;
+    font-size:.5em;
+    font-style: italic;
+}
+.widget.define-location .title
 {
     text-align: right;
 }
-section.viewport .top #location
+.widget.define-location .city
+{
+    color:#0CF;
+    text-transform:lowercase;
+}
+/*
+
+.widget.define-location #location
 {
     background-color:transparent;
     border:none;
-    border-bottom:solid 2px #FFF;
     font-family:'tiennebold';
     padding:0;
     margin:0;
-    color:#0CF;
     outline:none;
-    text-transform:lowercase;
 }
-section.viewport .top #location:focus
+.widget.define-location #location:focus
 {
     border-bottom-color:#0CF;
 }
+*/
 
-section.viewport .top .current-location-data
-{
-    color: #000;
-    background-color: #fff;
-    padding: 1em 2em;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-section.viewport .top .current-location-data .city
-{
-    font-size:2em;
-}
-section.viewport .top .current-location-data .time
-{
-    font-size:1.5em;
-}
+
 
 
 
@@ -239,7 +252,6 @@ section.viewport>.content
     display:flex;
 }
 section.viewport aside {
-    height: 100%;
     flex: 0 0 0;
     overflow: auto;
     position: relative;

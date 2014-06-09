@@ -3,6 +3,22 @@
     flex-direction: column;
 }
 
+/* Widget */
+.widget.weather .icon {
+    fill: #fff;
+    height: 70px;
+    width: 70px;
+}
+.widget.weather .temperature .temp {
+    color: #fff;
+    font-size: 1.5em;
+    font-weight: bold;
+}
+.widget.weather .message {
+    font-size: 1.2em;
+    color:#0cf;
+}
+
 /* Location */
 .weather.view .location {
     font-size: 1.5em;

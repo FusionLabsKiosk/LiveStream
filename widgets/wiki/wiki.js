@@ -10,7 +10,7 @@ wiki.initialize = function() {
             wiki.setExtract(e.data);
         }
     });
-    setInterval(wiki.scroller, wiki.scrollSpeed);
+    //setInterval(wiki.scroller, wiki.scrollSpeed);
 };
 wiki.setLocation = function(location) {
     sandbox.message({
@@ -28,7 +28,7 @@ wiki.setExtract = function(data) {
     //Remove first parentheses
     extract = extract.replace(/\(.*?\)/g, '');
     wiki.wv.find('.description').html(extract);
-    //wiki.w.find('.description').html(extract.split('\n')[0]);
+    wiki.w.find('.description').html(extract.split('\n')[0]);
 };
 
 wiki.scroller = function() {

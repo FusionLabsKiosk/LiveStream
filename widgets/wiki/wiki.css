@@ -4,24 +4,9 @@
 }
 .wiki.view .description {
     padding: 1em;
-}
-.wiki .description {
     font-size: 1.5em;
     overflow: scroll;
 }
-.wiki.widget {
-    height: 48%;
-}
-.wiki.widget .content
-{
-    padding:1em;
-}
-.wiki.widget {
-    height: 48%;
-}
 .wiki .city {
     font-size: 3em;
-}
-.wiki.widget .description {
-    height: 100%;
 }

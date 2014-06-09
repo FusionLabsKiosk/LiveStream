@@ -135,6 +135,16 @@ wiki.getExtract = function(location) {
     document.body.appendChild(script);
 };
 
+wiki.getImages = function(location)
+{
+    
+}
+
+wiki.getImage = function(filename)
+{
+    
+}
+
 wiki.postMessage = function(data) {
     var title = '';
     var extract = '';
