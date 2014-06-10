@@ -179,7 +179,7 @@ section.content>.display
 
 section.content .static-widgets
 {
-    padding:0 2em;
+    padding:2em;
     flex:1;
 }
 section.content .static-widgets figure
@@ -191,10 +191,32 @@ section.content .static-widgets .main
     background-color:#000;
     padding:.5em 1em;
     flex:1;
+    display:flex;
+    justify-content: center;
+}
+section.content .static-widgets .main .widgets .location
+{
+    display:inline-block;
+    vertical-align: middle;
+    margin:1em;
+}
+section.content .static-widgets .main .widgets .widget
+{
+    display:inline-block;
+    margin:1em;
+}
+section.content .static-widgets .main .widgets .widget .visual,
+section.content .static-widgets .main .widgets .widget .text
+{
+    display:inline-block;
+    vertical-align:middle;
+    margin-right:1em;
 }
 section.content .static-widgets .main .widgets .supplemental-widgets
 {
-    display: flex;
+    display: inline-flex;
+    vertical-align: middle;
+    align-items: center;
 }
 section.content .static-widgets .secondary
 {
@@ -238,7 +260,11 @@ section.content>.display>.active
 {
     overflow:auto;
     display:flex;
-    flex:2.5;
+    flex:4;
+}
+section.content>.display.shared>.active
+{
+    flex:1.4;
 }
 #widgets-container
 {
