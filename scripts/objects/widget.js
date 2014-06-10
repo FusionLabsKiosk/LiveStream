@@ -1,15 +1,17 @@
-function Widget(name, html, appendElement) {
+function Widget(name, html, appendElement, type) {
     
     var self = this;
     
     var n = typeof name === 'string' ? name : '';
     var h = typeof html === 'string' ? html : '';
     var ae = appendElement instanceof jQuery ? appendElement : $('#widgets');
+    var t = typeof type === 'string' ? type : live.WidgetType.STANDARD;
     
     this.name = n;
     this.html = h;
     this.jhtml = $(h);
     this.appendLocation = ae;
+    this.type = t;
     
     this.widget = this.jhtml.filter('figure.widget');
     this.w = this.widget;
@@ -41,10 +43,15 @@ function Widget(name, html, appendElement) {
         return self;
     };
     this.addView = function(dontHide) {
-        var added = live.addView(self.view, dontHide);
+        var added = live.addView(self.view, this.type);
             
         if (added) {
             self.js.viewStart();
+            
+            if(self.view.hasClass('maps'))//lazy load for maps
+            {
+                setTimeout(function(){self.js.setLocation(live.location);}, 300);
+            }
         }
         else {
             self.js.viewEnd();

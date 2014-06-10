@@ -10,6 +10,7 @@
         
         <!-- Vendor Scripts -->
         <script src="scripts/lib/jquery-2.1.1.min.js"></script>
+        <script src="scripts/lib/jquery.mousewheel.min.js"></script>
 
         <!-- Main / Objects -->
         <script src="scripts/main.js"></script>
@@ -74,25 +75,27 @@
                 </button>
             </header>
             <div class="divider"></div>
-            <section class="viewport">
-                <div class="top">
-                    <div class="main">
-                        <div class="widgets">
-                            <div class="location"></div>
-                            <div class="supplemental-widgets"></div>
+            <section class="content">
+                <div class="display">
+                    <div class="static-widgets">
+                        <div class="main">
+                            <div class="widgets">
+                                <div class="location"></div>
+                                <div class="supplemental-widgets"></div>
+                            </div>
                         </div>
+<!--
+                        <div class="secondary">
+                            <div class="widgets"></div>
+                        </div>
+-->
                     </div>
-                    <div class="secondary">
-                        <div class="widgets"></div>
+                    <div class="active">
+                        <div id="supplemental-view-panel"></div>
+                        <div id="widgets-container"><div id="widgets" class="widgets"></div></div>
                     </div>
                 </div>
-                <div class="content">
-                    <aside class="left"></aside>
-                    <aside class="middle">
-                        <div id="widgets"></div>
-                    </aside>
-                    <aside class="right"></aside>
-                </div>
+                <div id="view-panel"></div>
             </section>
         </main>
     

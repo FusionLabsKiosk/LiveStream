@@ -1,19 +1,6 @@
 .maps.view {
     position: relative;
 }
-.maps.widget {
-    display: flex;
-    height: 48%;
-}
-.maps.widget .static {
-    background-position: center; 
-    background-repeat: no-repeat;
-    background-size: 100% auto;
-    left: -5%;
-    position: absolute;
-    height: 100%;
-    width: 110%;
-}
 .maps .frame,
 .maps iframe {
     border: none;
