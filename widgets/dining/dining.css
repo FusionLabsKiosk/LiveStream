@@ -3,6 +3,14 @@
     display: none;
 }
 
+/*Widget*/
+.dining.widget .highlights {
+    height:100%;
+}
+.dining.widget .highlight {
+    height: 100%;
+}
+
 /* Detail */
 .dining .detail {
     display: flex;

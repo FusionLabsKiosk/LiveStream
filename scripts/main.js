@@ -27,11 +27,11 @@ live.initializeWidgets = function() {
     live.initializeWidget('weather', $('section.content .supplemental-widgets'), live.WidgetType.SUPPLEMENTAL);
     //Disable places temporarily to save API calls
     live.initializeWidget('dining');
-    live.initializeWidget('entertainment');
-    live.initializeWidget('shopping');
-    live.initializeWidget('travel');
-    live.initializeWidget('hotels');
-    live.initializeWidget('finance');
+//    live.initializeWidget('entertainment');
+//    live.initializeWidget('shopping');
+//    live.initializeWidget('travel');
+//    live.initializeWidget('hotels');
+//    live.initializeWidget('finance');
 };
 live.initializeWidget = function(widget, appendElement, type) {
     live.widgetCount++;
@@ -49,11 +49,11 @@ live.widgetsLoaded = function() {
     live.updateLocation();
 };
 live.initializeListeners = function() {
-    $('#widgets-container').mousewheel(function(e, delta)
-    {
-        this.scrollLeft -= delta * 100;
-        e.preventDefault();
-    });
+//    $('#widgets-container').mousewheel(function(e, delta)
+//    {
+//        this.scrollLeft -= delta * 100;
+//        e.preventDefault();
+//    });
 };
 live.initializeParallax = function() {
     $('#widgets-container').scroll(function() {

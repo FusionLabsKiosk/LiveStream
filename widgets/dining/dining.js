@@ -46,16 +46,9 @@ dining.UpdateService = function(results) {
     
     this.start = function() {
         if (self.running) {
-            dining.wv.each(function() {
-                var divs = self.results.getContentDivs(self.index, 3);
-                var previous = divs[0].addClass('previous').click(self.highlightClickHandler);
-                var current = divs[1].addClass('current').click(self.highlightClickHandler);
-                var next = divs[2].addClass('next').click(self.highlightClickHandler);
-
-                $(this).find('.highlights .highlight.previous').replaceWith(previous);
-                $(this).find('.highlights .highlight.current').replaceWith(current);
-                $(this).find('.highlights .highlight.next').replaceWith(next);
-            });
+            
+            self.updateWidget(dining.w);
+            self.updateView(dining.v);
             self.index++;
             
             setTimeout(self.start, dining.UPDATE_INTERVAL);
@@ -70,4 +63,32 @@ dining.UpdateService = function(results) {
         var div = self.results.getDetailDiv(index);
         dining.wv.find('.detail').replaceWith(div);
     };
+    
+    this.updateWidget = function(widget)
+    {
+        var divs = self.results.getContentDivs(self.index, 3);
+        var current = divs[1].addClass('current').click(self.highlightClickHandler);
+        
+        slider.navigateTo(current, slider.Direction.RIGHT).on(slider.Event.AFTER_OPEN, function(){self.animateWidgetData(widget);});
+        
+
+        //widget.find('.highlight.current').replaceWith(current);
+    }
+    
+    this.animateWidgetData = function(widget)
+    {
+        console.log('animate widget data - ' + widget.attr('class'));
+    }
+    
+    this.updateView = function(view)
+    {
+        var divs = self.results.getContentDivs(self.index, 3);
+        var previous = divs[0].addClass('previous').click(self.highlightClickHandler);
+        var current = divs[1].addClass('current').click(self.highlightClickHandler);
+        var next = divs[2].addClass('next').click(self.highlightClickHandler);
+
+        view.find('.highlights .highlight.previous').replaceWith(previous);
+        view.find('.highlights .highlight.current').replaceWith(current);
+        view.find('.highlights .highlight.next').replaceWith(next);
+    }
 };

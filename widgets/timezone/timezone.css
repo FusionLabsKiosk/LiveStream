@@ -1,11 +1,19 @@
-.timezone.widget .content
+.timezone.widget .clock-face {
+    margin-bottom:1em;
+}
+.timezone.widget .second
 {
-    padding:1em;
+    display:none;
+}
+.timezone.widget .time
+{
+    text-align:center;
+}
+.timezone.widget .separator:nth-child(4)
+{
+    display:none;
 }
 
-.icons .timezone.widget .clock-face {
-    display: none;
-}
 .timezone.view {
     display: flex;
     flex-direction: column;
@@ -53,7 +61,6 @@
     border-radius: 50%;
     display: inline-block;
     height: 200px;
-    margin-right: 1em;
     width: 200px;
     vertical-align: middle;
 }
@@ -183,11 +190,9 @@
 
 /* Widget Clock */
 .widget.timezone .clock-face {
-    border: 3px solid #fff;
     border-radius: 50%;
     display: inline-block;
     height: 70px;
-    margin-right: 1em;
     width: 70px;
     vertical-align: middle;
 }
@@ -196,12 +201,12 @@
     height: 0px;
     left: 50%;
     position: relative;
-    top: 50%;  
+    top: 50%;
     width: 0px;
 }
 
 .widget.timezone .clock-face .hour-mark:after {
-    background: #fff;
+    background: #000;
     content: '';
     height: 3px;
     left: -2px;
@@ -231,7 +236,7 @@
 
 .widget.timezone .clock-face .arrow-hour:after {
     background-image:none;
-    background-color:#fff;
+    background-color:#000;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
     content: '';
     height: 31.5px;
@@ -251,7 +256,7 @@
 
 .widget.timezone .clock-face .arrow-minute:after {
     background-image:none;
-    background-color:#fff;
+    background-color:#000;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
     content: '';
     height: 38.5px;
@@ -272,7 +277,7 @@
 .widget.timezone .clock-face .arrow-second:after {
     background-image:none;
     background-color:#0CF;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+    box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.3);
     content: '';
     height: 38.5px;
     left: -1px;
@@ -301,7 +306,7 @@
 }
 
 .widget.timezone .clock-face .arrow-dot:after {
-    background: #161617;
+    background: #fff;
     border-radius: 4px;
     content: ''; 
     height: 1px;

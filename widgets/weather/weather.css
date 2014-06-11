@@ -5,18 +5,23 @@
 
 /* Widget */
 .widget.weather .icon {
-    fill: #fff;
+    fill: #000;
     height: 70px;
     width: 70px;
 }
+.widget.weather .temperature
+{
+    text-align:center;
+}
 .widget.weather .temperature .temp {
-    color: #fff;
-    font-size: 1.5em;
-    font-weight: bold;
+    font-size: 1.2em;
+    color:#0cf;
+    text-align:center;
+    padding:0;
 }
 .widget.weather .message {
     font-size: 1.2em;
-    color:#0cf;
+    text-align:center;
 }
 
 /* Location */
