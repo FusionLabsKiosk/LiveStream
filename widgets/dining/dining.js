@@ -66,18 +66,31 @@ dining.UpdateService = function(results) {
     
     this.updateWidget = function(widget)
     {
-        var divs = self.results.getContentDivs(self.index, 3);
+        var divs = self.results.getContentDivs(self.index, 3, 'w');
         var current = divs[1].addClass('current').click(self.highlightClickHandler);
         
         slider.navigateTo(current, slider.Direction.RIGHT).on(slider.Event.AFTER_OPEN, function(){self.animateWidgetData(widget);});
-        
-
-        //widget.find('.highlight.current').replaceWith(current);
     }
     
     this.animateWidgetData = function(widget)
-    {
-        console.log('animate widget data - ' + widget.attr('class'));
+    {        
+        var price = widget.find('.price');
+        price.velocity({opacity:0, translateZ:0, translateY: '100%'}, {duration:0});
+        price.velocity({opacity:1, translateZ:0, translateY: 0}, [ 500, 20 ]);
+        
+        var icon = widget.find('.icon');
+        icon.velocity({translateZ: 0,scaleX: "0",scaleY: "0"}, {duration:0});
+        icon.velocity({opacity: 1, translateZ: 0,scaleX: "1",scaleY: "1"}, [ 500, 20 ]);
+        
+        var starCount = 0;
+        var starRating = widget.find('.rating');
+        starRating.find('.star').each(function()
+        {
+            var position = $(this).outerWidth() * starCount;            
+            $(this).velocity({opacity:0, translateZ:0, translateX: '-100%'}, {duration:0});
+            $(this).velocity({opacity:1, translateZ:0, translateX: position}, {'easing':[ 250, 25 ], 'delay': (starCount * 150)});
+            starCount++;
+        });
     }
     
     this.updateView = function(view)

@@ -118,21 +118,28 @@ places.PlaceResults = function(widget, data, location) {
     };
     this.addResults(data);
         
-    this.getContentDiv = function(index) {
-        var div = places.createContentDiv().attr('data-index', index).addClass('highlight');        
+    this.getContentDiv = function(index, type) {
+        if(type == 'w')
+        {
+            var div = places.createWidgetContentDiv().attr('data-index', index).addClass('highlight'); 
+        }
+        else
+        {
+            var div = places.createContentDiv().attr('data-index', index).addClass('highlight');
+        }
         var data = self.results[index];
         if (data) {
             places.updateContentDiv(div, data);
         }
         return div;
     };
-    this.getContentDivs = function(startIndex, length) {
+    this.getContentDivs = function(startIndex, length, type) {
         var divs = [];        
         for (var i = 0; i < length; i++) {
             if (!self.results[startIndex]) {
                 startIndex = 0;
             }
-            divs.push(this.getContentDiv(startIndex));
+            divs.push(this.getContentDiv(startIndex, type));
             startIndex++;
         }        
         return divs;
@@ -152,7 +159,7 @@ places.createContentDiv = function() {
     var div = $('<div/>').addClass('content')
             .append($('<div/>').addClass('name'))
             .append($('<div/>').addClass('attributions'))
-            .append($('<img/>').addClass('icon'))
+            .append($('<img/>').addClass('icon').attr('width', 71).attr('height', 71))
             .append($('<div/>').addClass('rating-box')
                 .append($('<div/>').addClass('price'))
                 .append($('<div/>').addClass('rating')))
@@ -163,6 +170,18 @@ places.createContentDiv = function() {
             .append($('<img/>').addClass('photo'))
             .append($('<div/>').addClass('photoAttributions'))
             .append($('<div/>').addClass('reference'));
+    return div;
+};
+
+places.createWidgetContentDiv = function() {
+    var div = $('<div/>').addClass('content')
+            .append($('<div/>').addClass('name'))
+            .append($('<div />').addClass('data')
+                    .append($('<img/>').addClass('icon').attr('width', 71).attr('height', 71))
+                    .append($('<div/>').addClass('rating-box')
+                        .append($('<div/>').addClass('price'))
+                        .append($('<div/>').addClass('rating'))))
+            .append($('<img/>').addClass('photo'));
     return div;
 };
 

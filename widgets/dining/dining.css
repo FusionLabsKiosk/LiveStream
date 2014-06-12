@@ -11,6 +11,44 @@
     height: 100%;
 }
 
+.dining.widget .content
+{
+    display:flex;
+    flex-direction:column;
+    justify-content: space-between;
+}
+.dining.widget .content .name
+{
+    flex-basis:0;
+}
+.dining.widget .icon
+{
+    opacity:0;
+    display:inline-block;
+    vertical-align:bottom;
+    margin-right:1em;
+}
+.dining.widget .rating-box
+{
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-end;   
+}
+.dining.widget .rating
+{
+    height:33px;
+}
+.dining.widget .star
+{
+    opacity:0;
+    position:absolute;
+}
+.dining.widget .price
+{
+    opacity:0;
+}
+
 /* Detail */
 .dining .detail {
     display: flex;
@@ -41,6 +79,10 @@
 .dining .rating {
     font-size: 2em;
     text-align: center;
+}
+.dining .rating
+{
+    position:relative;
 }
 .dining .star.filled {
     color: #ffb800;
