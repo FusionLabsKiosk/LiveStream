@@ -35,19 +35,20 @@ function Widget(name, html, appendElement, type) {
         initializeFunction('widgetEnd');
         
         self.widget.click(function() {
-            self.addView(false);
+            self.viewAnimations();
         }).appendTo(this.appendLocation);
-        
+         self.widget.unbind('viewAnimationsComplete').on('viewAnimationsComplete', function(){self.addView(false);});
+                                                     
         self.js.initialize();
         
         return self;
     };
     this.addView = function(dontHide) {
-        var added = live.addView(self.view, this.type);
-            
+        var added = live.addView(self.view, self.type);
+
         if (added) {
             self.js.viewStart();
-            
+
             if(self.view.hasClass('maps'))//lazy load for maps
             {
                 setTimeout(function(){self.js.setLocation(live.location);}, 300);
@@ -57,6 +58,24 @@ function Widget(name, html, appendElement, type) {
             self.js.viewEnd();
         }
     };
+    
+    this.viewAnimations = function()
+    {
+        self.widget.velocity({scale: .95}, {duation:250}).velocity({scale: 1}, {easing: [500, 20], duation:250});
+        
+        var secondaryWidgets = $('.static-widgets .main .widgets .supplemental-widgets .widget');
+        var widgetCount = 0;
+        secondaryWidgets.each(function()
+        {
+            $(this).velocity({opacity:0, translateZ:0, translateY: '100%'}, {'easing':[ 250, 25 ], 'delay': (widgetCount * 150)});
+            widgetCount++;
+        }).promise().done(function()
+        {
+            secondaryWidgets.each(function(){$(this).css('display', 'none');});
+            self.widget.trigger('viewAnimationsComplete');
+        });
+    }
+    
     var initializeFunction = function(name) {
         if (self.js[name] === undefined) {
             self.js[name] = function() {};
