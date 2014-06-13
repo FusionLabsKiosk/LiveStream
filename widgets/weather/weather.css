@@ -15,9 +15,13 @@
 }
 .widget.weather .temperature .temp {
     font-size: 1.2em;
-    color:#0cf;
     text-align:center;
     padding:0;
+    color:#000;
+}
+.widget.weather .temperature .temp:after
+{
+    color:#0cf;
 }
 .widget.weather .message {
     font-size: 1.2em;

@@ -69,7 +69,7 @@ dining.UpdateService = function(results) {
         var divs = self.results.getContentDivs(self.index, 3, 'w');
         var current = divs[1].addClass('current').click(self.highlightClickHandler);
         
-        slider.navigateTo(current, slider.Direction.RIGHT).on(slider.Event.AFTER_OPEN, function(){self.animateWidgetData(widget);});
+        slider.navigateTo($('.slider', dining.w), current, slider.Direction.RIGHT).on(slider.Event.AFTER_OPEN, function(){self.animateWidgetData(widget);});
     }
     
     this.animateWidgetData = function(widget)

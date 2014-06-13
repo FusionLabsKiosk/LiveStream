@@ -14,7 +14,7 @@ slider.DURATION = 1000;
 slider.PROCESSING = '#page-processing';
 slider.STORAGE = '#pages';
 
-slider.navigateTo = function(page, direction, beforeOpen, param) {
+slider.navigateTo = function(targetSlider, page, direction, beforeOpen, param) {
     var slide;
     if (typeof beforeOpen === 'function') {
         var processPage = $('<div/>').addClass('slide').append($(slider.PROCESSING));
@@ -23,21 +23,22 @@ slider.navigateTo = function(page, direction, beforeOpen, param) {
             target.on(slider.Event.BEFORE_OPEN, function() {
                 beforeOpen(param);
             });
-            slide = slider.open(target, direction);
+            slide = slider.open(targetSlider, target, direction);
         });
-        slide = slider.open(processPage, direction);
+        slide = slider.open(targetSlider, processPage, direction);
     }
     else {
         var target = $('<div/>').addClass('slide').append($(page));
-        slide = slider.open(target, direction);
+        slide = slider.open(targetSlider, target, direction);
     }
     return slide;
 };
 
-slider.open = function(page, direction) {
+slider.open = function(targetSlider, page, direction) {
+    
     direction = direction === slider.Direction.LEFT ? slider.Direction.LEFT : slider.Direction.RIGHT;
     
-    var center = $('.slider').find('.slide.center');
+    var center = $(targetSlider).find('.slide.center');
     center.trigger(slider.Event.BEFORE_CLOSE);
     center.animate({
         left: direction === slider.Direction.LEFT ? '100%' : '-100%'
@@ -49,7 +50,7 @@ slider.open = function(page, direction) {
      
     var target = $(page);
     target.addClass(direction);
-    $('.slider').append(target);
+    $(targetSlider).append(target);
     target.trigger(slider.Event.BEFORE_OPEN);
     target.animate({
         left: 0

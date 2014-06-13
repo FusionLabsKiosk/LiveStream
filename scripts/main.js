@@ -27,9 +27,9 @@ live.initializeWidgets = function() {
     live.initializeWidget('weather', $('section.content .supplemental-widgets'), live.WidgetType.SUPPLEMENTAL);
     //Disable places temporarily to save API calls
     live.initializeWidget('dining');
-//    live.initializeWidget('entertainment');
-//    live.initializeWidget('shopping');
-//    live.initializeWidget('travel');
+    live.initializeWidget('entertainment');
+    live.initializeWidget('shopping');
+    live.initializeWidget('travel');
 //    live.initializeWidget('hotels');
 //    live.initializeWidget('finance');
 };
@@ -69,12 +69,65 @@ live.updateLocation = function() {
         for (var i = 0; i < live.widgets.length; i++) {
             live.widgets[i].js.setLocation(location);
         }
+        live.setCityDisplay();
     });
-    $('.city', defineLocation.w).html(location);
 };
+live.setCityDisplay = function()
+{
+    var fontSize = 60;
+    $('.city', defineLocation.w).html(live.location.city);
+    do
+    {
+        $('.city', defineLocation.w).css('font-size', fontSize);
+        textWidth = $('.city', defineLocation.w).outerWidth();
+        fontSize = fontSize - 1;
+    }
+    while ((textWidth > 260));
+    
+    var activeAreaHeight = $('section.content .display').outerHeight() - $('section.content .display .static-widgets').outerHeight();
+    $('.active').css('height', activeAreaHeight);
+}
 
 /* View Manipulation */
-live.addView = function(selector, widgetType) {    
+live.validateAddView = function(selector, widgetType) {    
+    var viewPanel = $('#view-panel');
+    var supplementalViewPanel = $('#supplemental-view-panel');
+    var viewPanelVisible = viewPanel.hasClass('visible');
+    var supplementalViewPanelVisible = supplementalViewPanel.hasClass('visible');
+    var added = false;
+    
+    if(widgetType == live.WidgetType.STANDARD)
+    {        
+        if(viewPanelVisible)
+        {
+            if(viewPanel.find(selector).length <= 0)
+            {
+                added=true;
+            }
+        }
+        else
+        {
+            added=true;
+        }
+    }
+    else if(widgetType == live.WidgetType.SUPPLEMENTAL)
+    {
+        if(supplementalViewPanelVisible)
+        {
+            if(supplementalViewPanel.find(selector).length <= 0)
+            {
+                added=true;
+            }
+        }
+        else
+        {
+           added=true;
+        }
+    }
+    return added;
+};
+live.addView = function(selector, widgetType)
+{    
     var viewPanel = $('#view-panel');
     var supplementalViewPanel = $('#supplemental-view-panel');
     var viewPanelVisible = viewPanel.hasClass('visible');
@@ -89,7 +142,7 @@ live.addView = function(selector, widgetType) {
             if(viewPanel.find(selector).length > 0)
             {
                 //if current view is in - close panel, close view
-                live.hideViewPanel(function(){live.closeView(viewPanel);});
+                live.hideViewPanel(function(){selector.trigger('viewPanelHideComplete');live.closeView(viewPanel);});
                 
             }
             else

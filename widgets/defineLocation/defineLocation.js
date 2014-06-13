@@ -14,36 +14,38 @@ defineLocation.VIEW_LOCATIONS = [
 ];
 
 defineLocation.initialize = function() {
-    $('#location', defineLocation.v).keypress(function(e) {
-        if (e.which === 13) {
-            live.updateLocation();
-        }
-    });
+    
 };
 
 defineLocation.setLocation = function(location) {
      
 };
 
-defineLocation.viewStart = function() {
-    //location.showViewLoading();
-    setTimeout(function() {
-        //location.hideViewLoading();
-    }, 2000);
-    console.log('View Started');    
+defineLocation.viewStart = function()
+{
+    $('#location', defineLocation.v).unbind('keypress').keypress(function(e) {
+        if (e.which === 13) {
+            live.updateLocation();
+            defineLocation.w.click();
+        }
+    });
+    $('.search-button', defineLocation.v).unbind('click').click(function(e) {
+        live.updateLocation();
+        defineLocation.w.click();
+    });
 };
 defineLocation.viewEnd = function() {
-    console.log('View Ended');    
+    $('#location', defineLocation.v).val('');
 };
 defineLocation.widgetStart = function() {
-    console.log('Widget Started');    
+     
 };
 defineLocation.widgetEnd = function() {
-    console.log('Widget Ended');
+    
 };
 defineLocation.iconStart = function() {
-    console.log('Icon Started');
+    
 };
 defineLocation.iconEnd = function() {
-    console.log('Icon Ended');
+    
 };

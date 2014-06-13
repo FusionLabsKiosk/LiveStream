@@ -35,45 +35,117 @@ function Widget(name, html, appendElement, type) {
         initializeFunction('widgetEnd');
         
         self.widget.click(function() {
-            self.viewAnimations();
+            self.toggleView(false);
         }).appendTo(this.appendLocation);
-         self.widget.unbind('viewAnimationsComplete').on('viewAnimationsComplete', function(){self.addView(false);});
+         self.widget.unbind('addViewAnimationsComplete').on('addViewAnimationsComplete', self.startView);
+         self.widget.unbind('removeViewAnimationsComplete').on('removeViewAnimationsComplete', self.endView);
                                                      
         self.js.initialize();
         
         return self;
     };
-    this.addView = function(dontHide) {
-        var added = live.addView(self.view, self.type);
+    this.toggleView = function(dontHide)
+    {
+        var toAdd = live.validateAddView(self.view, self.type);
 
-        if (added) {
-            self.js.viewStart();
-
-            if(self.view.hasClass('maps'))//lazy load for maps
-            {
-                setTimeout(function(){self.js.setLocation(live.location);}, 300);
-            }
+        if (toAdd) 
+        {
+            self.addViewAnimations();
         }
-        else {
-            self.js.viewEnd();
+        else 
+        {
+            self.removeViewAnimations();
         }
     };
-    
-    this.viewAnimations = function()
-    {
-        self.widget.velocity({scale: .95}, {duation:250}).velocity({scale: 1}, {easing: [500, 20], duation:250});
+    this.startView = function(added)
+    { 
+        live.addView(self.view, self.type);
+        self.js.viewStart();
         
+        $('.close-button', self.view).unbind('click').click(function(e) {
+            defineLocation.w.click();
+        });
+
+        if(self.view.hasClass('maps'))//lazy load for maps
+        {
+            setTimeout(function(){self.js.setLocation(live.location);}, 300);
+        }
+    }
+    this.endView = function()
+    {
+        live.addView(self.view, self.type);        
+        self.js.viewEnd();
+    }
+    
+    this.addViewAnimations = function()
+    {
+        self.widget.velocity({scale: .95}, {duration:100}).velocity({scale: 1}, {easing: [250, 10], duation:100});
+        if(self.type == live.WidgetType.STANDARD)
+        {
+            var secondaryWidgets = $('.static-widgets .main .widgets .supplemental-widgets .widget');
+            var widgetCount = 0;
+            secondaryWidgets.each(function()
+            {
+                $(this).velocity({opacity:0, translateZ:0, translateY: '100%'}, {'easing':[ 250, 25 ], 'delay': (widgetCount * 150)});
+                widgetCount++;
+            }).promise().done(function()
+            {
+                secondaryWidgets.addClass('small');
+                self.widget.trigger('addViewAnimationsComplete');
+                
+                widgetCount = 0;
+                secondaryWidgets.each(function()
+                {
+                    $(this).velocity({opacity:0, translateZ:0, translateY: 0, translateX: '-100%'}, {duration:0});
+                    $(this).velocity({opacity:1, translateZ:0, translateX: 0}, {'easing':[ 250, 25 ], 'delay': (widgetCount * 150)});
+                    widgetCount++;
+                });
+            });
+        }
+        else
+        {
+            self.widget.trigger('addViewAnimationsComplete');
+        }
+    }
+    this.removeViewAnimations = function()
+    {
+        self.widget.velocity({scale: .95}, {duration:100}).velocity({scale: 1}, {easing: [250, 10], duation:100});
+        self.view.unbind('viewPanelHideComplete').on('viewPanelHideComplete', this.resetSupplementalWidgets);
+        if(self.type == live.WidgetType.STANDARD)
+        {
+            var secondaryWidgets = $('.static-widgets .main .widgets .supplemental-widgets .widget');
+            var widgetCount = 0;
+            secondaryWidgets.each(function()
+            {
+                $(this).velocity({opacity:0, translateZ:0, translateX: '-100%'}, {'easing':[ 250, 25 ], 'delay': (widgetCount * 150)});
+                widgetCount++;
+            }).promise().done(function()
+            {
+                secondaryWidgets.css('height', '0');
+                self.widget.trigger('removeViewAnimationsComplete');
+            });
+        }
+        else
+        {
+            self.widget.trigger('removeViewAnimationsComplete');
+        }
+    }
+    
+    this.resetSupplementalWidgets = function()
+    {
         var secondaryWidgets = $('.static-widgets .main .widgets .supplemental-widgets .widget');
-        var widgetCount = 0;
+        secondaryWidgets.css('height', 'auto');
+        widgetCount = 0;
         secondaryWidgets.each(function()
         {
-            $(this).velocity({opacity:0, translateZ:0, translateY: '100%'}, {'easing':[ 250, 25 ], 'delay': (widgetCount * 150)});
+//            $(this).velocity({opacity:0, translateZ:0, translateX: 0, translateY: '100%'}, {duration:0});
+//            $(this).velocity({opacity:1, translateZ:0, translateY: 0}, {'easing':[ 250, 25 ], 'delay': (widgetCount * 150)});
+            $(this).velocity({opacity:0, translateZ:0, translateX: '-150%', translateY: '-100%'}, {duration:0});
+            $(this).velocity({opacity:1, translateZ:0, translateX: 0, translateY: 0}, {'easing':[ 250, 25 ], 'delay': (widgetCount * 150)});
             widgetCount++;
-        }).promise().done(function()
-        {
-            secondaryWidgets.each(function(){$(this).css('display', 'none');});
-            self.widget.trigger('viewAnimationsComplete');
         });
+
+        secondaryWidgets.removeClass('small');
     }
     
     var initializeFunction = function(name) {

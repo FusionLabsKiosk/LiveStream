@@ -10,15 +10,22 @@
                 <div class="title">
                     <div>discover</div>
                     <div>the city of</div>
-                    <div><div class="touch-icon-wrap touch-icon-effect"><div class="touch-icon"></div></div><div class="city"></div></div>
+                    <div><div class="touch-icon-wrap touch-icon-effect"><div class="touch-icon"></div></div><div class="city"></div><div class="city-test"></div></div>
                 </div>
             </div>
             <div class="instructions">tap to change cities.</div>
         </figure>
         <main class="view define-location">
-            <div class="instructions">Type in a city, or choose a city below, to find out more about events, dining, weather, and news for that area.</div>
-            <label for="location" class="title">tell me about</label>
-            <input id="location" type="text" value="Dallas" placeholder="enter a city" size="11" />
+            <header><div class="title">Choose a Location</div><div class="close-button button">close</div></header>
+            <div class="view-content">
+                <div class="search-bar">
+                    <input id="location" type="search" value="Dallas" placeholder="enter a city..." />
+                    <span class="search-button-container">
+                        <span class="search-button button">search</span>
+                    </span>
+                </div>
+                <div class="instructions">Type in a city, or choose a city below, to find out more about events, dining, weather, and news for that area.</div>
+            </div>
         </main>
     </body>
 </html>

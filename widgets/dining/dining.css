@@ -27,6 +27,7 @@
     display:inline-block;
     vertical-align:bottom;
     margin-right:1em;
+    max-width:100%;
 }
 .dining.widget .rating-box
 {
@@ -50,43 +51,64 @@
 }
 
 /* Detail */
-.dining .detail {
-    display: flex;
-    flex-flow: row;
-    flex-wrap: wrap;
-    padding: 1em;
+.dining .detail
+{
+    margin-bottom:2em;
+}
+
+.dining .detail .photo-box
+{
     position: relative;
-    width: 100%;
+    max-height: 400px;
+    overflow: hidden;   
 }
-.dining .detail .name {
-    font-size: 3em;
-    font-weight: bold;
-    margin-bottom: 2em;
+.dining .detail .photo-box .name
+{
+    position:absolute;
+    width:100%;
+    font-size: 2em;
+    padding:.5em;
+    background-color:#000;
 }
-.dining .detail .rating-box {
-    right: 3em;
-    position: absolute;
-    top: 3em;
-}
-.dining .detail .info {
+.dining .detail .info
+{
     font-size: 1.5em;
+    background-color:#000;
+    padding:.5em 1em;
 }
-.dining .detail .photo {
-    width: 100%;
+.dining .detail .info .container
+{
+    display:flex;
 }
+.dining .detail .info .container .title
+{
+    flex: 2;
+    text-align: right;
+    margin-right: .5em;
+}
+.dining .detail .info .container .separator
+{
+    flex: .7;
+}
+.dining .detail .info .container .data
+{
+    flex: 14;
+}
+
 /* Both */
-.dining .price,
-.dining .rating {
+.dining.widget .price,
+.dining.widget .rating {
     font-size: 2em;
     text-align: center;
 }
-.dining .rating
+.dining.widget .rating
 {
     position:relative;
 }
-.dining .star.filled {
+.dining.widget .star.filled {
     color: #ffb800;
 }
+
 /* Highlights */
 .dining .highlights {
     display: flex;

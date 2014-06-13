@@ -126,7 +126,6 @@ weather.createWidgetDiv = function()
     var temp = $('<div/>').addClass('temperature')
             .append($('<div/>').addClass('temp'));
     div.append(temp);
-    div.append($('<div/>').addClass('message'));
     return div;
 }
 

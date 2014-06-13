@@ -197,69 +197,98 @@ section.content .static-widgets .main .widgets .location
 }
 section.content .static-widgets .main .widgets .widget
 {
-    display:inline-block;
     margin:0 1em;
 }
 section.content .static-widgets .main .widgets .widget .visual,
 section.content .static-widgets .main .widgets .widget .text
 {
-    display:inline-block;
     vertical-align:middle;
     margin-right:1em;
 }
-section.content .static-widgets .main .widgets .supplemental-widgets
+.supplemental-widgets
 {
     display: inline-flex;
     vertical-align: middle;
     align-items: stretch;
 }
 
-section.content .static-widgets .main .widgets .supplemental-widgets .widget
+.supplemental-widgets .widget
 {
     display:flex;
     margin: 0 1em;
 }
-section.content .static-widgets .main .widgets .supplemental-widgets .widget .content
+.supplemental-widgets .widget .content
 {
     border: solid 1px;
     flex: 1;
     display: flex;
     align-items: stretch;
 }
-section.content .static-widgets .main .widgets .supplemental-widgets .widget .content .visual
+.supplemental-widgets .widget .content .visual
 {
     padding:1em;
     color:#000;
     background-color:#fff;
 }
-section.content .static-widgets .main .widgets .supplemental-widgets .widget .content .text
+.supplemental-widgets .widget .content .visual .small-icon
+{
+    display:none;
+}
+.supplemental-widgets .widget .content .text
 {
     display:flex;
     flex-direction: column;
     justify-content: center;
 }
-section.content .static-widgets .main .widgets .supplemental-widgets .title
+.supplemental-widgets .title
 {
     color:#0CF;
     font-size:2.4em;
 }
-section.content .static-widgets .main .widgets .supplemental-widgets .title .touch-icon
+.supplemental-widgets .title .touch-icon
 {
 	margin: 1px 2px;
 	width: 10px;
 	height: 10px;
 }
-section.content .static-widgets .main .widgets .supplemental-widgets .description
+.supplemental-widgets .description
 {
     font-style:italic;
 }
 
+/*minimized supplemental widgets*/
+.display.shared .supplemental-widgets
+{
+    flex-direction:column;
+}
+.supplemental-widgets .widget.small .large-icon
+{
+    display:none;
+}
+.supplemental-widgets .widget.small .content .visual .small-icon
+{
+    display:block;
+    -webkit-animation-name: bounce;
+    -webkit-animation-duration: 2s;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-timing-function: linear;
+}
+.supplemental-widgets .widget.small .content .visual .small-icon.first{-webkit-animation-delay:300ms;}
+.supplemental-widgets .widget.small .content .visual .small-icon.second{-webkit-animation-delay:600ms;}
+.supplemental-widgets .widget.small .content .visual .small-icon.third{-webkit-animation-delay:900ms;}
+.supplemental-widgets .widget.small .content
+{
+    border:none;
+}
+.supplemental-widgets .widget.small .visual
+{
+    background-color:#000;
+}
 
 section.content>.display>.active
 {
     overflow:auto;
     display:flex;
-    max-height:623px;
 }
 section.content>.display.shared>.active
 {
@@ -277,14 +306,8 @@ section.content>.display.shared>.active
     position: relative;
     transition: 0.25s all;
     
-    background: rgb(169,3,41);
-    background: -moz-linear-gradient(top,  rgba(169,3,41,1) 0%, rgba(143,2,34,1) 44%, rgba(109,0,25,1) 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(169,3,41,1)), color-stop(44%,rgba(143,2,34,1)), color-stop(100%,rgba(109,0,25,1)));
-    background: -webkit-linear-gradient(top,  rgba(169,3,41,1) 0%,rgba(143,2,34,1) 44%,rgba(109,0,25,1) 100%);
-    background: -o-linear-gradient(top,  rgba(169,3,41,1) 0%,rgba(143,2,34,1) 44%,rgba(109,0,25,1) 100%);
-    background: -ms-linear-gradient(top,  rgba(169,3,41,1) 0%,rgba(143,2,34,1) 44%,rgba(109,0,25,1) 100%);
-    background: linear-gradient(to bottom,  rgba(169,3,41,1) 0%,rgba(143,2,34,1) 44%,rgba(109,0,25,1) 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a90329', endColorstr='#6d0019',GradientType=0 );
+    display:flex;
+    flex-direction:column;
 
 }
 #view-panel.visible
@@ -298,7 +321,7 @@ section.content>.display.shared>.active
     overflow: auto;
     position: relative;
     transition: 0.25s all;
-    
+
     background: rgb(242,130,91);
     background: -moz-linear-gradient(top,  rgba(242,130,91,1) 0%, rgba(229,91,43,1) 50%, rgba(240,113,70,1) 100%);
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(242,130,91,1)), color-stop(50%,rgba(229,91,43,1)), color-stop(100%,rgba(240,113,70,1)));
@@ -307,7 +330,6 @@ section.content>.display.shared>.active
     background: -ms-linear-gradient(top,  rgba(242,130,91,1) 0%,rgba(229,91,43,1) 50%,rgba(240,113,70,1) 100%);
     background: linear-gradient(to bottom,  rgba(242,130,91,1) 0%,rgba(229,91,43,1) 50%,rgba(240,113,70,1) 100%);
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2825b', endColorstr='#f07146',GradientType=0 );
-
 }
 .display #supplemental-view-panel.visible
 {
@@ -318,18 +340,38 @@ section.content>.display.shared>.active
     flex:0 0 100%;
 }
 
-main.view header.title {
-    border-bottom: solid 1px rgba(255, 255, 255, 0.6);
-    color: #ffb800;
-    margin-bottom: 1em;
-    padding: 0.1em 0.3em;
+.view .button:active
+{
+    -webkit-transform:scale(.9);
 }
-main.view {
-    height: 100%;
-    width: 100%;
+
+#view-panel .view
+{
+    padding:2em;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
 }
-main.view header.title {
-    font-size: 3em;
+#view-panel .view>header
+{
+    padding: 1em;
+    background-color: #000;
+    font-size: 2em;
+    display:flex;
+    justify-content: space-between;
+}
+#view-panel .view>header .close-button
+{
+    color:#0cf;
+}
+#view-panel .view .view-content
+{
+    flex:1;
+    background-color:rgba(255,255,255,.2);
+    border:solid 1px rgba(255,255,255,.3);
+    border-top:none;
+    padding:1em;
+    overflow:auto;
 }
 
 /*******************************************************************************
@@ -530,7 +572,7 @@ main.view header.title {
   width: 32px;
   height: 32px;
   display: block;
-  fill: #525151;
+  fill: #FFF;
 }
 .iconmelon:after,
 .im:after {
