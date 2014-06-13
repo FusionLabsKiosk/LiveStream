@@ -1,31 +1,31 @@
 {
+    "app": {
+        "background": {
+            "scripts": ["scripts/window.js"]
+        }
+    },
     "manifest_version": 2,
     "name": "Live Stream Kiosk",
-    "version": "0.0.0.1",
-    
+    "version": "1.0.0",
     "description": "Live Stream airport kiosk terminal app.",
     "icons": { 
         "16": "images/icon_16.png", 
         "48": "images/icon_48.png", 
         "128": "images/icon_128.png" 
     },
-    
+    "author": "ChromeKioskApps@gmail.com",
     "kiosk_enabled": true,
-    "author": "Fusion Labs",
-    "app": {
-        "background": {
-            "scripts": ["scripts/window.js"]
-        }
-    },
+    "minimum_chrome_version": "35",
     "offline_enabled": true,
-    
+    "permissions": [
+        "accessibilityFeatures.read",
+        "accessibilityFeatures.modify",
+        "<all_urls>"
+    ],    
     "sandbox": {
         "pages": [
             "widgets/maps/sandbox.html",
             "scripts/scripts_sandbox.html"
         ]
-    },
-    "permissions": [
-        "<all_urls>"
-    ]
+    }
 }

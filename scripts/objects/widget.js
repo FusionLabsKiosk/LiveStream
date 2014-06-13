@@ -63,7 +63,7 @@ function Widget(name, html, appendElement, type) {
         self.js.viewStart();
         
         $('.close-button', self.view).unbind('click').click(function(e) {
-            defineLocation.w.click();
+            self.widget.click();
         });
 
         if(self.view.hasClass('maps'))//lazy load for maps
@@ -138,8 +138,6 @@ function Widget(name, html, appendElement, type) {
         widgetCount = 0;
         secondaryWidgets.each(function()
         {
-//            $(this).velocity({opacity:0, translateZ:0, translateX: 0, translateY: '100%'}, {duration:0});
-//            $(this).velocity({opacity:1, translateZ:0, translateY: 0}, {'easing':[ 250, 25 ], 'delay': (widgetCount * 150)});
             $(this).velocity({opacity:0, translateZ:0, translateX: '-150%', translateY: '-100%'}, {duration:0});
             $(this).velocity({opacity:1, translateZ:0, translateX: 0, translateY: 0}, {'easing':[ 250, 25 ], 'delay': (widgetCount * 150)});
             widgetCount++;

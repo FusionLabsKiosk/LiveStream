@@ -30,8 +30,8 @@ live.initializeWidgets = function() {
     live.initializeWidget('entertainment');
     live.initializeWidget('shopping');
     live.initializeWidget('travel');
-//    live.initializeWidget('hotels');
-//    live.initializeWidget('finance');
+    live.initializeWidget('hotels');
+    live.initializeWidget('finance');
 };
 live.initializeWidget = function(widget, appendElement, type) {
     live.widgetCount++;
@@ -262,8 +262,36 @@ live.getExternalImage = function(url, callback) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'blob';
     xhr.onload = function() {
-        callback(window.URL.createObjectURL(xhr.response));
+        if(this.status == 200 || this.status == 304)
+        {
+            callback(window.URL.createObjectURL(xhr.response));
+        }
     };
     xhr.open('GET', url, true);
-    xhr.send();
+    try
+    {
+        xhr.send();
+    }
+    catch(exception)
+    {
+        console.log(exception.message);
+        var xhr = new XMLHttpRequest();
+        xhr.responseType = 'blob';
+        xhr.onload = function() {
+            if(this.status == 200 || this.status == 304)
+            {
+                callback(window.URL.createObjectURL(xhr.response));
+            }
+        };
+        xhr.open('GET', 'images/noImage.jpg', true);
+    }
 };
+
+live.externalImageError = function(event)
+{
+    console.log('error getting image');
+}
+live.externalImageBadStatus = function(event)
+{
+    console.log('error getting image');
+}
