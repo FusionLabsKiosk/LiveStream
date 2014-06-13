@@ -1,21 +1,23 @@
 {
     "app": {
         "background": {
-            "scripts": ["scripts/window.js"]
+            "scripts": ["background.js"]
         }
     },
     "manifest_version": 2,
-    "name": "Live Stream Kiosk",
-    "version": "1.0.0",
-    "description": "Live Stream airport kiosk terminal app.",
+    "name": "InfoHub",
+    "version": "1.1.0",
+    
+    "description": "Airport live data streaming kiosk app for Chrome",
     "icons": { 
         "16": "images/icon_16.png", 
         "48": "images/icon_48.png", 
         "128": "images/icon_128.png" 
     },
+    
     "author": "ChromeKioskApps@gmail.com",
     "kiosk_enabled": true,
-    "minimum_chrome_version": "35",
+    "minimum_chrome_version": "37",
     "offline_enabled": true,
     "permissions": [
         "accessibilityFeatures.read",
