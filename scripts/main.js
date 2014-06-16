@@ -259,33 +259,34 @@ live.closeView = function(viewPanel, callback)
 }
 
 live.getExternalImage = function(url, callback) {
-    var xhr = new XMLHttpRequest();
-    xhr.responseType = 'blob';
-    xhr.onload = function() {
-        if(this.status == 200 || this.status == 304)
-        {
-            callback(window.URL.createObjectURL(xhr.response));
-        }
-    };
-    xhr.open('GET', url, true);
     try
     {
-        xhr.send();
+        var xhr = new XMLHttpRequest();
+        xhr.responseType = 'blob';
+        xhr.onreadystatechange = function(event){live.XMLHTTPRequestReadyStateChanged(xhr, callback)};
+        xhr.open('GET', url, true);
+        xhr.send(null);
     }
     catch(exception)
     {
         console.log(exception.message);
-        var xhr = new XMLHttpRequest();
-        xhr.responseType = 'blob';
-        xhr.onload = function() {
-            if(this.status == 200 || this.status == 304)
-            {
-                callback(window.URL.createObjectURL(xhr.response));
-            }
-        };
-        xhr.open('GET', 'images/noImage.jpg', true);
     }
 };
+live.XMLHTTPRequestReadyStateChanged = function(xhr, callback)
+{
+    if (xhr.readyState === 4)
+    {
+        if(xhr.status === 200)
+        {
+            callback(window.URL.createObjectURL(xhr.response));
+        }
+        else
+        {
+            callback('images/noImage.jpg');
+            console.log('Error Status: ' + xhr.status);
+        }
+    } 
+}
 
 live.externalImageError = function(event)
 {
