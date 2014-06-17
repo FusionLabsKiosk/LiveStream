@@ -230,6 +230,7 @@ live.showSupplementalViewPanel = function(callback)
         }
     });
     viewPanel.addClass('visible');
+    $('#widgets-container').addClass('shared');
 }
 live.hideSupplementalViewPanel = function(callback)
 {
@@ -243,6 +244,7 @@ live.hideSupplementalViewPanel = function(callback)
         }
     });
     viewPanel.removeClass('visible');
+    $('#widgets-container').removeClass('shared');
 }
 
 live.openView = function(viewPanel, selector)
