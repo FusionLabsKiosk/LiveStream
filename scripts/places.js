@@ -154,7 +154,6 @@ places.PlaceResults = function(widget, data, location) {
     };
 };
 
-
 places.createContentDiv = function() {
     var div = $('<div/>').addClass('content')
             .append($('<div/>').addClass('photo-box').css('width', '760px')
