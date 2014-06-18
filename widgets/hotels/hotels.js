@@ -21,6 +21,18 @@ hotels.setLocation = function(location) {
     };
 };
 
+hotels.viewStart = function()
+{
+    hotels.w.unbind('click');
+};
+hotels.viewEnd = function()
+{
+    hotels.w.unbind('click').click(function(e)
+    {
+        hotels.toggleView(false);
+    });
+};
+
 hotels.startHighlightUpdates = function(results) {
     hotels.stopHighlightUpdates();
     
@@ -40,17 +52,32 @@ hotels.UpdateService = function(results) {
     this.index = 0;
     this.running = true;
     
-    this.start = function() {
-        if (self.running) {
-            
-            self.updateWidget(hotels.w);
-            self.updateView(hotels.v);
-            self.index++;
-            
-            setTimeout(self.start, hotels.UPDATE_INTERVAL);
+    this.start = function()
+    {
+        hotels.v.find('.places-list').empty();
+        for(var i = 0; i < self.results.results.length; i++)
+        {
+            var div = self.results.getContentDiv(i).click(self.highlightClickHandler);
+            hotels.v.find('.places-list').append(div);
         }
+        self.update();
     };
-    this.stop = function() {
+    this.update = function()
+    {
+        if(self.running)
+        {
+            self.updateWidget(hotels.w);
+            self.index++;
+            if(self.index > self.results.results.length)
+            {
+                self.index = 0;
+            }
+
+            setTimeout(self.update, hotels.UPDATE_INTERVAL);
+        }
+    }
+    this.stop = function()
+    {
         self.running = false;
     };
     
@@ -62,8 +89,8 @@ hotels.UpdateService = function(results) {
     
     this.updateWidget = function(widget)
     {
-        var divs = self.results.getContentDivs(self.index, 3, 'w');
-        var current = divs[1].addClass('current').click(self.highlightClickHandler);
+        var div = self.results.getContentDiv(self.index, 'w');
+        var current = div.addClass('current').click(self.highlightClickHandler);
         
         slider.navigateTo($('.slider', hotels.w), current, slider.Direction.RIGHT).on(slider.Event.AFTER_OPEN, function(){self.animateWidgetData(widget);});
     }
@@ -87,17 +114,5 @@ hotels.UpdateService = function(results) {
             $(this).velocity({opacity:1, translateZ:0, translateX: position}, {'easing':[ 250, 25 ], 'delay': (starCount * 150)});
             starCount++;
         });
-    }
-    
-    this.updateView = function(view)
-    {
-        var divs = self.results.getContentDivs(self.index, 3);
-        var previous = divs[0].addClass('previous').click(self.highlightClickHandler);
-        var current = divs[1].addClass('current').click(self.highlightClickHandler);
-        var next = divs[2].addClass('next').click(self.highlightClickHandler);
-
-        view.find('.highlights .highlight.previous').replaceWith(previous);
-        view.find('.highlights .highlight.current').replaceWith(current);
-        view.find('.highlights .highlight.next').replaceWith(next);
     }
 };

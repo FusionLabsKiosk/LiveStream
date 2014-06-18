@@ -48,17 +48,14 @@ live.widgetsLoaded = function() {
     loading.initialize();
     live.updateLocation();
 };
-live.initializeListeners = function() {
-//    $('#widgets-container').mousewheel(function(e, delta)
-//    {
-//        this.scrollLeft -= delta * 100;
-//        e.preventDefault();
-//    });
+live.initializeListeners = function()
+{
+    $('#app-title').click(live.closeAll);
 };
 live.initializeParallax = function() {
     $('#widgets-container').scroll(function() {
-        var x = -($('#widgets-container').scrollLeft() / live.PARALLAX_SPEED);
-        $('main.fullscreen').css('background-position', x + 'px 50%');
+        var y = -($('#widgets-container').scrollTop() / live.PARALLAX_SPEED);
+        $('main.fullscreen').css('background-position', '50% ' + y + 'px');
     });
 };
 
@@ -147,8 +144,19 @@ live.addView = function(selector, widgetType)
             }
             else
             {
-               //if not current view - close panel, close view, open view, open panel                
-                live.hideViewPanel(function(){live.closeView(viewPanel, function(){live.openView(viewPanel, selector);live.showViewPanel();});});
+                //if not current view - close panel, close view, open view, open panel                
+                live.hideViewPanel(function()
+                {
+                    var view = viewPanel.find('.view');
+                    var widget = live.getWidgetFromName(live.getWidgetName(view));
+                    
+                    live.closeView(viewPanel, function()
+                    {
+                        widget.js.viewEnd();
+                        live.openView(viewPanel, selector);
+                        live.showViewPanel();
+                    });
+                });
                 added=true;
             }
         }
@@ -260,6 +268,46 @@ live.closeView = function(viewPanel, callback)
     }
 }
 
+live.closeAll = function(event)
+{
+    var viewPanel = $('#view-panel');
+    var view = viewPanel.find('.view');
+    if(view.length > 0)
+    {
+        var viewWidget = live.getWidgetFromName(live.getWidgetName(view));
+    }
+    var supplementalViewPanel = $('#supplemental-view-panel');
+    var supplementalView = supplementalViewPanel.find('.view');
+    if(supplementalView.length > 0)
+    {
+        var supplementalViewWidget = live.getWidgetFromName(live.getWidgetName(supplementalView));
+    }    
+    
+    live.hideViewPanel(function()
+    {
+        view.trigger('viewPanelHideComplete');
+        live.closeView(viewPanel, function()
+        {
+            if(viewWidget != undefined)
+            {
+                viewWidget.js.viewEnd();
+            }
+        });
+    });
+    
+    live.hideSupplementalViewPanel(function()
+    {
+        supplementalView.trigger('viewPanelHideComplete');
+        live.closeView(supplementalViewPanel, function()
+        {
+            if(supplementalViewWidget != undefined)
+            {
+                supplementalViewWidget.js.viewEnd();
+            }
+        });
+    });
+}
+
 live.getExternalImage = function(url, callback) {
     try
     {
@@ -297,4 +345,33 @@ live.externalImageError = function(event)
 live.externalImageBadStatus = function(event)
 {
     console.log('error getting image');
+}
+
+/*Helper Functions*/
+live.getWidgetName = function(element)
+{
+    var classes = element.attr('class').split(/\s+/);
+    for(var i=0; i<classes.length; i++)
+    {
+        if(classes[i] != 'view' && classes[i] != 'places')
+        {
+            return classes[i];
+        }
+    }
+}
+live.getWidgetFromName = function(name)
+{
+    var dashIndex = name.indexOf('-');
+    if(dashIndex > -1)
+    {
+        var uppercaseIndex = dashIndex + 1;
+        name =  name.substr(0, dashIndex) + name[uppercaseIndex].toUpperCase() + name.substr(uppercaseIndex + 1, name.length);
+    }
+    for(var i=0; i<live.widgets.length; i++)
+    {
+        if(live.widgets[i].name == name)
+        {
+            return live.widgets[i];
+        }
+    }
 }

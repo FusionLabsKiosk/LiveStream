@@ -52,6 +52,19 @@
 {
     fill:#000;
 }
+.maps .layers button.selected
+{
+    border: solid 2px #0cf;
+    color:#0cf;
+}
+.maps .layers button.selected .icon 
+{
+    background-color:#0cf;
+}
+.maps .layers button.selected .icon svg
+{
+    fill:#fff;
+}
 .maps .layers button .title
 {
     padding: .2em .5em;

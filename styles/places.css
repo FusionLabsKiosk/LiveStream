@@ -1,0 +1,180 @@
+.icons .places.widget .highlights .previous,
+.icons .places.widget .highlights .next {
+    display: none;
+}
+
+/*Widget*/
+.places.widget .highlights {
+    height:100%;
+}
+.places.widget .highlight {
+    height: 100%;
+}
+
+.places.widget .content
+{
+    display:flex;
+    flex-direction:column;
+    justify-content: space-between;
+}
+.places.widget .content .name
+{
+    flex-basis:0;
+}
+.places.widget .icon
+{
+    opacity:0;
+    display:inline-block;
+    vertical-align:bottom;
+    margin-right:1em;
+    max-width:100%;
+}
+.places.widget .rating-box
+{
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-end;   
+}
+.places.widget .rating
+{
+    height:33px;
+}
+.places.widget .star
+{
+    opacity:0;
+    position:absolute;
+}
+.places.widget .price
+{
+    opacity:0;
+}
+
+/* Detail */
+.places .detail
+{
+    margin-bottom:2em;
+}
+
+.places .detail .photo-box
+{
+    position: relative;
+    max-height: 400px;
+    overflow: hidden;   
+}
+.places .detail .photo-box .title
+{
+    background-color:#000;
+    padding:.5em;
+    display:flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.places .detail .photo-box .name
+{
+    font-size: 2em;
+}
+.places .detail .photo-box .map-button
+{
+    font-size: 1.5em;
+    color:#0cf;
+}
+.places .detail .photo-box .map-button .iconmelon
+{
+    fill:#0cf;
+    display:inline-block;
+}
+.places .detail .info
+{
+    font-size: 1.5em;
+    background-color:#000;
+    padding:.5em 1em;
+}
+.places .detail .info .container
+{
+    display:flex;
+}
+.places .detail .info .container .title
+{
+    flex: 2;
+    text-align: right;
+    margin-right: .5em;
+}
+.places .detail .info .container .separator
+{
+    flex: .7;
+}
+.places .detail .info .container .data
+{
+    flex: 14;
+}
+.places .detail .info .container .data.address
+{
+    color:#0cf;
+}
+
+/* Both */
+.places.widget .price,
+.places.widget .rating {
+    font-size: 2em;
+    text-align: center;
+}
+.places.widget .rating
+{
+    position:relative;
+}
+.places.widget .star.filled {
+    color: #ffb800;
+}
+
+/* Highlights */
+.places .highlights {
+    display: flex;
+    flex-flow: column;
+    flex-wrap: wrap;
+    width: 100%;
+}
+.places.view .highlights {
+    flex-flow: row;
+    flex-wrap: no-wrap;
+}
+
+.places .highlight {
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-wrap: wrap;
+    flex: 1;
+    height: 150px;
+    overflow: hidden;
+    padding: 1em;
+    position: relative;
+    justify-content: space-around;
+}
+.places .highlight * {
+    z-index: 1;
+}
+.places .highlight .name {
+    flex-basis: 100%;
+    font-size: 1.5em;
+    margin-bottom: 0.5em;
+}
+.places .highlight .info {
+    flex-basis: 50%;
+}
+.places .highlight .photo {
+    opacity: 0.5;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    z-index: 0;
+}
+.places .attributions,
+.places .detail .icon,
+.places .highlight .address,
+.places .highlight .phone,
+.places .highlight .website,
+.places .photoAttributions,
+.places .reference {
+    display: none;
+}

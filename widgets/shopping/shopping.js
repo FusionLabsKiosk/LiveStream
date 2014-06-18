@@ -36,6 +36,18 @@ shopping.setLocation = function(location) {
     };
 };
 
+shopping.viewStart = function()
+{
+    shopping.w.unbind('click');
+};
+shopping.viewEnd = function()
+{
+    shopping.w.unbind('click').click(function(e)
+    {
+        shopping.toggleView(false);
+    });
+};
+
 shopping.startHighlightUpdates = function(results) {
     shopping.stopHighlightUpdates();
     
@@ -48,41 +60,6 @@ shopping.stopHighlightUpdates = function() {
         shopping.currentUpdateService.stop();
     }
 };
-//shopping.UpdateService = function(results) {
-//    var self = this;
-//    
-//    this.results = results;
-//    this.index = 0;
-//    this.running = true;
-//    
-//    this.start = function() {
-//        if (self.running) {
-//            shopping.wv.each(function() {
-//                var divs = self.results.getContentDivs(self.index, 3);
-//                var previous = divs[0].addClass('previous').click(self.highlightClickHandler);
-//                var current = divs[1].addClass('current').click(self.highlightClickHandler);
-//                var next = divs[2].addClass('next').click(self.highlightClickHandler);
-//
-//                $(this).find('.highlights .highlight.previous').replaceWith(previous);
-//                $(this).find('.highlights .highlight.current').replaceWith(current);
-//                $(this).find('.highlights .highlight.next').replaceWith(next);
-//            });
-//            self.index++;
-//            
-//            setTimeout(self.start, shopping.UPDATE_INTERVAL);
-//        }
-//    };
-//    this.stop = function() {
-//        self.running = false;
-//    };
-//    
-//    this.highlightClickHandler = function(e) {
-//        var index = $(e.target).closest('.highlight').attr('data-index');
-//        var div = self.results.getDetailDiv(index);
-//        shopping.wv.find('.detail').replaceWith(div);
-//    };
-//};
-
 shopping.UpdateService = function(results) {
     var self = this;
     
@@ -90,17 +67,32 @@ shopping.UpdateService = function(results) {
     this.index = 0;
     this.running = true;
     
-    this.start = function() {
-        if (self.running) {
-            
-            self.updateWidget(shopping.w);
-            self.updateView(shopping.v);
-            self.index++;
-            
-            setTimeout(self.start, shopping.UPDATE_INTERVAL);
+    this.start = function()
+    {
+        shopping.v.find('.places-list').empty();
+        for(var i = 0; i < self.results.results.length; i++)
+        {
+            var div = self.results.getContentDiv(i).click(self.highlightClickHandler);
+            shopping.v.find('.places-list').append(div);
         }
+        self.update();
     };
-    this.stop = function() {
+    this.update = function()
+    {
+        if(self.running)
+        {
+            self.updateWidget(shopping.w);
+            self.index++;
+            if(self.index > self.results.results.length)
+            {
+                self.index = 0;
+            }
+
+            setTimeout(self.update, shopping.UPDATE_INTERVAL);
+        }
+    }
+    this.stop = function()
+    {
         self.running = false;
     };
     
@@ -112,8 +104,8 @@ shopping.UpdateService = function(results) {
     
     this.updateWidget = function(widget)
     {
-        var divs = self.results.getContentDivs(self.index, 3, 'w');
-        var current = divs[1].addClass('current').click(self.highlightClickHandler);
+        var div = self.results.getContentDiv(self.index, 'w');
+        var current = div.addClass('current').click(self.highlightClickHandler);
         
         slider.navigateTo($('.slider', shopping.w), current, slider.Direction.RIGHT).on(slider.Event.AFTER_OPEN, function(){self.animateWidgetData(widget);});
     }
@@ -139,15 +131,4 @@ shopping.UpdateService = function(results) {
         });
     }
     
-    this.updateView = function(view)
-    {
-        var divs = self.results.getContentDivs(self.index, 3);
-        var previous = divs[0].addClass('previous').click(self.highlightClickHandler);
-        var current = divs[1].addClass('current').click(self.highlightClickHandler);
-        var next = divs[2].addClass('next').click(self.highlightClickHandler);
-
-        view.find('.highlights .highlight.previous').replaceWith(previous);
-        view.find('.highlights .highlight.current').replaceWith(current);
-        view.find('.highlights .highlight.next').replaceWith(next);
-    }
 };

@@ -157,7 +157,9 @@ places.PlaceResults = function(widget, data, location) {
 places.createContentDiv = function() {
     var div = $('<div/>').addClass('content')
             .append($('<div/>').addClass('photo-box').css('width', '760px')
+                .append($('<div/>').addClass('title')
                 .append($('<div/>').addClass('name'))
+                .append($('<div>view on map <div class="iconmelon small-icon first"><svg viewBox="0 0 34 34"><use xlink:href="#svg-icon-map-pin"></use></svg></div></div>').addClass('map-button').addClass('button')))
                 .append($('<img/>').addClass('photo').attr('width', 760))
                 .append($('<div/>').addClass('photoAttributions')))
             .append($('<div/>').addClass('attributions'))
@@ -178,7 +180,7 @@ places.createContentDiv = function() {
                 .append($('<div/>').addClass('address-container').addClass('container')
                     .append($('<div>Address</div>').addClass('title'))
                     .append($('<div>|</div>').addClass('separator'))
-                    .append($('<div/>').addClass('address').addClass('data'))))
+                    .append($('<div/>').addClass('address').addClass('data').addClass('button'))))
             .append($('<div/>').addClass('reference'));
     return div;
 };
@@ -235,7 +237,9 @@ places.updateContentDiv = function(content, data) {
             content.find('.rating').append($('<span/>').addClass('star').html('☆'));        
         }
 
-        content.find('.address').click(places.mapMarkerHandler);
+        var address = content.find('.address');
+        content.find('.address').click(function(e){places.mapMarkerHandler(address);});
+        content.find('.map-button').click(function(e){places.mapMarkerHandler(address);});
         if (data.formatted_address !== undefined) {
             content.find('.address').html(data.formatted_address);
         }
@@ -255,13 +259,30 @@ places.updateContentDiv = function(content, data) {
     return content;
 };
 
-places.mapMarkerHandler = function(e) {
+places.mapMarkerHandler = function(address) {
     if (maps) {
-        var address = $(e.target).html();
-        geocoding.geocode(address, function(location) {
-            //live.setAsideViews(maps, food);
-            //TODO: Set views will change with layout changes
-            maps.setMarker(location);
+        var address = address.html();
+        geocoding.geocode(address, function(location)
+        {
+            var mapsWidgetDisplayed = ($('#supplemental-view-panel').find('.maps').length > 0);
+            var mapsWidget = live.getWidgetFromName('maps');
+            if(mapsWidgetDisplayed === false)
+            {
+                mapsWidget.w.on('markerReady', function()
+                {
+                    setTimeout(function()
+                    {
+                        maps.setMarker(location);
+                        mapsWidget.w.unbind('markerReady')
+                    }, 1000);
+                });
+                mapsWidget.js.toggleView(false, false);
+            }
+            else
+            {
+                maps.setMarker(location); 
+            }
+            
         });
     }
 };

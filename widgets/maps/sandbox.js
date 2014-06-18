@@ -2,9 +2,6 @@ var map;
 var layers = {};
 var layersArray = [];
 var layersIndex = 0;
-var layerLastSet = 0;
-var layersUpdate = 10000;
-var layersTimeout = 60000;
 var marker;
 
 var currentLat;
@@ -24,8 +21,7 @@ function initializeCallback() {
     layersArray.push('traffic');
     layersArray.push('transit');
     
-    drawMap();    
-    layerUpdate();
+    drawMap();
 }
 function drawMap() {
     var mapOptions = {
@@ -50,19 +46,6 @@ function setLayer(layer, noUpdate) {
     if (layers[layer]) {
         layers[layer].setMap(map);
     }
-}
-
-function layerUpdate() {
-    setTimeout(function() {
-        if ((Date.now() - layerLastSet) > layersTimeout) {
-            setLayer(layersArray[layersIndex], true);
-            layersIndex++;
-            if (layersIndex > layersArray.length - 1) {
-                layersIndex = 0;
-            }
-        }
-        layerUpdate();
-    }, layersUpdate);
 }
 
 function setMarker(location) {

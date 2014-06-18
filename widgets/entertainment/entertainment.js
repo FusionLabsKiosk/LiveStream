@@ -33,6 +33,18 @@ entertainment.setLocation = function(location) {
     };
 };
 
+entertainment.viewStart = function()
+{
+    entertainment.w.unbind('click');
+};
+entertainment.viewEnd = function()
+{
+    entertainment.w.unbind('click').click(function(e)
+    {
+        entertainment.toggleView(false);
+    });
+};
+
 entertainment.startHighlightUpdates = function(results) {
     entertainment.stopHighlightUpdates();
     
@@ -52,17 +64,32 @@ entertainment.UpdateService = function(results) {
     this.index = 0;
     this.running = true;
     
-    this.start = function() {
-        if (self.running) {
-            
-            self.updateWidget(entertainment.w);
-            self.updateView(entertainment.v);
-            self.index++;
-            
-            setTimeout(self.start, entertainment.UPDATE_INTERVAL);
+    this.start = function()
+    {
+        entertainment.v.find('.places-list').empty();
+        for(var i = 0; i < self.results.results.length; i++)
+        {
+            var div = self.results.getContentDiv(i).click(self.highlightClickHandler);
+            entertainment.v.find('.places-list').append(div);
         }
+        self.update();
     };
-    this.stop = function() {
+    this.update = function()
+    {
+        if(self.running)
+        {
+            self.updateWidget(entertainment.w);
+            self.index++;
+            if(self.index > self.results.results.length)
+            {
+                self.index = 0;
+            }
+
+            setTimeout(self.update, entertainment.UPDATE_INTERVAL);
+        }
+    }
+    this.stop = function()
+    {
         self.running = false;
     };
     
@@ -74,8 +101,8 @@ entertainment.UpdateService = function(results) {
     
     this.updateWidget = function(widget)
     {
-        var divs = self.results.getContentDivs(self.index, 3, 'w');
-        var current = divs[1].addClass('current').click(self.highlightClickHandler);
+        var div = self.results.getContentDiv(self.index, 'w');
+        var current = div.addClass('current').click(self.highlightClickHandler);
         
         slider.navigateTo($('.slider', entertainment.w), current, slider.Direction.RIGHT).on(slider.Event.AFTER_OPEN, function(){self.animateWidgetData(widget);});
     }
@@ -99,17 +126,5 @@ entertainment.UpdateService = function(results) {
             $(this).velocity({opacity:1, translateZ:0, translateX: position}, {'easing':[ 250, 25 ], 'delay': (starCount * 150)});
             starCount++;
         });
-    }
-    
-    this.updateView = function(view)
-    {
-        var divs = self.results.getContentDivs(self.index, 3);
-        var previous = divs[0].addClass('previous').click(self.highlightClickHandler);
-        var current = divs[1].addClass('current').click(self.highlightClickHandler);
-        var next = divs[2].addClass('next').click(self.highlightClickHandler);
-
-        view.find('.highlights .highlight.previous').replaceWith(previous);
-        view.find('.highlights .highlight.current').replaceWith(current);
-        view.find('.highlights .highlight.next').replaceWith(next);
     }
 };
