@@ -19,10 +19,12 @@ travel.setLocation = function(location) {
         'train_station',
         'travel_agency'
     ];
+    travel.w.find('.highlights').empty();
     var results = places.getNearbySearch('travel', location, types);
     
     results.onfinish = function() {
         travel.startHighlightUpdates(results);
+        travel.w.trigger('placesLoaded');
     };
 };
 

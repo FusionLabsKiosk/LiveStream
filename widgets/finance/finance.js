@@ -14,10 +14,12 @@ finance.setLocation = function(location) {
         'bank',
         'finance'
     ];
+    finance.w.find('.highlights').empty();
     var results = places.getNearbySearch('finance', location, types);
     
     results.onfinish = function() {
         finance.startHighlightUpdates(results);
+        finance.w.trigger('placesLoaded');
     };
 };
 

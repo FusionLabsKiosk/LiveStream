@@ -14,10 +14,12 @@ hotels.setLocation = function(location) {
         'lodging',
         'rv_park'
     ];
+    hotels.w.find('.highlights').empty();
     var results = places.getNearbySearch('hotels', location, types);
     
     results.onfinish = function() {
         hotels.startHighlightUpdates(results);
+        hotels.w.trigger('placesLoaded');
     };
 };
 

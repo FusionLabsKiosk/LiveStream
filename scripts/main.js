@@ -2,6 +2,8 @@
 var live = {};
 live.widgets = [];
 live.widgetCount = 0;
+live.placesWidgetsCount = 0;
+live.placesLoadedCount = 0;
 live.location = {
     'city': 'Dallas'
 };
@@ -61,14 +63,72 @@ live.initializeParallax = function() {
 
 live.updateLocation = function() {
     var location = $('#location', defineLocation.v).val();
-    geocoding.geocode(location, function(location) {
-        live.location = location;
-        for (var i = 0; i < live.widgets.length; i++) {
-            live.widgets[i].js.setLocation(location);
-        }
-        live.setCityDisplay();
+    live.hideWidgets(function()     
+    {
+        geocoding.geocode(location, function(location)
+        {
+            live.location = location;
+            for (var i = 0; i < live.widgets.length; i++)
+            {
+                live.widgets[i].js.setLocation(location);
+                live.widgets[i].w.on('placesLoaded', live.updatePlacesLoaded);
+            }
+            live.setCityDisplay();
+        });
     });
+    
 };
+live.hideWidgets = function(callback)
+{
+    var widgetCount = 0;
+    live.placesLoadedCount = 0;
+    live.standardWidgetsCount = $('#widgets').children().length;
+    
+    var loadingDiv = $('<div id="widgets-loading">Loading...</div>').appendTo('#widgets');
+    loadingDiv.velocity({opacity:1, translateY:'-150%'}, {duration:1000});
+    $('#widgets .widget').each(function()
+    {
+        $(this).velocity({opacity:0, translateZ:0, translateY: '100%'}, {'easing':[ 250, 25 ], 'delay': (widgetCount * 150)});
+        widgetCount++;
+    }).promise().done(function()
+    {
+        $('#widgets').trigger('hideWidgetsComplete');
+        if(callback != undefined)
+        {
+            callback();
+        }
+    });
+}
+live.updatePlacesLoaded = function()
+{
+    live.placesLoadedCount++;
+    if(live.placesLoadedCount == live.standardWidgetsCount)
+    {
+        setTimeout(function()
+        {    
+            live.showWidgets();
+        }, 1500);
+    }
+}
+live.showWidgets = function(callback)
+{
+    $('#widgets-loading').velocity({opacity:0, translateY:'50%'}, {duration:1000, complete:function(){$(this).remove();}});
+    
+    var widgetCount = 0;
+    $('#widgets .widget').each(function()
+    {
+        $(this).velocity({opacity:1, translateZ:0, translateY: '0'}, {'easing':[ 250, 25 ], 'delay': (widgetCount * 150)});
+        widgetCount++;
+    }).promise().done(function()
+    {
+        $('#widgets').trigger('showWidgetsComplete');
+        if(callback != undefined)
+        {
+            callback();
+        }
+    }); 
+}
+
 live.setCityDisplay = function()
 {
     var fontSize = 60;

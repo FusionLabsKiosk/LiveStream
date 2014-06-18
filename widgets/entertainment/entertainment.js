@@ -26,10 +26,12 @@ entertainment.setLocation = function(location) {
         'stadium',
         'zoo'
     ];
+    entertainment.w.find('.highlights').empty();
     var results = places.getNearbySearch('entertainment', location, types);
     
     results.onfinish = function() {
         entertainment.startHighlightUpdates(results);
+        entertainment.w.trigger('placesLoaded');
     };
 };
 

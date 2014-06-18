@@ -29,10 +29,12 @@ shopping.setLocation = function(location) {
         'shopping_mall',
         'store'
     ];
+    shopping.w.find('.highlights').empty();
     var results = places.getNearbySearch('shopping', location, types);
     
     results.onfinish = function() {
         shopping.startHighlightUpdates(results);
+        shopping.w.trigger('placesLoaded');
     };
 };
 

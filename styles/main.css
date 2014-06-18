@@ -291,6 +291,7 @@ section.content>.display.shared>.active
 #widgets-container
 {
     overflow:auto;
+    position:relative;
 }
 
 #view-panel
@@ -585,4 +586,22 @@ section.content>.display.shared>.active
   left: 0;
   width: 100%;
   height: 100%;
+}
+
+/*******************************************************************************
+            Loading Text 
+*******************************************************************************/
+#widgets-loading
+{
+    position:absolute;
+    top:40%;
+    left:45%;
+    font-size:4em;
+    color:#fff;
+    opacity:0;
+    
+    -webkit-animation-name: bounce;
+    -webkit-animation-duration: 2s;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-timing-function: linear;
 }

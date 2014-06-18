@@ -18,10 +18,12 @@ dining.setLocation = function(location) {
         'meal_takeaway',
         'restaurant'
     ];
+    dining.w.find('.highlights').empty();
     var results = places.getNearbySearch('dining', location, types);
     
     results.onfinish = function() {
         dining.startHighlightUpdates(results);
+        dining.w.trigger('placesLoaded');
     };
 };
 
