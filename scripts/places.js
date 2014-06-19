@@ -166,6 +166,11 @@ places.PlaceResults = function(widget, data, location) {
         {
             if(type == 'w')
             {
+                var data = self.results[index];
+                if (data)
+                {
+                    places.updateIcon(content, data);
+                }
                 return resultDiv.widgetDiv;
             }
             else
@@ -240,7 +245,8 @@ places.createWidgetContentDiv = function() {
 };
 
 places.updateContentDiv = function(content, data) {
-    if (data !== undefined) {
+    if (data !== undefined) 
+    {
         var attributions = content.find('.attributions');
         for (var i = 0; i < data.html_attributions.length; i++) {
             $('<div/>').addClass('attribution').html(data.html_attributions[i]).appendTo(attributions);
@@ -300,10 +306,23 @@ places.updateContentDiv = function(content, data) {
     }
     return content;
 };
+places.updateIcon = function(content, data)
+{
+    if (data !== undefined)
+    {
+
+    content.find('.icon').attr('src', '');
+    live.getExternalImage(data.icon, function(src) {
+        content.find('.icon').attr('src', src);
+    });
+    }
+    return content;
+};
 
 places.updateDetailDiv = function(content, data)
 {
-        if (data !== undefined) {
+    if (data !== undefined) 
+    {
         var attributions = content.find('.attributions');
         for (var i = 0; i < data.html_attributions.length; i++) {
             $('<div/>').addClass('attribution').html(data.html_attributions[i]).appendTo(attributions);
