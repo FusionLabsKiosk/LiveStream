@@ -54,6 +54,8 @@ live.widgetsLoaded = function() {
 live.initializeListeners = function()
 {
     $('#app-title').click(live.closeAll);
+    $('.help').click(function(){
+        stillthere.showTimeout();});
 };
 live.initializeParallax = function() {
     $('#widgets-container').scroll(function() {
@@ -81,13 +83,14 @@ live.initializeStillThere = function()
                                     '<div class="instructions"><div class="touch-icon-wrap touch-icon-effect"><div class="touch-icon"></div></div><div class="text">Touch to begin</div></div>',
                                 '</div>'];
         stillthere.overlay.find('.message').html(messageHTMLArray.join(''));
+        
     });
     stillthere.addEventListener(stillthere.Event.LOADED, function()
     {
         stillthere.showTimeout();
     });
     
-    
+    live.closeAll
 }
 
 live.updateLocation = function() {

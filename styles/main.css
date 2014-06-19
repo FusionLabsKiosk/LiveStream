@@ -450,13 +450,23 @@ section.content>.display.shared>.active
     top: 95%;
     left: 41%;
     opacity:0;
-    -webkit-transition: opacity ease-out 0.5s, background;
+    -webkit-transition: all ease-out 0.5s, background;
     font-size:1.5em;
 }
 
 .display.shared #see-more
 {
     opacity:1;
+}
+#widgets-container.shared #see-more
+{
+    left:53%;
+    opacity:1;
+}
+
+.display.shared #widgets-container.shared #see-more
+{
+    opacity:0;
 }
 #see-more .arrow
 {

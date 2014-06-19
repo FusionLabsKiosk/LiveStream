@@ -222,7 +222,7 @@ places.createContentDiv = function(index) {
                     .append($('<img/>').addClass('icon').attr('width', 35).attr('height', 35))
                     .append($('<div/>').addClass('name')))
                     .append($('<div>view on map <div class="iconmelon small-icon first"><svg viewBox="0 0 34 34"><use xlink:href="#svg-icon-map-pin"></use></svg></div></div>').addClass('map-button').addClass('button')))
-                .append($('<img src="images/noImage.jpg"/>').addClass('photo').attr('width', 763))
+                .append($('<img src="images/noImage.jpg"/>').addClass('photo').attr('width', 888))
                 .append($('<div/>').addClass('photoAttributions')))
             .append($('<div/>').addClass('attributions'))
             .append($('<div/>').addClass('info')
