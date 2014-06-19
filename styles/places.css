@@ -70,9 +70,16 @@
     align-items: center;
     justify-content: space-between;
 }
+.places .detail .photo-box .icon
+{
+    margin-right:1em;
+    vertical-align: middle;
+}
 .places .detail .photo-box .name
 {
-    font-size: 2em;
+    font-size: 2.3em;
+    display:inline-block;
+    vertical-align: middle;
 }
 .places .detail .photo-box .map-button
 {
@@ -128,13 +135,13 @@
 }
 
 /* Highlights */
-.places .highlights {
+.places .places-list {
     display: flex;
     flex-flow: column;
     flex-wrap: wrap;
     width: 100%;
 }
-.places.view .highlights {
+.places.view .places-list {
     flex-flow: row;
     flex-wrap: no-wrap;
 }
@@ -170,7 +177,7 @@
     z-index: 0;
 }
 .places .attributions,
-.places .detail .icon,
+.places .highlight .icon,
 .places .highlight .address,
 .places .highlight .phone,
 .places .highlight .website,

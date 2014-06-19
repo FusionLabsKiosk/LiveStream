@@ -74,7 +74,11 @@ shopping.UpdateService = function(results) {
         shopping.v.find('.places-list').empty();
         for(var i = 0; i < self.results.results.length; i++)
         {
-            var div = self.results.getContentDiv(i).click(self.highlightClickHandler);
+            var div = self.results.getContentDiv(i);
+            if(div != undefined)
+            {
+                div.click(self.highlightClickHandler);
+            }
             shopping.v.find('.places-list').append(div);
         }
         self.update();
