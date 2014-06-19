@@ -68,6 +68,7 @@ $(document).ready(function() {
 places.PlaceResults = function(widget, data, location) {
     var self = this;
     
+    this.triggerDiv = $('<div />')
     this.widget = widget;
     this.results = [];
     this.resultsDivs = [];
@@ -77,6 +78,8 @@ places.PlaceResults = function(widget, data, location) {
     
     this.finished = false;
     this.onfinish = function() {};
+    
+    this.photosLoaded = 0;
     
     this.addResults = function(data) {
         if (!data) {
@@ -115,7 +118,7 @@ places.PlaceResults = function(widget, data, location) {
         var detailCallback = 'DetailRequest' + Math.floor((Math.random() * 1000) + 1);
         places.detail(detailCallback, function(data) {
             self.addDetail(data);
-            places.updateDetailDiv(content, data.result);
+            self.resultsDivs[content.data('index')].detailDiv = places.updateContentDiv(content, data.result);
         }, reference);
     };
     this.addResults(data);
@@ -127,18 +130,7 @@ places.PlaceResults = function(widget, data, location) {
             var div = self.populateContentDiv(i);
             var widgetDiv = self.populateContentDiv(i, 'w');
             
-            var srcValue = div.find('.photo').attr('src');
-            if(srcValue == undefined || srcValue == '')
-            {
-                div.find('.photo').attr('src', 'images/noImage.jpg');   
-            }
-            srcValue = widgetDiv.find('.photo').attr('src');
-            if(srcValue == undefined || srcValue == '')
-            {
-                widgetDiv.find('.photo').attr('src', 'images/noImage.jpg');   
-            }
-            
-            var resultDiv = {'name': self.results[i].name, 'viewDiv': div, 'widgetDiv': widgetDiv}
+            var resultDiv = {'name': self.results[i].name, 'viewDiv': div, 'widgetDiv': widgetDiv};
             self.resultsDivs.push(resultDiv);
         }
     }
@@ -146,31 +138,72 @@ places.PlaceResults = function(widget, data, location) {
     {
         if(type == 'w')
         {
-            var div = places.createWidgetContentDiv().attr('data-index', index).addClass('highlight'); 
+            var div = places.createWidgetContentDiv(index).attr('data-index', index).addClass('highlight').on('photoLoaded', self.onPhotoLoaded).on('iconLoaded', self.onIconLoaded); 
         }
         else
         {
-            var div = places.createContentDiv().attr('data-index', index).addClass('highlight');
+            var div = places.createContentDiv(index).attr('data-index', index).addClass('highlight').on('photoLoaded', self.onPhotoLoaded).on('iconLoaded', self.onIconLoaded);
         }
         var data = self.results[index];
-        if (data) {
+        if (data)
+        {
             places.updateContentDiv(div, data);
         }
         return div;
     };
+    this.onPhotoLoaded = function(e)
+    {
+        var photoLoaded = $(this).data('photoLoaded');
+        if(photoLoaded == false)
+        {
+            var resultDivIndex = $(this).data('index');
+            var newSource = $(this).find('.photo').attr('src');
+            var photoDiv = self.resultsDivs[resultDivIndex].viewDiv.find('.photo');
+            photoDiv.attr('src', newSource);
+            photoDiv = self.resultsDivs[resultDivIndex].widgetDiv.find('.photo');
+            photoDiv.attr('src', newSource);
+
+            $(this).data('photoLoaded', true);
+
+            self.photosLoaded++;
+            if(self.photosLoaded == 10)
+            {
+                self.triggerDiv.trigger('placesLoaded');
+            }
+        }
+    }
+    this.onIconLoaded = function(e)
+    {
+        var iconLoaded = $(this).data('iconLoaded');
+        if(iconLoaded == false)
+        {
+            var resultDivIndex = $(this).data('index');
+            var newSource = $(this).find('.icon').attr('src');
+            var iconDiv = self.resultsDivs[resultDivIndex].viewDiv.find('.icon');
+            iconDiv.attr('src', newSource);
+            iconDiv = self.resultsDivs[resultDivIndex].widgetDiv.find('.icon');
+            iconDiv.attr('src', newSource);
+
+            $(this).data('iconLoaded', true);
+        }
+    }
     
     this.getContentDiv = function(index, type)
     {
         var resultDiv = self.resultsDivs[index];
         if(resultDiv != undefined)
         {
+            var photoDiv = resultDiv.widgetDiv.find('.photo');
+            if(photoDiv.attr('src') == '')
+            {
+                var newSource = 'images/noImage.jpg';
+                photoDiv.attr('src', newSource);
+                photoDiv = resultDiv.viewDiv.find('.photo');
+                photoDiv.attr('src', newSource);
+            }
+            
             if(type == 'w')
             {
-                var data = self.results[index];
-                if (data)
-                {
-                    places.updateIcon(content, data);
-                }
                 return resultDiv.widgetDiv;
             }
             else
@@ -179,39 +212,20 @@ places.PlaceResults = function(widget, data, location) {
             }
         }
     };
-//    this.getContentDivs = function(startIndex, length, type) {
-//        var divs = [];        
-//        for (var i = 0; i < length; i++) {
-//            if (!self.results[startIndex]) {
-//                startIndex = 0;
-//            }
-//            divs.push(this.getContentDiv(startIndex, type));
-//            startIndex++;
-//        }        
-//        return divs;
-//    };
-    this.getDetailDiv = function(index) {
-        var div = places.createContentDiv().attr('data-index', index).addClass('detail');
-        var data = self.results[index];
-        if (data) {
-            fetchDetail(self.results[index].reference, div);
-        }        
-        return div;
-    };
 };
 
-places.createContentDiv = function() {
-    var div = $('<div/>').addClass('content')
-            .append($('<div/>').addClass('photo-box').css('width', '760px')
+places.createContentDiv = function(index) {
+    var div = $('<div />').addClass('content').data('index', index).data('photoLoaded', false)
+            .append($('<div/>').addClass('photo-box')
                 .append($('<div/>').addClass('title')
                     .append($('<div/>').addClass('name-container')
                     .append($('<img/>').addClass('icon').attr('width', 35).attr('height', 35))
                     .append($('<div/>').addClass('name')))
                     .append($('<div>view on map <div class="iconmelon small-icon first"><svg viewBox="0 0 34 34"><use xlink:href="#svg-icon-map-pin"></use></svg></div></div>').addClass('map-button').addClass('button')))
-                .append($('<img src="images/noImage.jpg"/>').addClass('photo').attr('width', 760))
+                .append($('<img src="images/noImage.jpg"/>').addClass('photo').attr('width', 763))
                 .append($('<div/>').addClass('photoAttributions')))
             .append($('<div/>').addClass('attributions'))
-            .append($('<div/>').addClass('info').css('width', '760px')
+            .append($('<div/>').addClass('info')
                 .append($('<div/>').addClass('price-container').addClass('container')
                     .append($('<div>Price</div>').addClass('title'))
                     .append($('<div>|</div>').addClass('separator'))
@@ -240,7 +254,8 @@ places.createWidgetContentDiv = function() {
                     .append($('<div/>').addClass('rating-box')
                         .append($('<div/>').addClass('price'))
                         .append($('<div/>').addClass('rating'))))
-            .append($('<img/>').addClass('photo'));
+            .append($('<img/>').addClass('photo'))
+            .append($('<div/>').addClass('photo-overlay'));
     return div;
 };
 
@@ -253,85 +268,22 @@ places.updateContentDiv = function(content, data) {
         }
         content.find('.name').html(data.name);
         content.find('.icon').attr('src', '');
-        live.getExternalImage(data.icon, function(src) {
+        live.getExternalImage(data.icon, function(src)
+        {
             content.find('.icon').attr('src', src);
+            content.trigger('iconLoaded');
         });
         content.find('.photo').attr('src', '');
         if (data.photos.length > 0) {
             live.getExternalImage(data.photos[0].url, function(src) {
                 content.find('.photo').attr('src', src);
+                content.trigger('photoLoaded');
             });
             attributions = content.find('.photoAttributions');
             for (var i = 0; i < data.photos[0].html_attributions.length; i++) {
                 $('<div/>').addClass('attribution').html(data.photos[0].html_attributions[i]).appendTo(attributions);
             }
         }
-        var price = data.price_level;
-        if (price === undefined) {
-            price = 2;
-        }
-        for (var i = 0; i < price; i++) {
-            content.find('.price').append($('<span/>').addClass('dollar').html('$'));
-        }
-        var rating = data.rating;
-        if (rating === undefined) {
-            rating = 0;
-        }
-        rating = Math.round(rating);
-        for (var i = 0; i < rating; i++) {
-            content.find('.rating').append($('<span/>').addClass('star').addClass('filled').html('★'));
-        }
-        for (var i = 0; i < (5 - rating); i++) {
-            content.find('.rating').append($('<span/>').addClass('star').html('☆'));        
-        }
-
-        var address = content.find('.address');
-        content.find('.address').click(function(e){places.mapMarkerHandler(address);});
-        content.find('.map-button').click(function(e){places.mapMarkerHandler(address);});
-        if (data.formatted_address !== undefined) {
-            content.find('.address').html(data.formatted_address);
-        }
-        else if (data.vicinity !== undefined) {
-            content.find('.address').html(data.vicinity);        
-        }
-
-        if (data.formatted_phone_number !== undefined) {
-            content.find('.phone').html(data.formatted_phone_number);
-        }
-        if (data.website !== undefined) {
-            content.find('.website').html(data.website);
-        }
-
-        content.find('.reference').html(data.reference);
-    }
-    return content;
-};
-places.updateIcon = function(content, data)
-{
-    if (data !== undefined)
-    {
-
-    content.find('.icon').attr('src', '');
-    live.getExternalImage(data.icon, function(src) {
-        content.find('.icon').attr('src', src);
-    });
-    }
-    return content;
-};
-
-places.updateDetailDiv = function(content, data)
-{
-    if (data !== undefined) 
-    {
-        var attributions = content.find('.attributions');
-        for (var i = 0; i < data.html_attributions.length; i++) {
-            $('<div/>').addClass('attribution').html(data.html_attributions[i]).appendTo(attributions);
-        }
-        content.find('.name').html(data.name);
-        content.find('.icon').attr('src', '');
-        live.getExternalImage(data.icon, function(src) {
-            content.find('.icon').attr('src', src);
-        });
         var price = data.price_level;
         if (price === undefined) {
             price = 2;

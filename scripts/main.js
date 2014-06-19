@@ -16,6 +16,7 @@ $(document).ready(function() {
     live.initialize();
 });
 live.initialize = function() {
+    live.initializeStillThere();
     sandbox.initialize();
     live.initializeParallax();
     live.initializeWidgets();
@@ -60,6 +61,34 @@ live.initializeParallax = function() {
         $('main.fullscreen').css('background-position', '50% ' + y + 'px');
     });
 };
+live.initializeStillThere = function()
+{
+    stillthere.timeoutStillThere = 120000; //2 minutes
+    stillthere.timeout = 120001; // 2 minutes
+    stillthere.addEventListener(stillthere.Event.STILL_THERE, function()
+    {
+        stillthere.overlay.find('.message').html('');
+    });
+    stillthere.addEventListener(stillthere.Event.TIMEOUT, function()
+    {
+        var messageHTMLArray = ['<div class="container">',
+                                    '<div class="top">',
+                                        '<div class="title">',
+                                            '<div class="name">info<em>hub</em></div>',
+                                        '</div>',
+                                        '<div class="description">Discover the best <em>dining</em>, <em>entertainment</em>, <em>shopping</em>, and <em>hotels</em> in cities worldwide!</div>',
+                                    '</div>',
+                                    '<div class="instructions"><div class="touch-icon-wrap touch-icon-effect"><div class="touch-icon"></div></div><div class="text">Touch to begin</div></div>',
+                                '</div>'];
+        stillthere.overlay.find('.message').html(messageHTMLArray.join(''));
+    });
+    stillthere.addEventListener(stillthere.Event.LOADED, function()
+    {
+        stillthere.showTimeout();
+    });
+    
+    
+}
 
 live.updateLocation = function() {
     var location = $('#location', defineLocation.v).val();
@@ -374,6 +403,7 @@ live.getExternalImage = function(url, callback) {
         var xhr = new XMLHttpRequest();
         xhr.responseType = 'blob';
         xhr.onreadystatechange = function(event){live.XMLHTTPRequestReadyStateChanged(xhr, callback)};
+        xhr.onload = function(event){ callback(window.URL.createObjectURL(xhr.response));};
         xhr.open('GET', url, true);
         xhr.send(null);
     }
@@ -386,15 +416,16 @@ live.XMLHTTPRequestReadyStateChanged = function(xhr, callback)
 {
     if (xhr.readyState === 4)
     {
-        if(xhr.status === 200)
-        {
-            callback(window.URL.createObjectURL(xhr.response));
-        }
-        else
-        {
-            callback('images/noImage.jpg');
-            console.log('Error Status: ' + xhr.status);
-        }
+       
+//        if(xhr.status === 200)
+//        {
+//            callback(window.URL.createObjectURL(xhr.response));
+//        }
+//        else
+//        {
+//            callback('images/noImage.jpg');
+//            //console.log('Error Status: ' + xhr.status);
+//        }
     } 
 }
 
