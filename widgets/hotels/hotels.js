@@ -19,7 +19,6 @@ hotels.setLocation = function(location) {
     
     results.onfinish = function() {
         hotels.startHighlightUpdates(results);
-        hotels.w.trigger('placesLoaded');
     };
 };
 
@@ -39,6 +38,7 @@ hotels.startHighlightUpdates = function(results) {
     hotels.stopHighlightUpdates();
     
     var update = new hotels.UpdateService(results);
+    update.results.triggerDiv.on('placesLoaded', function(){hotels.w.trigger('placesLoaded');});
     update.start();
     hotels.currentUpdateService = update;
 };
@@ -62,7 +62,12 @@ hotels.UpdateService = function(results) {
             var div = self.results.getContentDiv(i);
             if(div != undefined)
             {
-                div.click(self.highlightClickHandler);
+                div.click(function(e)
+                {
+                    var index = $(this).data('index');
+                    var view = self.results.resultsDivs[index].viewDiv;
+                    self.highlightClickHandler(e, view);
+                });
             }
             hotels.v.find('.places-list').append(div);
         }
@@ -87,16 +92,28 @@ hotels.UpdateService = function(results) {
         self.running = false;
     };
     
-    this.highlightClickHandler = function(e) {
-        var index = $(e.target).closest('.highlight').attr('data-index');
-        var div = self.results.getDetailDiv(index);
-        hotels.wv.find('.detail').replaceWith(div);
+    this.highlightClickHandler = function(e, view)
+    {
+        if(view == undefined)
+        {
+            $(e.currentTarget).clone().appendTo(hotels.v.find('.detail').empty()).removeClass('highlight');
+        }
+        else
+        {
+            hotels.v.find('.detail .content').detach().appendTo(hotels.v.find('.places-list')).addClass('highlight');
+            view.appendTo(hotels.v.find('.detail').empty()).removeClass('highlight');
+        }
     };
     
     this.updateWidget = function(widget)
     {
         var div = self.results.getContentDiv(self.index, 'w');
-        var current = div.addClass('current').click(self.highlightClickHandler);
+        var current = div.addClass('current').click(function(e)
+        {
+            var index = $(this).data('index');
+            var view = self.results.resultsDivs[index].viewDiv;
+            self.highlightClickHandler(e, view);
+        });
         
         slider.navigateTo($('.slider', hotels.w), current, slider.Direction.RIGHT).on(slider.Event.AFTER_OPEN, function(){self.animateWidgetData(widget);});
     }

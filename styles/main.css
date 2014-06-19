@@ -444,6 +444,88 @@ section.content>.display.shared>.active
     font-size:1em;
 }
 
+#see-more
+{
+    position: fixed;
+    top: 95%;
+    left: 41%;
+    opacity:0;
+    -webkit-transition: opacity ease-out 0.5s, background;
+    font-size:1.5em;
+}
+
+.display.shared #see-more
+{
+    opacity:1;
+}
+#see-more .arrow
+{
+    font-size:1.5em;
+    -webkit-animation-name: bounce;
+    -webkit-animation-duration: 2s;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-timing-function: linear;
+}
+
+/*******************************************************************************
+            Overlay 
+*******************************************************************************/
+.still-there .background
+{
+    background-color:#000 !important;
+    opacity:1 !important;
+}
+.still-there .message
+{
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    color:#fff !important;
+}
+.still-there .container
+{
+    font-size:1rem;
+    text-align:center;
+}
+.still-there .container em
+{
+    color:#0cf;
+    font-style: normal;
+}
+.still-there .container .top
+{
+    display:flex;
+    align-items: center;
+}
+.still-there .container .top .title
+{
+    font-size:8em;
+    border:solid 2px #fff;
+    padding: .2em .3em;
+    margin-right: .5em;
+}
+.still-there .container .top .description
+{
+    font-size:1.7em;
+    max-width:350px;
+    text-align:left;
+}
+.still-there .container .instructions
+{
+    font-size:7em;
+    margin-top:.5em;
+}
+.still-there .container .instructions .touch-icon-wrap
+{
+    -webkit-transform: scale(1.5);
+    margin-top:-80px;
+}
+.still-there .container .instructions .text
+{
+    display:inline-block;
+    vertical-align: middle;
+}
+
 /*******************************************************************************
             Touch Icon 
 *******************************************************************************/

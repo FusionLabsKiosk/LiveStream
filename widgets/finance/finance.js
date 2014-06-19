@@ -19,7 +19,6 @@ finance.setLocation = function(location) {
     
     results.onfinish = function() {
         finance.startHighlightUpdates(results);
-        finance.w.trigger('placesLoaded');
     };
 };
 
@@ -39,6 +38,7 @@ finance.startHighlightUpdates = function(results) {
     finance.stopHighlightUpdates();
     
     var update = new finance.UpdateService(results);
+    update.results.triggerDiv.on('placesLoaded', function(){finance.w.trigger('placesLoaded');});
     update.start();
     finance.currentUpdateService = update;
 };
@@ -62,7 +62,12 @@ finance.UpdateService = function(results) {
             var div = self.results.getContentDiv(i);
             if(div != undefined)
             {
-                div.click(self.highlightClickHandler);
+                div.click(function(e)
+                {
+                    var index = $(this).data('index');
+                    var view = self.results.resultsDivs[index].viewDiv;
+                    self.highlightClickHandler(e, view);
+                });
             }
             finance.v.find('.places-list').append(div);
         }
@@ -87,16 +92,28 @@ finance.UpdateService = function(results) {
         self.running = false;
     };
     
-    this.highlightClickHandler = function(e) {
-        var index = $(e.target).closest('.highlight').attr('data-index');
-        var div = self.results.getDetailDiv(index);
-        finance.wv.find('.detail').replaceWith(div);
+    this.highlightClickHandler = function(e, view)
+    {
+        if(view == undefined)
+        {
+            $(e.currentTarget).clone().appendTo(finance.v.find('.detail').empty()).removeClass('highlight');
+        }
+        else
+        {
+            finance.v.find('.detail .content').detach().appendTo(finance.v.find('.places-list')).addClass('highlight');
+            view.appendTo(finance.v.find('.detail').empty()).removeClass('highlight');
+        }
     };
     
     this.updateWidget = function(widget)
     {
         var div = self.results.getContentDiv(self.index, 'w');
-        var current = div.addClass('current').click(self.highlightClickHandler);
+        var current = div.addClass('current').click(function(e)
+        {
+            var index = $(this).data('index');
+            var view = self.results.resultsDivs[index].viewDiv;
+            self.highlightClickHandler(e, view);
+        });
         
         slider.navigateTo($('.slider', finance.w), current, slider.Direction.RIGHT).on(slider.Event.AFTER_OPEN, function(){self.animateWidgetData(widget);});
     }

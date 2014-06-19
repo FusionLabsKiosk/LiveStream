@@ -34,7 +34,6 @@ shopping.setLocation = function(location) {
     
     results.onfinish = function() {
         shopping.startHighlightUpdates(results);
-        shopping.w.trigger('placesLoaded');
     };
 };
 
@@ -54,6 +53,7 @@ shopping.startHighlightUpdates = function(results) {
     shopping.stopHighlightUpdates();
     
     var update = new shopping.UpdateService(results);
+    update.results.triggerDiv.on('placesLoaded', function(){shopping.w.trigger('placesLoaded');});
     update.start();
     shopping.currentUpdateService = update;
 };
@@ -77,7 +77,12 @@ shopping.UpdateService = function(results) {
             var div = self.results.getContentDiv(i);
             if(div != undefined)
             {
-                div.click(self.highlightClickHandler);
+                div.click(function(e)
+                {
+                    var index = $(this).data('index');
+                    var view = self.results.resultsDivs[index].viewDiv;
+                    self.highlightClickHandler(e, view);
+                });
             }
             shopping.v.find('.places-list').append(div);
         }
@@ -102,16 +107,28 @@ shopping.UpdateService = function(results) {
         self.running = false;
     };
     
-    this.highlightClickHandler = function(e) {
-        var index = $(e.target).closest('.highlight').attr('data-index');
-        var div = self.results.getDetailDiv(index);
-        shopping.wv.find('.detail').replaceWith(div);
+    this.highlightClickHandler = function(e, view)
+    {
+        if(view == undefined)
+        {
+            $(e.currentTarget).clone().appendTo(shopping.v.find('.detail').empty()).removeClass('highlight');
+        }
+        else
+        {
+            shopping.v.find('.detail .content').detach().appendTo(shopping.v.find('.places-list')).addClass('highlight');
+            view.appendTo(shopping.v.find('.detail').empty()).removeClass('highlight');
+        }
     };
     
     this.updateWidget = function(widget)
     {
         var div = self.results.getContentDiv(self.index, 'w');
-        var current = div.addClass('current').click(self.highlightClickHandler);
+        var current = div.addClass('current').click(function(e)
+        {
+            var index = $(this).data('index');
+            var view = self.results.resultsDivs[index].viewDiv;
+            self.highlightClickHandler(e, view);
+        });
         
         slider.navigateTo($('.slider', shopping.w), current, slider.Direction.RIGHT).on(slider.Event.AFTER_OPEN, function(){self.animateWidgetData(widget);});
     }
