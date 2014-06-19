@@ -7,6 +7,9 @@ var marker;
 var currentLat;
 var currentLng;
 
+var lastTouchX;
+var lastTouchY;
+
 function initializeMap() {
     var script = document.createElement('script');
     script.type = 'text/javascript';
@@ -33,7 +36,30 @@ function drawMap() {
         'disableDefaultUI': true
     };
     
-    map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+    var mapCanvas = document.getElementById('map-canvas');
+    map = new google.maps.Map(mapCanvas, mapOptions);
+    mapCanvas.addEventListener('touchstart', function() {
+        lastTouchX = 0;
+        lastTouchY = 0;
+    });
+    mapCanvas.addEventListener('touchend', function() {
+        lastTouchX = 0;
+        lastTouchY = 0;
+    });
+    mapCanvas.addEventListener('touchmove', mapDragged);
+}
+function mapDragged(e) {
+    if (map) {
+        var newX = e.touches[0].screenX;
+        var newY = e.touches[0].screenY;
+        if (lastTouchX !== 0 && lastTouchY !== 0) {
+            var deltaX = lastTouchX - newX;
+            var deltaY = lastTouchY - newY;
+            map.panBy(deltaX, deltaY);
+        }
+        lastTouchX = newX;
+        lastTouchY = newY;
+    }
 }
 
 function setLayer(layer, noUpdate) {
